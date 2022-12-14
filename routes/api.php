@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\EquipmentController;
 use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -21,6 +22,10 @@ use Illuminate\Support\Facades\Route;
     });
     Route::prefix('sizes')->group(function () {
         Route::get('/', [SizeController::class, 'index']);
+        //Route::get('/{user_id}', [UserController::class, 'get']);
+    });
+     Route::prefix('equipments')->group(function () {
+        Route::get('/', [EquipmentController::class, 'index']);
         //Route::get('/{user_id}', [UserController::class, 'get']);
     });
 

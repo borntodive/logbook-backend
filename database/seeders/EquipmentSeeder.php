@@ -102,8 +102,8 @@ class EquipmentSeeder extends Seeder
             '11L',
             '12L',
             '15L',
-            '10+10L',
-            '12+12L',
+            'B10L',
+            'B12L',
 
             ]
         ]
