@@ -10,6 +10,6 @@ class EquipmentController extends Controller
 {
      public function index(Request $request)
     {
-        return response()->json(Equipment::whith('sizes')->get());
+        return response()->json(Equipment::with('sizes')->get());
     }
 }

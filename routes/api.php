@@ -19,6 +19,7 @@ use Illuminate\Support\Facades\Route;
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::get('/{user_id}', [UserController::class, 'get']);
+        Route::put('/{user}', [UserController::class, 'update']);
     });
     Route::prefix('sizes')->group(function () {
         Route::get('/', [SizeController::class, 'index']);

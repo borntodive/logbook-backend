@@ -16,7 +16,9 @@ class UserSeeder extends Seeder
      */
     public function run()
     {
-        $users=\App\Models\User::factory(100)->create();
+        $users=\App\Models\User::factory(100)->create([
+            'cf'=>'CVLNDR84B18H501A'
+        ]);
         foreach (User::get() as $user){
             foreach (Equipment::get() as $eq) {
                 $sizes=$eq->sizes;
