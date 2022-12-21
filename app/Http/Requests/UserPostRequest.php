@@ -30,6 +30,7 @@ class UserPostRequest extends FormRequest
         return [
             'firstname' => 'required',
             'lastname' => 'required',
+            'email' => 'required|email',
             'birthdate' => 'required|date',
              'cf' => ['required', new CodiceFiscale],
             'gender' => ['required',Rule::in(['male', 'female']),],

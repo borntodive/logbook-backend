@@ -1,0 +1,33 @@
+<?php
+
+namespace Database\Factories;
+
+use App\Models\Certification;
+use App\Models\User;
+use Illuminate\Database\Eloquent\Factories\Factory;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
+
+/**
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Course>
+ */
+class CourseFactory extends Factory
+{
+    /**
+     * Define the model's default state.
+     *
+     * @return array<string, mixed>
+     */
+    public function definition()
+    {
+        $cert=Certification::inRandomOrder()->first();
+        $user=User::inRandomOrder()->first();
+        return [
+            'certification_id' => $cert->id,
+            'number'=> fake()->numberBetween(1,12),
+            //'user_id' => $user->id,
+            'start_date' => fake()->date(),
+        ];
+    }
+
+}

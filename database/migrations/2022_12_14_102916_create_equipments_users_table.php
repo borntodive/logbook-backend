@@ -17,12 +17,12 @@ return new class extends Migration
     public function up()
     {
         Schema::create('equipment_user', function (Blueprint $table) {
-            $table->id();
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Equipment::class);
             $table->foreignIdFor(Size::class)->nullable();
             $table->integer('number')->nullable();
             $table->timestamps();
+            $table->primary(['equipment_id','user_id']);
         });
     }
 

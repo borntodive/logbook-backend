@@ -7,7 +7,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
-
+use App\Transformers\UserTransformer;
 class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable;
@@ -21,6 +21,9 @@ class User extends Authenticatable
         'id',
 
     ];
+
+    public $transformer = UserTransformer::class;
+
     public function scopeSearch($query, $keyword,$columns)
     {
         if ($keyword)
@@ -59,5 +62,14 @@ class User extends Authenticatable
     public function equipments()
     {
         return $this->belongsToMany(Equipment::class)->withPivot(['size_id','number']);
+    }
+
+    public function courses()
+    {
+        return $this->belongsToMany(Course::class)->withPivot(['end_date','progress','price','teaching','in_charge']);
+    }
+     public function duty()
+    {
+        return $this->belongsTo(UserDuty::class,'user_duty_id');
     }
 }

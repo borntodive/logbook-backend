@@ -1,6 +1,6 @@
 <?php
-use App\Models\Equipment;
-use App\Models\Size;
+
+use App\Models\Certification;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -14,13 +14,13 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('equipment_size', function (Blueprint $table) {
-            $table->foreignIdFor(Equipment::class);
-            $table->foreignIdFor(Size::class)->nullable();
+        Schema::create('courses', function (Blueprint $table) {
+            $table->id();
+            $table->foreignIdFor(Certification::class);
             $table->integer('number')->nullable();
+            $table->date('start_date')->nullable();
+            $table->date('end_date')->nullable();
             $table->timestamps();
-            $table->primary(['equipment_id','size_id']);
-
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('equipments_sizes');
+        Schema::dropIfExists('courses');
     }
 };
