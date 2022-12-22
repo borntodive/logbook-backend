@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\EquipmentController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -17,9 +18,15 @@ use Illuminate\Support\Facades\Route;
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-    Route::prefix('users')->group(function () {
+Route::post('/login', [AuthController::class, 'login']);
+
+
+Route::middleware('auth:sanctum')->group(function () {
+  Route::post('/logout', [AuthController::class, 'logout']);
+  Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::get('/{user_id}', [UserController::class, 'get']);
+        Route::get('courses/{user}', [CourseController::class, 'getByUser']);
         Route::post('/', [UserController::class, 'store']);
         Route::put('/{user}', [UserController::class, 'update']);
     });
@@ -37,7 +44,4 @@ use Illuminate\Support\Facades\Route;
         Route::get('/', [EquipmentController::class, 'index']);
         //Route::get('/{user_id}', [UserController::class, 'get']);
     });
-
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
 });

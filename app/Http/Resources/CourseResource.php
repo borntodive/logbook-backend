@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class CourseResource extends JsonResource
 {
@@ -30,6 +31,7 @@ class CourseResource extends JsonResource
             'number'=>$this->number.'/'.$this->start_date->format('Y'),
             'startDate'=> $this->start_date ? $this->start_date->format('Y-m-d') : null,
             'endDate'=> $this->end_date ? $this->end_date->format('Y-m-d') : null,
+            'image'=> Storage::url('images/courses/'.$this->certification->code.'.jpg'),
             'users'=>$users,
         ];
     }

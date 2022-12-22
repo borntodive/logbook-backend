@@ -18,7 +18,6 @@ class CourseUserSeeder extends Seeder
     {
        $courses=Course::get();
        foreach ($courses as $course) {
-            $course->users()->detach();
             $users=User::with('duty')->inRandomOrder()->limit(10)->get();
             $incharge=false;
             $teaching=false;
@@ -33,7 +32,7 @@ class CourseUserSeeder extends Seeder
                 }
                 if ($user->duty->name=='Instructor' && !$found) {
                     $found=true;
-                                        $incharge=true;
+                    $incharge=true;
 
                 }
                 $course->users()->attach($user->id,['price'=>$price,'teaching'=>$teaching,'in_charge'=>$incharge]);

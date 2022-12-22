@@ -8,8 +8,10 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Transformers\UserTransformer;
+use Laratrust\Traits\LaratrustUserTrait;
 class User extends Authenticatable
 {
+    use LaratrustUserTrait;
     use HasApiTokens, HasFactory, Notifiable;
 
     /**
@@ -48,7 +50,15 @@ class User extends Authenticatable
         'password',
         'remember_token',
     ];
-
+    /**
+     * Get the user's name.
+     *
+     * @return string
+     */
+    public function getNameAttribute()
+    {
+        return "{$this->firstname} {$this->lastname}";
+    }
     /**
      * The attributes that should be cast.
      *
