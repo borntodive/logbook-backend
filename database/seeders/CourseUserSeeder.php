@@ -16,30 +16,28 @@ class CourseUserSeeder extends Seeder
      */
     public function run()
     {
-       $courses=Course::get();
-       foreach ($courses as $course) {
-            $users=User::with('duty')->inRandomOrder()->limit(10)->get();
-            $incharge=false;
-            $teaching=false;
-            $found=false;
-            $teachingCount=0;
-            foreach($users as $user){
-                $price=$course->certification->price;
-                if(($user->duty->name=='Instructor' || $user->duty->name=='Divemaster') && $teachingCount<3) {
-                    $teaching=true;
+        $courses = Course::get();
+        foreach ($courses as $course) {
+            $users = User::with('duty')->inRandomOrder()->limit(10)->get();
+            $incharge = false;
+            $teaching = false;
+            $found = false;
+            $teachingCount = 0;
+            foreach ($users as $user) {
+                $price = $course->certification->discounted_price;
+                if (($user->duty->name == 'Instructor' || $user->duty->name == 'Divemaster') && $teachingCount < 3) {
+                    $teaching = true;
                     $teachingCount++;
-                    $price=null;
+                    $price = null;
                 }
-                if ($user->duty->name=='Instructor' && !$found) {
-                    $found=true;
-                    $incharge=true;
-
+                if ($user->duty->name == 'Instructor' && !$found) {
+                    $found = true;
+                    $incharge = true;
                 }
-                $course->users()->attach($user->id,['price'=>$price,'teaching'=>$teaching,'in_charge'=>$incharge]);
-                $incharge=false;
-                $teaching=false;
+                $course->users()->attach($user->id, ['price' => $price, 'teaching' => $teaching, 'in_charge' => $incharge]);
+                $incharge = false;
+                $teaching = false;
             }
-
-       }
+        }
     }
 }

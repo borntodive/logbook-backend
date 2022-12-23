@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('code');
             $table->float('cost')->nullable();
             $table->float('price')->nullable();
+            $table->float('discounted_price')->nullable();
             $table->timestamps();
         });
     }

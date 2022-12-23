@@ -78,6 +78,10 @@ class RoleSeeder extends Seeder
                 'name'=>'edit_settings',
                 'roles'=>[$admin]
             ],
+            [
+                'name'=>'view_price_list',
+                'roles'=>[$admin,$staff]
+            ],
         ];
         foreach ($permissions as $permission) {
            $p= Permission::firstOrCreate([
