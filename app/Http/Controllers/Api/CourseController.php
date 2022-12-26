@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CoursePostRequest;
+use App\Http\Requests\StudentPostRequest;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\StudentResource;
 use App\Models\Certification;
@@ -65,7 +66,7 @@ class CourseController extends Controller
     }
     public function store(CoursePostRequest $request)
     {
-        if ($request->user()->isAbleTo('create_user')) {
+        if ($request->user()->isAbleTo('create_course')) {
             $validated = $request->validated();
             $data = $request->safe()->except(['users']);
             $cYear = Carbon::parse($data['start_date'])->format('Y');
@@ -82,6 +83,36 @@ class CourseController extends Controller
                 $course->users()->attach($user['name'], ['in_charge' => $user['in_charge'], 'teaching' => $user['in_charge'], 'price' => $user['price']]);
             }
             return new CourseResource($course);
+        } else return response('unauthorized', 403);
+    }
+    public function update(CoursePostRequest $request, Course $course)
+    {
+        if ($request->user()->isAbleTo('edit_course')) {
+            $validated = $request->validated();
+            $data = $request->safe()->except(['users']);
+
+            $course->fill($data);
+            //$course->save();
+            $users = $request->safe()->only(['users']);
+            $sync_data = [];
+            foreach ($users['users'] as $id => $user) {
+                $sync_data[$user['name']] = ['in_charge' => $user['in_charge'], 'teaching'  => $user['in_charge'], 'price'     => $user['price']];
+            }
+            $course->users()->sync($sync_data);
+            return new CourseResource($course);
+        } else return response('unauthorized', 403);
+    }
+
+    public function updateStudent(StudentPostRequest $request, Course $course, $student_id)
+    {
+        if ($request->user()->isAbleTo('edit_course')) {
+            $validated = $request->validated();
+            $data = collect($request->safe())->toArray();
+            $course->users()->sync([
+                $student_id => $data,
+            ], false);
+            $course->student_id = $student_id;
+            return new StudentResource($course);
         } else return response('unauthorized', 403);
     }
 }

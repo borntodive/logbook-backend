@@ -8,12 +8,13 @@ use Illuminate\Database\Eloquent\Model;
 class Course extends Model
 {
     use HasFactory;
-     protected $guarded = [
+    protected $guarded = [
         'id',
     ];
- protected $casts = [
+    protected $casts = [
         'start_date' => 'datetime:Y-m-d',
         'end_date' => 'datetime:Y-m-d',
+        'users.pivot.end_date' => 'datetime:Y-m-d',
     ];
     public function certification()
     {
@@ -21,6 +22,6 @@ class Course extends Model
     }
     public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot(['end_date','progress','price','teaching','in_charge']);
+        return $this->belongsToMany(User::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge']);
     }
 }

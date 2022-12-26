@@ -39,6 +39,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{course}', [CourseController::class, 'get']);
         Route::get('/{course}/{student_id}', [CourseController::class, 'getStudent']);
         Route::post('/', [CourseController::class, 'store']);
+        Route::put('/{course}', [CourseController::class, 'update']);
+        Route::put('/{course}/{student_id}', [CourseController::class, 'updateStudent']);
     });
     Route::prefix('certifications')->group(function () {
         Route::get('/all', [CertificationController::class, 'indexAll']);
