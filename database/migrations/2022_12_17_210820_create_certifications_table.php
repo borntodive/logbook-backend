@@ -20,6 +20,7 @@ return new class extends Migration
             $table->float('cost')->nullable();
             $table->float('price')->nullable();
             $table->float('discounted_price')->nullable();
+            $table->json('activities')->default(null)->nullable();
             $table->timestamps();
         });
     }

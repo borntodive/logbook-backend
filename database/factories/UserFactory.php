@@ -19,22 +19,26 @@ class UserFactory extends Factory
      */
     public function definition()
     {
-         $gender = fake()->randomElements(['male', 'female'])[0];
-
+        $gender = fake()->randomElements(['male', 'female'])[0];
+        $user_duty = UserDuty::inRandomOrder()->first();
+        $ssi_number = null;
+        if ($user_duty->id !== 1)
+            $ssi_number = fake()->numerify('#######');
         return [
             'firstname' => fake()->firstName($gender),
             'lastname' => fake()->lastName(),
             'phone' => fake()->phoneNumber(),
             'cf' => fake()->taxId(),
-            'gender'=>$gender,
-            'height'=>fake()->numberBetween(150,195),
-            'weight'=>fake()->numberBetween(40,120),
+            'gender' => $gender,
+            'height' => fake()->numberBetween(150, 195),
+            'weight' => fake()->numberBetween(40, 120),
             'birthdate' => fake()->date(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => Hash::make('password'), // password
             'remember_token' => Str::random(10),
-            'user_duty_id'=> UserDuty::inRandomOrder()->first(),
+            'user_duty_id' =>  $user_duty,
+            'ssi_number' => $ssi_number
         ];
     }
 

@@ -15,6 +15,7 @@ class CourseSeeder extends Seeder
      */
     public function run()
     {
-       \App\Models\Course::factory(20)->create();
+        \App\Models\Course::factory()->create(['certification_id' => 5]);
+        \App\Models\Course::factory(20)->create();
     }
 }

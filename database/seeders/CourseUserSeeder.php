@@ -25,6 +25,7 @@ class CourseUserSeeder extends Seeder
             $teachingCount = 0;
             foreach ($users as $user) {
                 $price = $course->certification->discounted_price;
+                $progress = null;
                 if (($user->duty->name == 'Instructor' || $user->duty->name == 'Divemaster') && $teachingCount < 3) {
                     $teaching = true;
                     $teachingCount++;
@@ -34,7 +35,10 @@ class CourseUserSeeder extends Seeder
                     $found = true;
                     $incharge = true;
                 }
-                $course->users()->attach($user->id, ['price' => $price, 'teaching' => $teaching, 'in_charge' => $incharge]);
+                if (!$teaching) {
+                    $progress = $course->getEmptyProgress();
+                }
+                $course->users()->attach($user->id, ['price' => $price, 'teaching' => $teaching, 'in_charge' => $incharge, 'progress' => $progress]);
                 $incharge = false;
                 $teaching = false;
             }

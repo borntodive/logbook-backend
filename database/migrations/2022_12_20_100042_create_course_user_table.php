@@ -23,11 +23,11 @@ return new class extends Migration
             $table->float('payment_2')->nullable();
             $table->float('payment_3')->nullable();
             $table->date('end_date')->nullable();
-            $table->json('progress')->nullable();
+            $table->json('progress')->default(null)->nullable();
             $table->boolean('teaching')->default(false);
             $table->boolean('in_charge')->default(false);
             $table->timestamps();
-            $table->primary(['course_id','user_id']);
+            $table->primary(['course_id', 'user_id']);
         });
     }
 
