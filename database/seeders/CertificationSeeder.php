@@ -55,7 +55,7 @@ class CertificationSeeder extends Seeder
                 "activities" => [
                     [
                         'label' => 'CW',
-                        'order' => 1,
+                        'order' => 2,
                         'values' => [
                             [
                                 'order' => 1,
@@ -743,7 +743,7 @@ class CertificationSeeder extends Seeder
                     ],
                     [
                         'label' => 'OW',
-                        'order' => 2,
+                        'order' => 3,
                         'values' => [
                             [
                                 'order' => 1,
@@ -1272,7 +1272,7 @@ class CertificationSeeder extends Seeder
                     ],
                     [
                         'label' => 'THEORY',
-                        'order' => 3,
+                        'order' => 1,
                         'values' => [
                             [
                                 'label' => 'Ripassi delle conoscenze',
