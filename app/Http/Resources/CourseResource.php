@@ -32,6 +32,7 @@ class CourseResource extends JsonResource
         return [
             'id' => $this->id,
             'certification' => $this->certification,
+            'specialities' => $this->specialities,
             'number' => $this->number . '/' . $this->start_date->format('Y'),
             'startDate' => $this->start_date ? $this->start_date->format('Y-m-d') : null,
             'endDate' => $this->end_date ? $this->end_date->format('Y-m-d') : null,

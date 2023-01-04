@@ -14,7 +14,9 @@ class Course extends Model
     ];
     protected $casts = [
         'start_date' => 'datetime:Y-m-d',
-        'end_date' => 'datetime:Y-m-d'
+        'end_date' => 'datetime:Y-m-d',
+        'specialities' => 'array',
+
     ];
     public function certification()
     {
@@ -28,13 +30,49 @@ class Course extends Model
     public function getEmptyProgress()
     {
         $activities = $this->certification->activities;
-        $progress = null;
+        if ($this->certification->own_speciality) {
+            $newActivities =                [
+                'label' => 'OW',
+                'order' => 2,
+                'values' => null
+            ];
+            foreach ($this->specialities as $idx => $spId) {
+                $cert = Certification::find($spId);
+                if ($cert) {
+
+                    $specialityActivities = [
+                        'order'  => $idx + 1,
+                        'label' => $cert->name,
+                        'values' => $this->findFirstOW($cert->activities)
+                    ];
+                    $newActivities['values'][] = $specialityActivities;
+                }
+            }
+            $activities[] = $newActivities;
+        }
         if ($activities) {
             $this->recuriveForEach($activities);
         }
         return $activities;
     }
 
+    private function findFirstOW($array)
+    {
+        $out = null;
+        foreach ($array as $key => $value) {
+            if ($out)
+                break;
+            if ($value['label'] == 'OW') {
+                foreach ($value['values'] as $v) {
+                    if ($v['order'] == 1) {
+                        $out = $v['values'];
+                        break;
+                    }
+                }
+            }
+        }
+        return $out;
+    }
     private function recuriveForEach(&$array)
     {
         foreach ($array as $key => &$value) {

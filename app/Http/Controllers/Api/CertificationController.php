@@ -9,10 +9,12 @@ use Illuminate\Http\Request;
 
 class CertificationController extends Controller
 {
-     public function indexAll(Request $request)
+    public function indexAll(Request $request)
     {
         return CertificationResource::collection(Certification::orderBy('name')->get());
-
-
+    }
+    public function get(Request $request, Certification $certification)
+    {
+        return new CertificationResource($certification);
     }
 }

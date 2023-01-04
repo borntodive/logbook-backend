@@ -20,6 +20,8 @@ return new class extends Migration
             $table->float('cost')->nullable();
             $table->float('price')->nullable();
             $table->float('discounted_price')->nullable();
+            $table->boolean('is_speciality')->default(false);
+            $table->boolean('own_speciality')->default(false);
             $table->json('activities')->default(null)->nullable();
             $table->timestamps();
         });

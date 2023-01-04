@@ -45,6 +45,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::prefix('certifications')->group(function () {
         Route::get('/all', [CertificationController::class, 'indexAll']);
+
+        Route::get('/{certification}', [CertificationController::class, 'get']);
     });
     Route::prefix('sizes')->group(function () {
         Route::get('/', [SizeController::class, 'index']);

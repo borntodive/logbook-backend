@@ -29,6 +29,7 @@ class CoursePostRequest extends FormRequest
     {
         return [
             'certification_id' => 'required|exists:certifications,id',
+            'specialities' => 'nullable',
             'number' => 'numeric',
             'start_date' => 'required|date',
             'end_date' => 'date|nullable',

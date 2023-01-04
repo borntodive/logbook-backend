@@ -19,6 +19,8 @@ class CertificationResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'price' => $this->price,
+            'is_speciality' => $this->is_speciality,
+            'own_speciality' => $this->own_speciality,
             'discounted_price' => $this->discounted_price,
         ];
     }

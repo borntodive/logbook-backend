@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('number')->nullable();
             $table->date('start_date')->nullable();
             $table->date('end_date')->nullable();
+            $table->json('specialities')->default(null)->nullable();
             $table->timestamps();
         });
     }

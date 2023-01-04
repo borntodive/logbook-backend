@@ -15,9 +15,16 @@ class Certification extends Model
     ];
     protected $casts = [
         'activities' => Json::class,
+        'is_speciality' => 'boolean',
+        'own_speciality' => 'boolean'
     ];
     public function courses()
     {
         return $this->hasMany(Course::class);
+    }
+
+    public function scopeSpecialities($query)
+    {
+        return $query->where('is_speciality', true);
     }
 }
