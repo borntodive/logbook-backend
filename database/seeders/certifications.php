@@ -58,7 +58,200 @@
             "price" => 215.00,
             "is_speciality" => true,
             "own_speciality" => false,
-            "discounted_price" => 160.00
+            "discounted_price" => 160.00,
+            "activities" => [
+                [
+                    'label' => 'THEORY',
+                    'order' => 1,
+                    'values' => [
+                        [
+                            'label' => 'Ripassi delle conoscenze',
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            'label' => 'Ripassi delle conoscenze',
+                                        ]
+
+                                    ]
+                                ]
+                            ],
+                        ],
+                        [
+                            'label' => 'Esame',
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            'label' => 'Esame',
+                                        ]
+
+                                    ]
+                                ]
+                            ],
+                        ],
+                    ]
+                ],
+
+                [
+                    'label' => 'OW',
+                    'order' => 2,
+                    'values' => [
+                        [
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "Esercizi pre-immersione",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Pianificazione dell'immersione"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Check pre-immersione"
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi in acqua",
+                                    "order" => 2,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Discesa controllata sul relitto"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Orientamento sul relitto",
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Navigazione attraverso il relitto",
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Uso di una cima di sicurezza - Uso di una cima di corrente",
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" => "Risalita controllata con il compagno",
+                                        ],
+
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi facoltativi in acqua libera",
+                                    "order" => 3,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Lancio del segnalatore di superficie (SMB) in immersione"
+                                        ],
+
+                                    ]
+                                ],
+                                [
+                                    "label" => "Debriefing",
+                                    "order" => 4,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Debriefing"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" =>
+                                            "Registrare e convalidare immersione su Logbook App SSI",
+                                        ],
+                                    ]
+                                ],
+                            ]
+                        ],
+                        [
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "Esercizi pre-immersione",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Pianificazione dell'immersione"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Check pre-immersione"
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi in acqua",
+                                    "order" => 2,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Discesa controllata sul relitto"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Orientamento sul relitto",
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Navigazione attraverso il relitto",
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Uso di una cima di sicurezza - Utilizzo di una cima guida con reel, per l'esplorazione",
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" => "Risalita controllata con il compagno",
+                                        ],
+
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi facoltativi in acqua libera",
+                                    "order" => 3,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Attraversamento di spazi chiusi"
+                                        ],
+
+                                    ]
+                                ],
+                                [
+                                    "label" => "Debriefing",
+                                    "order" => 4,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Debriefing"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" =>
+                                            "Registrare e convalidare immersione su Logbook App SSI",
+                                        ],
+                                    ]
+                                ],
+                            ]
+                        ],
+                    ]
+                ],
+            ]
         ],
         [
             "name" => "Basic Diver",
@@ -1651,9 +1844,9 @@
             "code" => "DSD",
             'cost' => 43.80,
             "price" => 215.00,
+            "discounted_price" => 160.00,
             "is_speciality" => true,
             "own_speciality" => false,
-            "discounted_price" => 160.00,
             "activities" => [
                 [
                     'label' => 'THEORY',
@@ -2458,7 +2651,222 @@
             "code" => "WTC",
             'cost' => 43.80,
             "price" => 215.00,
-            "discounted_price" => 160.00
+            "discounted_price" => 160.00,
+            "is_speciality" => false,
+            "own_speciality" => true,
+            "activities" => [
+                [
+                    'label' => 'THEORY',
+                    'order' => 1,
+                    'values' => [
+                        [
+                            'label' => 'Ripassi delle conoscenze',
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            'label' => 'Ripassi delle conoscenze',
+                                        ]
+
+                                    ]
+                                ]
+                            ],
+                        ],
+                        [
+                            'label' => 'Esame',
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            'label' => 'Esame',
+                                        ]
+
+                                    ]
+                                ]
+                            ],
+                        ],
+                    ]
+                ],
+
+                [
+                    'label' => 'OW',
+                    'order' => 2,
+                    'values' => [
+                        [
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "Esercizi pre-immersione",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Pianificazione dell'immersione"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Vestizione dell'unità SCUBA"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Check pre-immersione"
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi in acqua",
+                                    "order" => 2,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Tecniche di entrata ed uscita"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Discesa in libera",
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Assetto neutro (nella posizione d'immersione)",
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Risalita controllata con il compagno",
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" => "Sosta di sicurezza",
+                                        ],
+                                        [
+                                            "order" => 6,
+                                            "label" =>
+                                            "Lancio del segnalatore di superficie (SMB) in immersione",
+                                        ],
+
+
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi dopo l'immersione",
+                                    "order" => 3,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Cura dell'attrezzatura (SCUBA)"
+                                        ],
+
+                                    ]
+                                ],
+                                [
+                                    "label" => "Debriefing",
+                                    "order" => 4,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Debriefing"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" =>
+                                            "Registrare e convalidare immersione su Logbook App SSI",
+                                        ],
+                                    ]
+                                ],
+                            ]
+                        ],
+                        [
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "Esercizi pre-immersione",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Pianificazione dell'immersione"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Vestizione dell'unità SCUBA"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Check pre-immersione"
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi in acqua",
+                                    "order" => 2,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Tecniche di entrata ed uscita"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Discesa in libera",
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Assetto neutro (nella posizione d'immersione)",
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Risalita controllata con il compagno",
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" => "Sosta di sicurezza",
+                                        ],
+                                        [
+                                            "order" => 6,
+                                            "label" =>
+                                            "Lancio del segnalatore di superficie (SMB) in immersione",
+                                        ],
+
+
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi dopo l'immersione",
+                                    "order" => 3,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Cura dell'attrezzatura (SCUBA)"
+                                        ],
+
+                                    ]
+                                ],
+                                [
+                                    "label" => "Debriefing",
+                                    "order" => 4,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Debriefing"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" =>
+                                            "Registrare e convalidare immersione su Logbook App SSI",
+                                        ],
+                                    ]
+                                ],
+                            ]
+                        ],
+                    ]
+                ],
+            ]
         ],
         [
             "name" => "Wreck Diving",
@@ -2514,7 +2922,418 @@
             "code" => "TER",
             'cost' => 57.22,
             "price" => 500.00,
-            "discounted_price" => 380.00
+            "discounted_price" => 380.00,
+            "is_speciality" => false,
+            "own_speciality" => false,
+            "activities" => [
+                [
+                    'label' => 'THEORY',
+                    'order' => 1,
+                    'values' => [
+                        [
+                            'label' => 'Ripassi delle conoscenze',
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            'label' => 'Ripassi delle conoscenze',
+                                        ]
+
+                                    ]
+                                ]
+                            ],
+                        ],
+                        [
+                            'label' => 'Esame',
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            'label' => 'Esame',
+                                        ]
+
+                                    ]
+                                ]
+                            ],
+                        ],
+                    ]
+                ],
+                [
+                    'label' => 'CW',
+                    'order' => 2,
+                    'values' => [
+                        [
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "Esercizi pre-immersione",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Assemblaggio dell'attrezzatura"
+                                        ],
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi in acqua",
+                                    "order" => 2,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Rimozione e riposizionamento della bombola di fase (in superficie)"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Esercizio S (in acqua bassa)"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Rimozione e riposizionamento dell'attrezzatura di back-up",
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Assetto a mezz'acqua (Hovering) e trim",
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" =>
+                                            "Pinneggiata alternata e pinneggiata alternata modificata",
+                                        ],
+                                        [
+                                            "order" => 6,
+                                            "label" =>
+                                            "Rana e rana modificata",
+                                        ],
+                                        [
+                                            "order" => 7,
+                                            "label" =>
+                                            "Rana all'indietro",
+                                        ],
+                                        [
+                                            "order" => 8,
+                                            "label" =>
+                                            "Utilizzo delle torce (facoltativo)",
+                                        ],
+                                        [
+                                            "order" => 9,
+                                            "label" =>
+                                            "Calcolo del consumo sul fondo",
+                                        ],
+                                        [
+                                            "order" => 10,
+                                            "label" =>
+                                            "Cedimento della maschera principale",
+                                        ],
+                                        [
+                                            "order" => 11,
+                                            "label" =>
+                                            "Subacqueo senza gas (in assetto ed in risalita)",
+                                        ],
+                                        [
+                                            "order" => 12,
+                                            "label" =>
+                                            "Dispiegamento di una cima guida statica",
+                                        ],
+                                        [
+                                            "order" => 13,
+                                            "label" =>
+                                            "Rimozione e riposizionamento della bombola di fase (in immersione)",
+                                        ],
+                                        [
+                                            "order" => 14,
+                                            "label" =>
+                                            "Impigliamento",
+                                        ],
+                                        [
+                                            "order" => 15,
+                                            "label" =>
+                                            "Rimozione e riposizionamento della bombola di fase (nuotando)",
+                                        ],
+                                        [
+                                            "order" => 16,
+                                            "label" =>
+                                            "Scambio delle bombole di fase",
+                                        ],
+                                        [
+                                            "order" => 17,
+                                            "label" =>
+                                            "Comando di carico principale in erogazione continua",
+                                        ],
+                                        [
+                                            "order" => 18,
+                                            "label" =>
+                                            "Approccio globale alla chiusura (diagnosi del problema)",
+                                        ],
+                                        [
+                                            "order" => 19,
+                                            "label" =>
+                                            "Avaria del sistema principale di controllo dell'assetto (muta stagna, GAV di ridondanza o pallone di sollevamento)",
+                                        ],
+                                        [
+                                            "order" => 20,
+                                            "label" =>
+                                            "Passaggio al gas decompressivo",
+                                        ],
+                                        [
+                                            "order" => 21,
+                                            "label" =>
+                                            "Erogatore della bombola di fase in erogazione continua (apertura e chiusura della rubinetteria)",
+                                        ],
+                                        [
+                                            "order" => 22,
+                                            "label" =>
+                                            "Soccorso per tossicità dell'ossigeno (in immersione)",
+                                        ],
+                                        [
+                                            "order" => 23,
+                                            "label" =>
+                                            "Subacqueo inconscio (in immersione)",
+                                        ],
+                                        [
+                                            "order" => 24,
+                                            "label" =>
+                                            "Conduzione di un piano decompressivo",
+                                        ],
+                                        [
+                                            "order" => 25,
+                                            "label" =>
+                                            "Lancio del segnalatore di superficie (SMB)",
+                                        ],
+                                        [
+                                            "order" => 26,
+                                            "label" =>
+                                            "Subacqueo inconscio (in superficie)",
+                                        ],
+                                    ]
+                                ],
+
+                                [
+                                    "label" => "Debriefing",
+                                    "order" => 3,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Debriefing"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" =>
+                                            "Registrare e convalidare immersione su Logbook App SSI",
+                                        ],
+                                    ]
+                                ],
+                            ]
+                        ],
+                    ]
+                ],
+                [
+                    'label' => 'OW',
+                    'order' => 3,
+                    'values' => [
+                        [
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "Esercizi pre-immersione",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Pianificazione dell'immersione"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Vestizione dell'unità SCUBA con indosso la stagna"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Check pre-immersione"
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi in acqua",
+                                    "order" => 2,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Controllo dell'assetto con il Sistema Totale d'Immersione completo, con indosso la stagna"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Discesa controllata (Muta stagna)",
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Confidenza con la stagna",
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Esercizi con le valvole della stagna - Esercizi di malfunzionamento della valvola",
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" =>
+                                            "Assetto neutro (a mezz'acqua)",
+                                        ],
+                                        [
+                                            "order" => 6,
+                                            "label" =>
+                                            "Subacqueo a testa in giù",
+                                        ],
+                                        [
+                                            "order" => 7,
+                                            "label" =>
+                                            "Eccessivo gonfiaggio di una muta stagna",
+                                        ],
+                                        [
+                                            "order" => 8,
+                                            "label" =>
+                                            "Simulazione dell'allagamento della stagna",
+                                        ],
+                                        [
+                                            "order" => 9,
+                                            "label" =>
+                                            "Risalita controllata (Muta stagna)",
+                                        ],
+
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi dopo l'immersione",
+                                    "order" => 3,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Cura dell'attrezzatura (Muta stagna)"
+                                        ],
+                                    ]
+                                ],
+                                [
+                                    "label" => "Debriefing",
+                                    "order" => 4,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Debriefing"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" =>
+                                            "Registrare e convalidare immersione su Logbook App SSI",
+                                        ],
+                                    ]
+                                ],
+                            ]
+                        ],
+                        [
+                            'order' => 2,
+                            'values' => [
+                                [
+                                    "label" => "Esercizi pre-immersione",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Pianificazione dell'immersione"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Vestizione dell'unità SCUBA con indosso la stagna"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Check pre-immersione"
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi in acqua",
+                                    "order" => 2,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Controllo dell'assetto con il Sistema Totale d'Immersione completo, con indosso la stagna"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Discesa controllata (Muta stagna)",
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Confidenza con la stagna",
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Esercizi con le valvole della stagna - Esercizi di malfunzionamento della valvola",
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" =>
+                                            "Assetto neutro (a mezz'acqua)",
+                                        ],
+                                        [
+                                            "order" => 6,
+                                            "label" =>
+                                            "Subacqueo a testa in giù",
+                                        ],
+                                        [
+                                            "order" => 7,
+                                            "label" =>
+                                            "Eccessivo gonfiaggio di una muta stagna",
+                                        ],
+                                        [
+                                            "order" => 8,
+                                            "label" =>
+                                            "Simulazione dell'allagamento della stagna",
+                                        ],
+                                        [
+                                            "order" => 9,
+                                            "label" =>
+                                            "Risalita controllata (Muta stagna)",
+                                        ],
+
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi dopo l'immersione",
+                                    "order" => 3,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Cura dell'attrezzatura (Muta stagna)"
+                                        ],
+                                    ]
+                                ],
+                                [
+                                    "label" => "Debriefing",
+                                    "order" => 4,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Debriefing"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" =>
+                                            "Registrare e convalidare immersione su Logbook App SSI",
+                                        ],
+                                    ]
+                                ],
+                            ]
+                        ],
+                    ]
+                ],
+            ]
         ],
         [
             "name" => "Hypoxic Trimix (100m)",

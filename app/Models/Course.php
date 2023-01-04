@@ -33,6 +33,11 @@ class Course extends Model
         if ($this->certification->own_speciality) {
             $newActivities =                [
                 'label' => 'OW',
+                'order' => 3,
+                'values' => null
+            ];
+            $newActivitiesCW =                [
+                'label' => 'CW',
                 'order' => 2,
                 'values' => null
             ];
@@ -43,12 +48,22 @@ class Course extends Model
                     $specialityActivities = [
                         'order'  => $idx + 1,
                         'label' => $cert->name,
-                        'values' => $this->findFirstOW($cert->activities)
+                        'values' => $this->findFirstOW($cert->activities, 'OW')
                     ];
                     $newActivities['values'][] = $specialityActivities;
+                    $cw = $this->findFirstOW($cert->activities, 'CW');
+                    if ($cw) {
+                        $specialityActivities = [
+                            'order'  => $idx + 1,
+                            'label' => $cert->name,
+                            'values' => $cw
+                        ];
+                        $newActivitiesCW['values'][] = $specialityActivities;
+                    }
                 }
             }
             $activities[] = $newActivities;
+            $activities[] = $newActivitiesCW;
         }
         if ($activities) {
             $this->recuriveForEach($activities);
@@ -56,13 +71,13 @@ class Course extends Model
         return $activities;
     }
 
-    private function findFirstOW($array)
+    private function findFirstOW($array, $section)
     {
         $out = null;
         foreach ($array as $key => $value) {
             if ($out)
                 break;
-            if ($value['label'] == 'OW') {
+            if ($value['label'] == $section) {
                 foreach ($value['values'] as $v) {
                     if ($v['order'] == 1) {
                         $out = $v['values'];
