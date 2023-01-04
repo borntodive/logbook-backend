@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CoursePostRequest;
+use App\Http\Requests\ExercisePostRequest;
 use App\Http\Requests\StudentPostRequest;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\StudentResource;
@@ -108,11 +109,58 @@ class CourseController extends Controller
         if ($request->user()->isAbleTo('edit_course')) {
             $validated = $request->validated();
             $data = collect($request->safe())->toArray();
+            $u = $course->users()->where('user_id', $student_id)->first();
+            $old_progress = $u->pivot->progress;
+            $data['progress'] = $old_progress;
             $course->users()->sync([
                 $student_id => $data,
             ], false);
             $course->student_id = $student_id;
             return new StudentResource($course);
         } else return response('unauthorized', 403);
+    }
+    public function updateExercise(ExercisePostRequest $request, Course $course, $student_id)
+    {
+        if ($request->user()->isAbleTo('edit_course')) {
+            $validated = $request->validated();
+
+            $u = $course->users()->where('user_id', $student_id)->first();
+            $data = collect($request->safe())->toArray();
+            $old_progress = $u->pivot->progress;
+            $this->recuriveForEach($old_progress, $data);
+            $syncData['progress'] = $old_progress;
+            $course->users()->sync([
+                $student_id => $syncData,
+            ], false);
+            $course->student_id = $student_id;
+            return new StudentResource($course);
+        } else return response('unauthorized', 403);
+    }
+    private function recuriveForEach(&$array, $data)
+    {
+        foreach ($array as $key => &$value) {
+            if (is_array($value)) {
+                if (isset($value['values'])) {
+                    $this->recuriveForEach(($value['values']), $data);
+                } else {
+                    if ($data['id'] == $value['uuid']) {
+                        unset($data['id']);
+                        $instr = User::find($data['instructor']);
+                        unset($data['instructor']);
+                        $value['instructor']['name'] = null;
+                        $value['instructor']['number'] = null;
+                        $value['instructor']['id'] = null;
+                        if ($instr) {
+                            $value['instructor']['name'] = $instr->lastname . ' ' . $instr->firstname;
+                            $value['instructor']['number'] = $instr->ssi_number;
+                            $value['instructor']['id'] = $instr->id;
+                        }
+
+                        $value = array_merge($value, $data);
+                        break;
+                    }
+                }
+            }
+        }
     }
 }

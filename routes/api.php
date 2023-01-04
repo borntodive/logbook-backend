@@ -40,6 +40,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{course}/{student_id}', [CourseController::class, 'getStudent']);
         Route::post('/', [CourseController::class, 'store']);
         Route::put('/{course}', [CourseController::class, 'update']);
+        Route::put('/{course}/{student_id}/exercise', [CourseController::class, 'updateExercise']);
         Route::put('/{course}/{student_id}', [CourseController::class, 'updateStudent']);
     });
     Route::prefix('certifications')->group(function () {

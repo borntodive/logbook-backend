@@ -26,13 +26,13 @@ class StudentResource extends JsonResource
             'payment_complete' => $user->pivot->price - $user->pivot->payment_1 - $user->pivot->payment_2 - $user->pivot->payment_3 <= 0 ? true : false,
             'progress' => $user->pivot->progress,
         ];
-        $end_date = Carbon::createFromDate($user->pivot->end_date);
+        $end_date = $user->pivot->end_date ? Carbon::createFromDate($user->pivot->end_date) : null;
         return [
             'id' => $this->id,
             'certification' => $this->certification->name,
             'number' => $this->number . '/' . $this->start_date->format('Y'),
             'startDate' => $this->start_date ? $this->start_date->format('Y-m-d') : null,
-            'endDate' => $end_date->isValid() ? $end_date->format('Y-m-d') : null,
+            'endDate' => $end_date && $end_date->isValid() ? $end_date->format('Y-m-d') : null,
             'fullPrice' => $this->certification->price,
             'user' => $student,
         ];

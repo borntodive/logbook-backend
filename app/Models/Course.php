@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Str;
 
 class Course extends Model
 {
@@ -21,7 +22,7 @@ class Course extends Model
     }
     public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge'])->using(CourseUser::class);
+        return $this->belongsToMany(User::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3'])->using(CourseUser::class);
     }
 
     public function getEmptyProgress()
@@ -41,9 +42,12 @@ class Course extends Model
                 if (isset($value['values'])) {
                     $this->recuriveForEach(($value['values']));
                 } else {
+                    $value['uuid']
+                        = Str::uuid();
                     $value['date'] = null;
                     $value['instructor']['name'] = null;
                     $value['instructor']['number'] = null;
+                    $value['instructor']['id'] = null;
                 }
             }
         }
