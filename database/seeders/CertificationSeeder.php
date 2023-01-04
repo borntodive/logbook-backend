@@ -1269,8 +1269,49 @@ class CertificationSeeder extends Seeder
                                 ]
                             ],
                         ]
+                    ],
+                    [
+                        'label' => 'THEORY',
+                        'order' => 3,
+                        'values' => [
+                            [
+                                'label' => 'Ripassi delle conoscenze',
+                                'order' => 1,
+                                'values' => [
+                                    [
+                                        "label" => "",
+                                        "order" => 1,
+                                        "values" => [
+                                            [
+                                                "order" => 1,
+                                                'label' => 'Ripassi delle conoscenze',
+                                            ]
+
+                                        ]
+                                    ]
+                                ],
+                            ],
+                            [
+                                'label' => 'Esame',
+                                'order' => 1,
+                                'values' => [
+                                    [
+                                        "label" => "",
+                                        "order" => 1,
+                                        "values" => [
+                                            [
+                                                "order" => 1,
+                                                'label' => 'Esame',
+                                            ]
+
+                                        ]
+                                    ]
+                                ],
+                            ],
+                        ]
                     ]
                 ],
+
                 "activities_old" => [
                     "CW" => [
 
