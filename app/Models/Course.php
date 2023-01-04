@@ -48,10 +48,11 @@ class Course extends Model
                     $specialityActivities = [
                         'order'  => $idx + 1,
                         'label' => $cert->name,
-                        'values' => $this->findFirstOW($cert->activities, 'OW')
+                        'values' => $this->findFirstOW($cert->activities, 'OW', $cert)
                     ];
                     $newActivities['values'][] = $specialityActivities;
-                    $cw = $this->findFirstOW($cert->activities, 'CW');
+                    $cw = null;
+                    //$cw = $this->findFirstOW($cert->activities, 'CW');
                     if ($cw) {
                         $specialityActivities = [
                             'order'  => $idx + 1,
@@ -71,9 +72,10 @@ class Course extends Model
         return $activities;
     }
 
-    private function findFirstOW($array, $section)
+    private function findFirstOW($array, $section, $cert = null)
     {
         $out = null;
+
         foreach ($array as $key => $value) {
             if ($out)
                 break;
