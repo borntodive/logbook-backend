@@ -51,8 +51,8 @@ class Course extends Model
                         'values' => $this->findFirstOW($cert->activities, 'OW', $cert)
                     ];
                     $newActivities['values'][] = $specialityActivities;
-                    $cw = null;
-                    //$cw = $this->findFirstOW($cert->activities, 'CW');
+                    //$cw = null;
+                    $cw = $this->findFirstOW($cert->activities, 'CW');
                     if ($cw) {
                         $specialityActivities = [
                             'order'  => $idx + 1,
@@ -64,7 +64,8 @@ class Course extends Model
                 }
             }
             $activities[] = $newActivities;
-            $activities[] = $newActivitiesCW;
+            if ($newActivitiesCW['values'] && count($newActivitiesCW['values']))
+                $activities[] = $newActivitiesCW;
         }
         if ($activities) {
             $this->recuriveForEach($activities);
