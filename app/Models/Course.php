@@ -39,6 +39,7 @@ class Course extends Model
     {
         foreach ($array as $key => &$value) {
             if (is_array($value)) {
+                $value['uuid'] = Str::uuid();
                 if (isset($value['values'])) {
                     $this->recuriveForEach(($value['values']));
                 } else {

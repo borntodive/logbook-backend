@@ -112,6 +112,7 @@ class CourseController extends Controller
             $u = $course->users()->where('user_id', $student_id)->first();
             $old_progress = $u->pivot->progress;
             $data['progress'] = $old_progress;
+            dd($data['progress']);
             $course->users()->sync([
                 $student_id => $data,
             ], false);
@@ -126,8 +127,10 @@ class CourseController extends Controller
 
             $u = $course->users()->where('user_id', $student_id)->first();
             $data = collect($request->safe())->toArray();
+            $is_activity = $data['is_activity'];
+            unset($data['is_activity']);
             $old_progress = $u->pivot->progress;
-            $this->recuriveForEach($old_progress, $data);
+            $this->recuriveForEach($old_progress, $data, $is_activity);
             $syncData['progress'] = $old_progress;
             $course->users()->sync([
                 $student_id => $syncData,
@@ -136,30 +139,68 @@ class CourseController extends Controller
             return new StudentResource($course);
         } else return response('unauthorized', 403);
     }
-    private function recuriveForEach(&$array, $data)
+    private function recuriveForEach(&$array, $data, $is_activity = false)
     {
-        foreach ($array as $key => &$value) {
-            if (is_array($value)) {
-                if (isset($value['values'])) {
-                    $this->recuriveForEach(($value['values']), $data);
-                } else {
-                    if ($data['id'] == $value['uuid']) {
-                        unset($data['id']);
-                        $instr = User::find($data['instructor']);
-                        unset($data['instructor']);
-                        $value['instructor']['name'] = null;
-                        $value['instructor']['number'] = null;
-                        $value['instructor']['id'] = null;
-                        if ($instr) {
-                            $value['instructor']['name'] = $instr->lastname . ' ' . $instr->firstname;
-                            $value['instructor']['number'] = $instr->ssi_number;
-                            $value['instructor']['id'] = $instr->id;
-                        }
+        if (!$is_activity) {
+            foreach ($array as $key => &$value) {
+                if (is_array($value)) {
+                    if (isset($value['values'])) {
+                        $this->recuriveForEach(($value['values']), $data);
+                    } else {
+                        if ($data['id'] == $value['uuid']) {
+                            unset($data['id']);
+                            $instr = User::find($data['instructor']);
+                            unset($data['instructor']);
+                            $value['instructor']['name'] = null;
+                            $value['instructor']['number'] = null;
+                            $value['instructor']['id'] = null;
+                            if ($instr) {
+                                $value['instructor']['name'] = $instr->lastname . ' ' . $instr->firstname;
+                                $value['instructor']['number'] = $instr->ssi_number;
+                                $value['instructor']['id'] = $instr->id;
+                            }
 
-                        $value = array_merge($value, $data);
-                        break;
+                            $value = array_merge($value, $data);
+                            break;
+                        }
                     }
                 }
+            }
+        } else {
+            $this->findActivity($array, $data);
+        }
+    }
+    private function findActivity(&$array, $data)
+    {
+        foreach ($array as $key => &$value) {
+            if ($value['uuid'] == $data['id']) {
+                $this->activityRecursive($value['values'], $data);
+                break;
+            } else if (isset($value['values'])) {
+                $this->findActivity($value['values'], $data);
+            }
+        }
+    }
+    private function activityRecursive(&$array, $data)
+    {
+        foreach ($array as $key => &$value) {
+            if (isset($value['values'])) {
+                $this->activityRecursive($value['values'], $data);
+            } else {
+                $instr = User::find($data['instructor']);
+
+                $value['instructor']['name'] = null;
+                $value['instructor']['number'] = null;
+                $value['instructor']['id'] = null;
+                if ($instr) {
+                    $value['instructor']['name'] = $instr->lastname . ' ' . $instr->firstname;
+                    $value['instructor']['number'] = $instr->ssi_number;
+                    $value['instructor']['id'] = $instr->id;
+                }
+                $newData = $data;
+                unset($newData['id']);
+                unset($newData['instructor']);
+                $value = array_merge($value, $newData);
             }
         }
     }
