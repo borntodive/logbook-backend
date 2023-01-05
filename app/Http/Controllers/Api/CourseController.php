@@ -104,19 +104,22 @@ class CourseController extends Controller
             $data = $request->safe()->except(['users']);
             $isSameCertification = $course->certification_id == $data['certification_id'];
             $course->fill($data);
+
             $course->save();
             $users = $request->safe()->only(['users']);
             $sync_data = [];
             foreach ($users['users'] as $id => $user) {
-                $oldUser = $course->users->where('id', $user['name'])->first();
+                $oldUser = $course->users()->where('id', $user['name'])->first();
                 if (!$isSameCertification || !$oldUser) {
+
                     $progress = null;
                     if (!$user['teaching']) {
                         $progress = $course->getEmptyProgress();
                     }
                     $sync_data[$user['name']] =  ['in_charge' => $user['in_charge'], 'teaching' => $user['teaching'], 'price' => $user['price'], 'progress' => $progress];
-                } else
-                    $sync_data[$user['name']] = ['in_charge' => $user['in_charge'], 'teaching'  => $user['in_charge'], 'price'     => $user['price']];
+                } else {
+                    $sync_data[$user['name']] = ['in_charge' => $user['in_charge'], 'teaching' => $user['teaching'], 'price' => $user['price']];
+                }
             }
             $course->users()->sync($sync_data);
             return new CourseResource($course);
@@ -131,7 +134,6 @@ class CourseController extends Controller
             $u = $course->users()->where('user_id', $student_id)->first();
             $old_progress = $u->pivot->progress;
             $data['progress'] = $old_progress;
-            dd($data['progress']);
             $course->users()->sync([
                 $student_id => $data,
             ], false);

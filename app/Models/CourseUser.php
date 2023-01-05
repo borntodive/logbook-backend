@@ -9,6 +9,9 @@ class CourseUser extends Pivot
     protected $casts = [
 
         'end_date' => 'datetime:Y-m-d',
-        'progress' => 'array'
+        'progress' => 'array',
+        'teaching' => 'boolean',
+        'in_charge' => 'boolean'
+
     ];
 }
