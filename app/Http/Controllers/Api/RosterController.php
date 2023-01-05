@@ -19,4 +19,20 @@ class RosterController extends Controller
         $rosters = Roster::where('type', $type)->orderBy($sort, $sortDirection);
         return RosterResource::collection($rosters->jsonPaginate());
     }
+    public function destroy(Request $request, Roster $roster)
+    {
+        if ($request->user()->isAbleTo('delete_roster')) {
+
+            // $roster->users()->detach();
+            $roster->delete();
+            return response()->json(['status' => 'deleted']);
+        } else return response('unauthorized', 403);
+    }
+
+    public function get(Request $request, Roster $roster)
+    {
+        if ($request->user()->isAbleTo('view-all-rosters')) {
+            return new RosterResource($roster);
+        } else return response('unauthorized', 403);
+    }
 }

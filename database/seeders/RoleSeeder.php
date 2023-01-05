@@ -86,6 +86,10 @@ class RoleSeeder extends Seeder
                 'name' => 'view-all-rosters',
                 'roles' => [$admin, $staff]
             ],
+            [
+                'name' => 'delete-rosters',
+                'roles' => [$admin]
+            ],
         ];
         foreach ($permissions as $permission) {
             $p = Permission::firstOrCreate([

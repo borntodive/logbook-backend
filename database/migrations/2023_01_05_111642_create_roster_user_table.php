@@ -24,6 +24,7 @@ return new class extends Migration
             $table->string('course_note')->nullable();
             $table->float('price')->nullable();
             $table->boolean('payed')->default(false);
+            $table->boolean('staff')->default(false);
             $table->timestamps();
             $table->primary(['roster_id', 'user_id']);
         });

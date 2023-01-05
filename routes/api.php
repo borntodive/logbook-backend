@@ -48,6 +48,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::prefix('rosters')->group(function () {
         Route::get('/', [RosterController::class, 'index']);
+        Route::get('/{roster}', [RosterController::class, 'get']);
+        Route::delete('/{roster}', [RosterController::class, 'destroy']);
     });
     Route::prefix('certifications')->group(function () {
         Route::get('/all', [CertificationController::class, 'indexAll']);
