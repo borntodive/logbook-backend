@@ -16,7 +16,7 @@ class RoleSeeder extends Seeder
      */
     public function run()
     {
-       $admin = Role::create([
+        $admin = Role::create([
             'name' => 'admin',
             'display_name' => 'Admin', // optional
         ]);
@@ -24,72 +24,76 @@ class RoleSeeder extends Seeder
             'name' => 'staff',
             'display_name' => 'Staff', // optional
         ]);
-         $user = Role::create([
+        $user = Role::create([
             'name' => 'user',
             'display_name' => 'User', // optional
         ]);
 
-         $permissions = [
+        $permissions = [
             [
-                'name'=>'view_all_users',
-                'roles'=>[$admin,$staff]
+                'name' => 'view_all_users',
+                'roles' => [$admin, $staff]
             ],
             [
-                'name'=>'edit_users_role',
-                'roles'=>[$admin]
+                'name' => 'edit_users_role',
+                'roles' => [$admin]
             ],
             [
-                'name'=>'edit_users',
-                'roles'=>[$admin,$staff]
+                'name' => 'edit_users',
+                'roles' => [$admin, $staff]
             ],
             [
-                'name'=>'create_user',
-                'roles'=>[$admin,$staff]
+                'name' => 'create_user',
+                'roles' => [$admin, $staff]
             ],
             [
-                'name'=>'delete_user',
-                'roles'=>[$admin]
+                'name' => 'delete_user',
+                'roles' => [$admin]
             ],
             [
-                'name'=>'edit_equipment',
-                'roles'=>[$admin,$staff]
+                'name' => 'edit_equipment',
+                'roles' => [$admin, $staff]
             ],
             [
-                'name'=>'view_all_courses',
-                'roles'=>[$admin,$staff]
+                'name' => 'view_all_courses',
+                'roles' => [$admin, $staff]
             ],
             [
-                'name'=>'create_course',
-                'roles'=>[$admin,$staff]
+                'name' => 'create_course',
+                'roles' => [$admin, $staff]
             ],
             [
-                'name'=>'edit_course',
-                'roles'=>[$admin,$staff]
+                'name' => 'edit_course',
+                'roles' => [$admin, $staff]
             ],
             [
-                'name'=>'delete_course',
-                'roles'=>[$admin]
+                'name' => 'delete_course',
+                'roles' => [$admin]
             ],
             [
-                'name'=>'view_course_costs',
-                'roles'=>[$admin]
+                'name' => 'view_course_costs',
+                'roles' => [$admin]
             ],
             [
-                'name'=>'edit_settings',
-                'roles'=>[$admin]
+                'name' => 'edit_settings',
+                'roles' => [$admin]
             ],
             [
-                'name'=>'view_price_list',
-                'roles'=>[$admin,$staff]
+                'name' => 'view_price_list',
+                'roles' => [$admin, $staff]
+            ],
+            [
+                'name' => 'view-all-rosters',
+                'roles' => [$admin, $staff]
             ],
         ];
         foreach ($permissions as $permission) {
-           $p= Permission::firstOrCreate([
+            $p = Permission::firstOrCreate([
                 'name' => $permission['name'],
                 'display_name' => ucwords(str_replace('_', ' ', $permission['name'])),
                 'description' => ucwords(str_replace('_', ' ', $permission['name'])),
             ]);
-            foreach ($permission['roles'] as $role)       {
+            foreach ($permission['roles'] as $role) {
                 $role->attachPermission($p);
             }
         }

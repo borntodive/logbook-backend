@@ -33,6 +33,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('courses/{user}', [CourseController::class, 'getByUser']);
         Route::post('/', [UserController::class, 'store']);
         Route::put('/{user}', [UserController::class, 'update']);
+        Route::delete('/{user}', [UserController::class, 'destroy']);
     });
     Route::prefix('courses')->group(function () {
         Route::get('/', [CourseController::class, 'index']);

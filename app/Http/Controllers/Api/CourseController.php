@@ -24,12 +24,17 @@ class CourseController extends Controller
         $sort = $request->get('sort', 'name');
         $sortDirection = $request->get('sortDirection', 'ASC');
         $search = $request->get('search', '');
+        $filter = $request->get('filter', 'open');
         $courses = Course::select('courses.*')
             ->join('certifications', 'certifications.id', '=', 'courses.certification_id')
             ->where('certifications.name', 'like', '%' . $search . '%')
             ->orderBy('certifications.name', $sortDirection)
             ->orderBy('start_date', $sortDirection)
             ->orderBy('number', $sortDirection);
+        if ($filter == 'open')
+            $courses = $courses->whereNull('end_date');
+        if ($filter == 'closed')
+            $courses = $courses->whereNotNull('end_date');
         return CourseResource::collection($courses->jsonPaginate());
     }
 
@@ -99,7 +104,7 @@ class CourseController extends Controller
             $data = $request->safe()->except(['users']);
             $isSameCertification = $course->certification_id == $data['certification_id'];
             $course->fill($data);
-            //$course->save();
+            $course->save();
             $users = $request->safe()->only(['users']);
             $sync_data = [];
             foreach ($users['users'] as $id => $user) {
@@ -136,7 +141,7 @@ class CourseController extends Controller
     }
     public function destroy(Request $request, Course $course)
     {
-        if ($request->user()->isAbleTo('edit_course')) {
+        if ($request->user()->isAbleTo('delete_course')) {
 
             $course->users()->detach();
             $course->delete();

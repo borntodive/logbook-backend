@@ -89,4 +89,13 @@ class UserController extends Controller
             return new UserResource($user);
         } else return response('unauthorized', 403);
     }
+    public function destroy(Request $request, User $user)
+    {
+        if ($request->user()->isAbleTo('delete_user')) {
+
+            $user->courses()->detach();
+            $user->delete();
+            return response()->json(['status' => 'deleted']);
+        } else return response('unauthorized', 403);
+    }
 }
