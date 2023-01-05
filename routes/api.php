@@ -42,6 +42,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{course}', [CourseController::class, 'update']);
         Route::put('/{course}/{student_id}/exercise', [CourseController::class, 'updateExercise']);
         Route::put('/{course}/{student_id}', [CourseController::class, 'updateStudent']);
+        Route::delete('/{course}', [CourseController::class, 'destroy']);
     });
     Route::prefix('certifications')->group(function () {
         Route::get('/all', [CertificationController::class, 'indexAll']);

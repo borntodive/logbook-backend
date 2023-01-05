@@ -134,6 +134,15 @@ class CourseController extends Controller
             return new StudentResource($course);
         } else return response('unauthorized', 403);
     }
+    public function destroy(Request $request, Course $course)
+    {
+        if ($request->user()->isAbleTo('edit_course')) {
+
+            $course->users()->detach();
+            $course->delete();
+            return response()->json(['status' => 'deleted']);
+        } else return response('unauthorized', 403);
+    }
     public function updateExercise(ExercisePostRequest $request, Course $course, $student_id)
     {
         if ($request->user()->isAbleTo('edit_course')) {

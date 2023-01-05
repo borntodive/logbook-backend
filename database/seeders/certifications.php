@@ -2910,10 +2910,101 @@
                         ],
                     ]
                 ],
+                [
+                    'label' => 'CW',
+                    'order' => 2,
+                    'values' => [
+                        [
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "Esercizi pre-immersione",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Pianificazione dell'immersione"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Assemblaggio dell'unità SCUBA"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Check pre-immersione"
+                                        ]
+                                    ]
+                                ],
+                                [
+                                    "label" => "Esercizi in acqua",
+                                    "order" => 2,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Controllo dell'assetto, con indossato il Sistema Totale d'Immersione"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Discesa controllata",
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Respirazione rilassata",
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Assetto Neutro | Posizione d'immersione - Gonfiaggio con VIS",
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" => "Assetto Neutro | Posizione d'immersione - Gonfiaggio a bocca",
+                                        ],
+                                        [
+                                            "order" => 6,
+                                            "label" =>
+                                            "Assetto Neutro | Assetto neutro, in orizzontale",
+                                        ],
+                                        [
+                                            "order" => 7,
+                                            "label" =>
+                                            "Spostamenti sott'acqua",
+                                        ],
+                                        [
+                                            "order" => 8,
+                                            "label" =>
+                                            "Rotta subacquea con ostacolo",
+                                        ],
+                                        [
+                                            "order" => 9,
+                                            "label" =>
+                                            "Esercizi con nuova attrezzatura",
+                                        ],
 
+                                    ]
+                                ],
+
+                                [
+                                    "label" => "Debriefing",
+                                    "order" => 3,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Debriefing"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" =>
+                                            "Registrare e convalidare immersione su Logbook App SSI",
+                                        ],
+                                    ]
+                                ],
+                            ]
+                        ],
+                    ]
+                ],
                 [
                     'label' => 'OW',
-                    'order' => 2,
+                    'order' => 3,
                     'values' => [
                         [
                             'order' => 1,
