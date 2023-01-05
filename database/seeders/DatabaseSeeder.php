@@ -25,7 +25,8 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,
             CourseUserSeeder::class,
             DivingSeeder::class,
-            RosterSeeder::class
+            RosterSeeder::class,
+            RosterUserSeeder::class
         ]);
     }
 }

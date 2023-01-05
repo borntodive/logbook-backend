@@ -19,7 +19,7 @@ return new class extends Migration
         Schema::create('roster_user', function (Blueprint $table) {
             $table->foreignIdFor(Roster::class);
             $table->foreignIdFor(User::class);
-            $table->foreignIdFor(Course::class)->nullable;
+            $table->foreignIdFor(Course::class)->nullable();
             $table->string('note')->nullable();
             $table->string('course_note')->nullable();
             $table->float('price')->nullable();

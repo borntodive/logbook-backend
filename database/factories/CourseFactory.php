@@ -20,14 +20,13 @@ class CourseFactory extends Factory
      */
     public function definition()
     {
-        $cert=Certification::inRandomOrder()->first();
-        $user=User::inRandomOrder()->first();
+        $cert = Certification::where('code', '<>', 'AA')->inRandomOrder()->first();
+        $user = User::inRandomOrder()->first();
         return [
             'certification_id' => $cert->id,
-            'number'=> fake()->numberBetween(1,12),
+            'number' => fake()->numberBetween(1, 12),
             //'user_id' => $user->id,
             'start_date' => fake()->date(),
         ];
     }
-
 }
