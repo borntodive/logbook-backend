@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\EquipmentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CertificationController;
+use App\Http\Controllers\Api\RosterController;
 use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\UserController;
 use Illuminate\Http\Request;
@@ -44,6 +45,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{course}/{student_id}/exercise', [CourseController::class, 'updateExercise']);
         Route::put('/{course}/{student_id}', [CourseController::class, 'updateStudent']);
         Route::delete('/{course}', [CourseController::class, 'destroy']);
+    });
+    Route::prefix('rosters')->group(function () {
+        Route::get('/', [RosterController::class, 'index']);
     });
     Route::prefix('certifications')->group(function () {
         Route::get('/all', [CertificationController::class, 'indexAll']);

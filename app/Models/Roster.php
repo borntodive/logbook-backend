@@ -29,4 +29,8 @@ class Roster extends Model
     {
         return $this->belongsToMany(User::class)->withPivot(['course_id', 'note', 'price', 'course_note', 'payed'])->using(RosterUser::class);
     }
+    public function diving()
+    {
+        return $this->belongsTo(Diving::class);
+    }
 }
