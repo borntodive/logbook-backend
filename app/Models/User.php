@@ -81,10 +81,26 @@ class User extends Authenticatable
 
     public function rosters()
     {
-        return $this->belongsToMany(Roster::class)->withPivot(['course_id', 'note', 'price', 'course_note', 'payed'])->using(RosterUser::class);
+        return $this->belongsToMany(Roster::class)->withPivot(['course_id', 'note', 'price', 'course_note', 'payed', 'gears'])->using(RosterUser::class);
     }
     public function duty()
     {
         return $this->belongsTo(UserDuty::class, 'user_duty_id');
+    }
+
+    public function getDefaultSizes()
+    {
+        $sizes = null;
+        $allSizes = Size::get();
+        foreach ($this->equipments as $equipment) {
+
+            $s = $equipment->pivot->toArray();
+            unset($s['user_id']);
+            $s['name'] = $equipment->name;
+            $foundSize = $allSizes->firstWhere('id', $s['size_id']);
+            $s['size'] = $foundSize ? $foundSize->name : null;
+            $sizes[] = $s;
+        }
+        return $sizes;
     }
 }

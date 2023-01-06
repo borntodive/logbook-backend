@@ -5,6 +5,7 @@ namespace Database\Seeders;
 use App\Models\Course;
 use App\Models\Roster;
 use App\Models\User;
+use App\Models\Size;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Exception;
@@ -26,7 +27,7 @@ class RosterUserSeeder extends Seeder
                 foreach ($course->users as $user) {
                     try {
                         $addedUsers[] = $user->id;
-                        $roster->users()->attach($user->id, ['course_id' => $course->id]);
+                        $roster->users()->attach($user->id, ['course_id' => $course->id, 'gears' => $user->getDefaultSizes()]);
                     } catch (Exception $e) {
                     }
                 }
@@ -34,7 +35,7 @@ class RosterUserSeeder extends Seeder
             $users = User::inRandomOrder()->whereNotIn('id', $addedUsers)->limit(8)->get();
             foreach ($users as $user) {
                 try {
-                    $roster->users()->attach($user->id, ['course_id' => null]);
+                    $roster->users()->attach($user->id, ['course_id' => null, 'gears' => $user->getDefaultSizes()]);
                 } catch (Exception $e) {
                 }
             }

@@ -7,6 +7,8 @@ use Illuminate\Database\Eloquent\Relations\Pivot;
 class RosterUser extends Pivot
 {
     protected $casts = [
-        'payed' => 'boolean'
+        'payed' => 'boolean',
+        'gears' => 'array',
+
     ];
 }
