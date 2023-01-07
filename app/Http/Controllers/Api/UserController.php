@@ -31,6 +31,14 @@ class UserController extends Controller
             return new UserResource(User::with('equipments')->findOrFail($user_id));
         } else return response('unauthorized', 403);
     }
+    public function getAvailables(Request $request)
+    {
+        if (!$request->user()->isAbleTo('view_all_users'))
+            return response('unauthorized', 403);
+        $excluded = $request->get('exclude', null);
+        $courses = User::whereNotIn('id', explode('|', $excluded))->orderBy('lastname')->orderBy('firstname')->get();
+        return MinimalUserResource::collection($courses);
+    }
     public function getStaff(Request $request)
     {
         if ($request->user()->isAbleTo('view_all_users')) {

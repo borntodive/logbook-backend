@@ -11,6 +11,7 @@ use App\Models\Equipment;
 use App\Models\Roster;
 use App\Models\RosterUser;
 use App\Models\Size;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Exception;
 
@@ -83,6 +84,16 @@ class RosterController extends Controller
         } else return response('unauthorized', 403);
     }
 
+    public function addUser(Request $request, Roster $roster, User $user)
+    {
+        if ($request->user()->isAbleTo('edit_course')) {
+            $course_id = $request->input('course_id');
+            if (!$course_id || $course_id == 'GUESTS')
+                $course_id = null;
+            $roster->users()->attach($user->id, ['course_id' => $course_id, 'gears' => $user->getDefaultSizes(), 'price' => $user->duty->name == 'Diver' ? $roster->price : $roster->cost]);
+            return response()->json(['status' => 'success']);
+        } else return response('unauthorized', 403);
+    }
     public function addCourse(Request $request, Roster $roster, Course $course)
     {
         if ($request->user()->isAbleTo('edit_course')) {
@@ -98,7 +109,10 @@ class RosterController extends Controller
     public function destroyCourse(Request $request, Roster $roster, $course_id)
     {
         if ($request->user()->isAbleTo('delete_user')) {
-            $users = $roster->users()->where('course_id', $course_id)->get();
+            if ($course_id !== 'GUESTS')
+                $users = $roster->users()->where('course_id', $course_id)->get();
+            else
+                $users = $roster->users()->where('course_id', null)->get();
             $roster->users()->detach($users->pluck('id'));
             return response()->json(['status' => 'success']);
         } else return response('unauthorized', 403);

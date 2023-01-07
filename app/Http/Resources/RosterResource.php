@@ -22,9 +22,10 @@ class RosterUserResource extends JsonResource
 
         if ($course !== $GUSTS_KEY) {
             $courseUser = $course->users->where('id', $this->id)->first();
-
-            $in_charge = $courseUser->pivot->in_charge;
-            $teaching = $courseUser->pivot->teaching;
+            if ($courseUser) {
+                $in_charge = $courseUser->pivot->in_charge;
+                $teaching = $courseUser->pivot->teaching;
+            }
         }
         return [
             'id' => $this->id,

@@ -29,6 +29,8 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
+        Route::get('/availables', [UserController::class, 'getAvailables']);
+
         Route::get('/staff', [UserController::class, 'getStaff']);
         Route::get('/students', [UserController::class, 'getStudents']);
         Route::get('/{user_id}', [UserController::class, 'get']);
@@ -55,6 +57,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{roster}', [RosterController::class, 'update']);
         Route::put('/{roster}/{diver_id}', [RosterController::class, 'updateDiver']);
 
+        Route::post('/{roster}/user/{user}', [RosterController::class, 'addUser']);
         Route::post('/{roster}/course/{course}', [RosterController::class, 'AddCourse']);
         Route::delete('/{roster}/course/{course_id}', [RosterController::class, 'destroyCourse']);
         Route::delete('/{roster}/diver/{user_id}', [RosterController::class, 'destroyUser']);
