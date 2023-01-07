@@ -27,6 +27,17 @@ class RosterController extends Controller
         $rosters = Roster::where('type', $type)->orderBy($sort, $sortDirection);
         return RosterResource::collection($rosters->jsonPaginate());
     }
+    public function store(RosterPostRequest $request)
+    {
+        if ($request->user()->isAbleTo('edit_course')) {
+            $validated = $request->validated();
+            $data = $request->safe()->toArray();
+            $roster = Roster::create($data);
+
+
+            return new RosterResource($roster);
+        } else return response('unauthorized', 403);
+    }
     public function destroy(Request $request, Roster $roster)
     {
         if ($request->user()->isAbleTo('view-all-rosters')) {

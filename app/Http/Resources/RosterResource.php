@@ -89,7 +89,7 @@ class RosterResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'date' => $this->date,
+            'date' => $this->date->format('Y-m-d\TH:i:s\Z'),
             'note' => $this->note,
             'cost' => $this->cost,
             'price' => $this->price,

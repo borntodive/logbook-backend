@@ -56,6 +56,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{roster}', [RosterController::class, 'get']);
         Route::put('/{roster}', [RosterController::class, 'update']);
         Route::put('/{roster}/{diver_id}', [RosterController::class, 'updateDiver']);
+        Route::post('/', [RosterController::class, 'store']);
 
         Route::post('/{roster}/user/{user}', [RosterController::class, 'addUser']);
         Route::post('/{roster}/course/{course}', [RosterController::class, 'AddCourse']);
