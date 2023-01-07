@@ -7,8 +7,10 @@ use App\Http\Requests\RosterDiverPostRequest;
 use App\Http\Requests\RosterPostRequest;
 use App\Http\Resources\RosterResource;
 use App\Models\Course;
+use App\Models\Equipment;
 use App\Models\Roster;
 use App\Models\RosterUser;
+use App\Models\Size;
 use Illuminate\Http\Request;
 
 class RosterController extends Controller
@@ -64,6 +66,13 @@ class RosterController extends Controller
                 $diver_id => $data,
             ], false);
             $u = $roster->users()->where('user_id', $diver_id)->first();
+            if ($isDefault) {
+                $u->equipments()->detach();
+                foreach ($data['gears'] as $id => $equipment) {
+                    $u->equipments()->attach($equipment['equipment_id'], ['number' => $equipment['number'], 'size_id' => $equipment['size_id']]);
+                }
+            }
+
             $course = 'GUESTS';
             if ($u->course_id) {
                 $course = Course::find($u->course_id);
