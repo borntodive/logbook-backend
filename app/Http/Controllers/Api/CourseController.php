@@ -7,6 +7,7 @@ use App\Http\Requests\CoursePostRequest;
 use App\Http\Requests\ExercisePostRequest;
 use App\Http\Requests\StudentPostRequest;
 use App\Http\Resources\CourseResource;
+use App\Http\Resources\MinimalCourseResource;
 use App\Http\Resources\StudentResource;
 use App\Models\Certification;
 use App\Models\Course;
@@ -37,7 +38,14 @@ class CourseController extends Controller
             $courses = $courses->whereNotNull('end_date');
         return CourseResource::collection($courses->jsonPaginate());
     }
-
+    public function getAvailables(Request $request)
+    {
+        if (!$request->user()->isAbleTo('view_all_courses'))
+            return response('unauthorized', 403);
+        $excluded = $request->get('exclude', null);
+        $courses = Course::whereNull('end_date')->whereNotIn('id', explode('|', $excluded))->get();
+        return MinimalCourseResource::collection($courses);
+    }
     public function get(Request $request, Course $course)
     {
         if ($request->user()->isAbleTo('view_all_courses') || in_array($request->user()->id, $course->users()->pluck('id')->toArray())) {

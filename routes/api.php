@@ -32,13 +32,15 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/staff', [UserController::class, 'getStaff']);
         Route::get('/students', [UserController::class, 'getStudents']);
         Route::get('/{user_id}', [UserController::class, 'get']);
-        Route::get('courses/{user}', [CourseController::class, 'getByUser']);
         Route::post('/', [UserController::class, 'store']);
         Route::put('/{user}', [UserController::class, 'update']);
         Route::delete('/{user}', [UserController::class, 'destroy']);
     });
     Route::prefix('courses')->group(function () {
         Route::get('/', [CourseController::class, 'index']);
+        Route::get('/availables', [CourseController::class, 'getAvailables']);
+        Route::get('/user/{user}', [CourseController::class, 'getByUser']);
+
         Route::get('/{course}', [CourseController::class, 'get']);
         Route::get('/{course}/{student_id}', [CourseController::class, 'getStudent']);
         Route::post('/', [CourseController::class, 'store']);
@@ -53,6 +55,9 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{roster}', [RosterController::class, 'update']);
         Route::put('/{roster}/{diver_id}', [RosterController::class, 'updateDiver']);
 
+        Route::post('/{roster}/course/{course}', [RosterController::class, 'AddCourse']);
+        Route::delete('/{roster}/course/{course_id}', [RosterController::class, 'destroyCourse']);
+        Route::delete('/{roster}/diver/{user_id}', [RosterController::class, 'destroyUser']);
         Route::delete('/{roster}', [RosterController::class, 'destroy']);
     });
     Route::prefix('certifications')->group(function () {

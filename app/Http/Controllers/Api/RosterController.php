@@ -12,6 +12,7 @@ use App\Models\Roster;
 use App\Models\RosterUser;
 use App\Models\Size;
 use Illuminate\Http\Request;
+use Exception;
 
 class RosterController extends Controller
 {
@@ -78,6 +79,35 @@ class RosterController extends Controller
                 $course = Course::find($u->course_id);
             }
             $u->course = $course;
+            return response()->json(['status' => 'success']);
+        } else return response('unauthorized', 403);
+    }
+
+    public function addCourse(Request $request, Roster $roster, Course $course)
+    {
+        if ($request->user()->isAbleTo('edit_course')) {
+            foreach ($course->users as $user) {
+                try {
+                    $roster->users()->attach($user->id, ['course_id' => $course->id, 'gears' => $user->getDefaultSizes(), 'price' => $user->duty->name == 'Diver' ? $roster->price : $roster->cost]);
+                } catch (Exception $e) {
+                }
+            }
+            return response()->json(['status' => 'success']);
+        } else return response('unauthorized', 403);
+    }
+    public function destroyCourse(Request $request, Roster $roster, $course_id)
+    {
+        if ($request->user()->isAbleTo('delete_user')) {
+            $users = $roster->users()->where('course_id', $course_id)->get();
+            $roster->users()->detach($users->pluck('id'));
+            return response()->json(['status' => 'success']);
+        } else return response('unauthorized', 403);
+    }
+
+    public function destroyUser(Request $request, Roster $roster, $user_id)
+    {
+        if ($request->user()->isAbleTo('delete_user')) {
+            $roster->users()->detach($user_id);
             return response()->json(['status' => 'success']);
         } else return response('unauthorized', 403);
     }

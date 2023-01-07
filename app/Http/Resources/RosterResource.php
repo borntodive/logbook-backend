@@ -71,19 +71,20 @@ class RosterResource extends JsonResource
                     $course_name = $course->certification->name . ' ' . $course->number . '/' . $course->start_date->format('Y');
                 }
                 $divers[$course_id]['course'] = $course_name;
+                $divers[$course_id]['course_id'] = $course_id;
             }
             $divers[$course_id]['divers'][] = new RosterUserResource($user);
         }
-        if (isset($divers[$GUSTS_KEY])) {
-            $guests = $divers[$GUSTS_KEY];
-            unset($divers[$GUSTS_KEY]);
-            $c  = array_column($divers, 'course');
-            array_multisort($c, SORT_ASC, $divers);
-            $divers[$GUSTS_KEY] = $guests;
-        } else {
-            $c  = array_column($divers, 'course');
-            array_multisort($c, SORT_ASC, $divers);
+        if (!isset($divers[$GUSTS_KEY])) {
+            $divers[$GUSTS_KEY]['course']  =
+                $GUSTS_KEY;
+            $divers[$GUSTS_KEY]['divers']  = [];
         }
+        $guests = $divers[$GUSTS_KEY];
+        unset($divers[$GUSTS_KEY]);
+        $c  = array_column($divers, 'course');
+        array_multisort($c, SORT_ASC, $divers);
+        $divers[$GUSTS_KEY] = $guests;
 
         return [
             'id' => $this->id,
