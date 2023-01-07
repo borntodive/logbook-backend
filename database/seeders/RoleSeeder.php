@@ -31,75 +31,27 @@ class RoleSeeder extends Seeder
 
         $permissions = [
             [
-                'name' => 'view_all_users',
-                'roles' => [$admin, $staff]
-            ],
-            [
-                'name' => 'edit_users_role',
-                'roles' => [$admin]
-            ],
-            [
-                'name' => 'edit_users',
-                'roles' => [$admin, $staff]
-            ],
-            [
-                'name' => 'create_user',
-                'roles' => [$admin, $staff]
-            ],
-            [
-                'name' => 'delete_user',
-                'roles' => [$admin]
-            ],
-            [
-                'name' => 'edit_equipment',
-                'roles' => [$admin, $staff]
-            ],
-            [
-                'name' => 'view_all_courses',
-                'roles' => [$admin, $staff]
-            ],
-            [
-                'name' => 'create_course',
-                'roles' => [$admin, $staff]
-            ],
-            [
-                'name' => 'edit_course',
-                'roles' => [$admin, $staff]
-            ],
-            [
-                'name' => 'delete_course',
-                'roles' => [$admin]
-            ],
-            [
-                'name' => 'view_course_costs',
-                'roles' => [$admin]
-            ],
-            [
-                'name' => 'edit_settings',
-                'roles' => [$admin]
-            ],
-            [
-                'name' => 'view_price_list',
-                'roles' => [$admin, $staff]
-            ],
-            [
-                'name' => 'view-all-rosters',
-                'roles' => [$admin, $staff]
-            ],
-            [
-                'name' => 'delete-rosters',
-                'roles' => [$admin]
-            ],
-            [
                 'name' => 'view-costs',
+                'roles' => [$admin]
+            ],
+            [
+                'name' => 'view-all',
+                'roles' => [$admin, $staff]
+            ],
+            [
+                'name' => 'edit-all',
+                'roles' => [$admin, $staff]
+            ],
+            [
+                'name' => 'delete-all',
                 'roles' => [$admin]
             ],
         ];
         foreach ($permissions as $permission) {
             $p = Permission::firstOrCreate([
                 'name' => $permission['name'],
-                'display_name' => ucwords(str_replace('_', ' ', $permission['name'])),
-                'description' => ucwords(str_replace('_', ' ', $permission['name'])),
+                'display_name' => ucwords(str_replace('-', ' ', $permission['name'])),
+                'description' => ucwords(str_replace('-', ' ', $permission['name'])),
             ]);
             foreach ($permission['roles'] as $role) {
                 $role->attachPermission($p);

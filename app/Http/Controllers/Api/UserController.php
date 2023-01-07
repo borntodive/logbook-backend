@@ -16,7 +16,7 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$request->user()->isAbleTo('view_all_users'))
+        if (!$request->user()->isAbleTo('view-all'))
             return response('unauthorized', 403);
         $sort = $request->get('sort', 'lastname');
         $sortDirection = $request->get('sortDirection', 'ASC');
@@ -26,14 +26,14 @@ class UserController extends Controller
     }
     public function get(Request $request, $user_id)
     {
-        if ($request->user()->isAbleTo('view_all_users') || $request->user()->id == $user_id) {
+        if ($request->user()->isAbleTo('view-all') || $request->user()->id == $user_id) {
             $user = User::with('equipments')->findOrFail($user_id);
             return new UserResource(User::with('equipments')->findOrFail($user_id));
         } else return response('unauthorized', 403);
     }
     public function getAvailables(Request $request)
     {
-        if (!$request->user()->isAbleTo('view_all_users'))
+        if (!$request->user()->isAbleTo('view-all'))
             return response('unauthorized', 403);
         $excluded = $request->get('exclude', null);
         $courses = User::whereNotIn('id', explode('|', $excluded))->orderBy('lastname')->orderBy('firstname')->get();
@@ -41,21 +41,21 @@ class UserController extends Controller
     }
     public function getStaff(Request $request)
     {
-        if ($request->user()->isAbleTo('view_all_users')) {
+        if ($request->user()->isAbleTo('view-all')) {
 
             return MinimalUserResource::collection(User::select(['id', 'firstname', 'lastname', 'user_duty_id'])->orderBy('lastname', 'ASC')->where('user_duty_id', 3)->orWhere('user_duty_id', 2)->get());
         } else return response('unauthorized', 403);
     }
     public function getStudents(Request $request)
     {
-        if ($request->user()->isAbleTo('view_all_users')) {
+        if ($request->user()->isAbleTo('view-all')) {
 
             return MinimalUserResource::collection(User::select(['id', 'firstname', 'lastname', 'user_duty_id'])->orderBy('lastname', 'ASC')->get());
         } else return response('unauthorized', 403);
     }
     public function update(UserPostRequest $request, User $user)
     {
-        if ($request->user()->isAbleTo('edit_users') || $request->user()->id == $user->id) {
+        if ($request->user()->isAbleTo('edit-all') || $request->user()->id == $user->id) {
             $validated = $request->validated();
             $user->fill($request->safe()->except(['equipments']));
             $user->save();
@@ -76,7 +76,7 @@ class UserController extends Controller
 
     public function store(UserPostRequest $request)
     {
-        if ($request->user()->isAbleTo('create_user')) {
+        if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
             $data = $request->safe()->except(['equipments']);
             $password = uniqid();
@@ -99,7 +99,7 @@ class UserController extends Controller
     }
     public function destroy(Request $request, User $user)
     {
-        if ($request->user()->isAbleTo('delete_user')) {
+        if ($request->user()->isAbleTo('delete-all')) {
 
             $user->courses()->detach();
             $user->delete();

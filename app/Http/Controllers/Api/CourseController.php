@@ -20,7 +20,7 @@ class CourseController extends Controller
 {
     public function index(Request $request)
     {
-        if (!$request->user()->isAbleTo('view_all_courses'))
+        if (!$request->user()->isAbleTo('view-all'))
             return response('unauthorized', 403);
         $sort = $request->get('sort', 'name');
         $sortDirection = $request->get('sortDirection', 'ASC');
@@ -40,7 +40,7 @@ class CourseController extends Controller
     }
     public function getAvailables(Request $request)
     {
-        if (!$request->user()->isAbleTo('view_all_courses'))
+        if (!$request->user()->isAbleTo('view_all'))
             return response('unauthorized', 403);
         $excluded = $request->get('exclude', null);
         $courses = Course::whereNull('end_date')->whereNotIn('id', explode('|', $excluded))->get();
@@ -48,14 +48,14 @@ class CourseController extends Controller
     }
     public function get(Request $request, Course $course)
     {
-        if ($request->user()->isAbleTo('view_all_courses') || in_array($request->user()->id, $course->users()->pluck('id')->toArray())) {
+        if ($request->user()->isAbleTo('view-all') || in_array($request->user()->id, $course->users()->pluck('id')->toArray())) {
             return new CourseResource($course);
         } else return response('unauthorized', 403);
     }
 
     public function getStudent(Request $request, Course $course, $student_id)
     {
-        if ($request->user()->isAbleTo('view_all_courses') || $request->user()->id == $student_id) {
+        if ($request->user()->isAbleTo('view-all') || $request->user()->id == $student_id) {
             $course->student_id = $student_id;
             return new StudentResource($course);
         } else return response('unauthorized', 403);
@@ -63,7 +63,7 @@ class CourseController extends Controller
     public function getByUser(Request $request, $user_id)
     {
 
-        if ($request->user()->isAbleTo('view_all_courses') || $request->user()->id == $user_id) {
+        if ($request->user()->isAbleTo('view-all') || $request->user()->id == $user_id) {
             $sort = $request->get('sort', 'name');
             $sortDirection = $request->get('sortDirection', 'ASC');
             $search = $request->get('search', '');
@@ -80,7 +80,7 @@ class CourseController extends Controller
     }
     public function store(CoursePostRequest $request)
     {
-        if ($request->user()->isAbleTo('create_course')) {
+        if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
             $data = $request->safe()->except(['users']);
             $cYear = Carbon::parse($data['start_date'])->format('Y');
@@ -107,7 +107,7 @@ class CourseController extends Controller
     }
     public function update(CoursePostRequest $request, Course $course)
     {
-        if ($request->user()->isAbleTo('edit_course')) {
+        if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
             $data = $request->safe()->except(['users']);
             $isSameCertification = $course->certification_id == $data['certification_id'];
@@ -136,7 +136,7 @@ class CourseController extends Controller
 
     public function updateStudent(StudentPostRequest $request, Course $course, $student_id)
     {
-        if ($request->user()->isAbleTo('edit_course')) {
+        if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
             $data = collect($request->safe())->toArray();
             $u = $course->users()->where('user_id', $student_id)->first();
@@ -151,7 +151,7 @@ class CourseController extends Controller
     }
     public function destroy(Request $request, Course $course)
     {
-        if ($request->user()->isAbleTo('delete_course')) {
+        if ($request->user()->isAbleTo('delete-all')) {
 
             $course->users()->detach();
             $course->delete();
@@ -160,7 +160,7 @@ class CourseController extends Controller
     }
     public function updateExercise(ExercisePostRequest $request, Course $course, $student_id)
     {
-        if ($request->user()->isAbleTo('edit_course')) {
+        if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
 
             $u = $course->users()->where('user_id', $student_id)->first();
