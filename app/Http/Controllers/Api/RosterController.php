@@ -119,7 +119,7 @@ class RosterController extends Controller
     }
     public function destroyCourse(Request $request, Roster $roster, $course_id)
     {
-        if ($request->user()->isAbleTo('delete-all')) {
+        if ($request->user()->isAbleTo('edit-all')) {
             if ($course_id !== 'GUESTS')
                 $users = $roster->users()->where('course_id', $course_id)->get();
             else
@@ -131,7 +131,7 @@ class RosterController extends Controller
 
     public function destroyUser(Request $request, Roster $roster, $user_id)
     {
-        if ($request->user()->isAbleTo('delete-all')) {
+        if ($request->user()->isAbleTo('edit-all')) {
             $roster->users()->detach($user_id);
             return response()->json(['status' => 'success']);
         } else return response('unauthorized', 403);
