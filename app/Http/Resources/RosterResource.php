@@ -53,10 +53,7 @@ class RosterResource extends JsonResource
     public function toArray($request)
     {
         $GUSTS_KEY = 'GUESTS';
-        $types = [
-            1 => "POOL",
-            2 => "DIVE"
-        ];
+
         $divers = null;
         foreach ($this->users as $user) {
             $course_id = $user->pivot->course_id;
@@ -95,7 +92,7 @@ class RosterResource extends JsonResource
             'cost' => $this->cost,
             'price' => $this->price,
             'diving' => $this->diving,
-            'type' => $types[$this->type],
+            'type' => $this->type,
             'divers' => array_values($divers)
         ];
     }

@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('note')->nullable();
             $table->float('cost')->nullable();
             $table->float('price')->nullable();
-            $table->integer('type')->default(1);
+            $table->string('type')->default('POOL');
             $table->timestamps();
         });
     }

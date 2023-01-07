@@ -3,13 +3,13 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
-use App\Models\Equipment;
+use App\Models\Diving;
 use Illuminate\Http\Request;
 
-class EquipmentController extends Controller
+class DivingController extends Controller
 {
     public function index(Request $request)
     {
-        return response()->json(Equipment::with('sizes')->orderBy('name')->get());
+        return response()->json(Diving::get());
     }
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\EquipmentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CertificationController;
+use App\Http\Controllers\Api\DivingController;
 use App\Http\Controllers\Api\RosterController;
 use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\UserController;
@@ -49,6 +50,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('rosters')->group(function () {
         Route::get('/', [RosterController::class, 'index']);
         Route::get('/{roster}', [RosterController::class, 'get']);
+        Route::put('/{roster}', [RosterController::class, 'update']);
+        Route::put('/{roster}/{diver_id}', [RosterController::class, 'updateDiver']);
+
         Route::delete('/{roster}', [RosterController::class, 'destroy']);
     });
     Route::prefix('certifications')->group(function () {
@@ -62,6 +66,10 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::prefix('equipments')->group(function () {
         Route::get('/', [EquipmentController::class, 'index']);
+        //Route::get('/{user_id}', [UserController::class, 'get']);
+    });
+    Route::prefix('divings')->group(function () {
+        Route::get('/', [DivingController::class, 'index']);
         //Route::get('/{user_id}', [UserController::class, 'get']);
     });
 });

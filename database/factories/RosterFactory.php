@@ -21,7 +21,7 @@ class RosterFactory extends Factory
             = Diving::inRandomOrder()->first();
         return [
             'date' => fake()->dateTime(),
-            'type' => fake()->numberBetween(1, 2),
+            'type' => fake()->randomElement(['POOL', 'DIVE']),
             'diving_id' => $diving->id,
             'note' => fake()->sentences(2, true),
             'cost' => fake()->numberBetween(50, 90),
