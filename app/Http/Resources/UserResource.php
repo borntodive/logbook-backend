@@ -33,7 +33,6 @@ class UserResource extends JsonResource
             'lastname' => $this->lastname,
             'gender' => $this->gender,
             'phone' => $this->phone,
-            'cf' => $this->cf,
             'height' => $this->height,
             'weight' => $this->weight,
             'birthdate' => $this->birthdate ? $this->birthdate->format('Y-m-d') : null,
