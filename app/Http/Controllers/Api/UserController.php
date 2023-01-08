@@ -111,11 +111,16 @@ class UserController extends Controller
         if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
             $data = $request->safe()->except(['equipments']);
-            $password = uniqid();
+            $password = 'password';
             $data['password'] = Hash::make($password);
             $user = User::create($data);
             $user->save();
+            $userRole = Role::where(
+                'name',
+                'user'
+            )->first();
             $equipments = $request->safe()->only(['equipments']);
+            $user->attachRole($userRole);
             $user->equipments()->detach();
             foreach ($equipments['equipments'] as $id => $equipment) {
                 $eq = Equipment::where('name', $equipment['equipment'])->first();

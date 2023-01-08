@@ -32,13 +32,15 @@ class UserPostRequest extends FormRequest
             'lastname' => 'required',
             'email' => 'required|email',
             'birthdate' => 'required|date',
-             'cf' => ['required', new CodiceFiscale],
-            'gender' => ['required',Rule::in(['male', 'female']),],
-             'height' => 'required|numeric',
-             'weight' => 'required|numeric',
-             'phone' => ['required', new PhoneNumber],
-             'equipments.*.equipment' => 'required|exists:equipment,name',
-             'equipments.*.size' => ['required', new Size],
+            'user_duty_id' => 'required|exists:user_duties,id',
+
+            'cf' => ['required', new CodiceFiscale],
+            'gender' => ['required', Rule::in(['male', 'female']),],
+            'height' => 'required|numeric',
+            'weight' => 'required|numeric',
+            'phone' => ['required', new PhoneNumber],
+            'equipments.*.equipment' => 'required|exists:equipment,name',
+            'equipments.*.size' => ['required', new Size],
 
         ];
     }
