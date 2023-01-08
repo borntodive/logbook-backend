@@ -25,7 +25,6 @@ class AuthController extends Controller
             if (Hash::check($request->password, $user->password)) {
 
                 return new LoginResource($user);
-
             } else {
                 $response = ['message' => 'Not Found'];
 
@@ -37,9 +36,29 @@ class AuthController extends Controller
             return response($response, 404);
         }
     }
-     public function logout(Request $request)
+    public function updatePassword(Request $request)
     {
-        $user=$request()->auth()->user();
+        $validator = Validator::make($request->all(), [
+            'old_password' => 'required|string',
+            'password' => 'required|string|confirmed|min:6',
+        ]);
+        if ($validator->fails()) {
+            return response(['errors' => $validator->errors()->all()], 422);
+        }
+        $user = $request->user();
+        if (Hash::check($request->old_password, $user->password)) {
+            $user->password = Hash::make($request->password);
+            $user->save();
+            return response()->json(['message' => 'success']);
+        } else {
+            $response = ['message' => 'Not Found'];
+
+            return response($response, 404);
+        }
+    }
+    public function logout(Request $request)
+    {
+        $user = $request->user();
         $user->tokens()->delete();
     }
 }
