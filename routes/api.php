@@ -31,10 +31,14 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::get('/availables', [UserController::class, 'getAvailables']);
 
+        Route::get('/roles', [UserController::class, 'getRoles']);
+        Route::get('/duties', [UserController::class, 'getDuties']);
         Route::get('/staff', [UserController::class, 'getStaff']);
         Route::get('/students', [UserController::class, 'getStudents']);
+        Route::get('/{user}/role', [UserController::class, 'getUserRole']);
         Route::get('/{user_id}', [UserController::class, 'get']);
         Route::post('/', [UserController::class, 'store']);
+        Route::post('/{user}/role', [UserController::class, 'updateRole']);
         Route::put('/{user}', [UserController::class, 'update']);
         Route::delete('/{user}', [UserController::class, 'destroy']);
     });

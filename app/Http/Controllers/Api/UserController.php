@@ -6,10 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\UserPostRequest;
 use App\Http\Resources\MinimalUserResource;
 use App\Models\Equipment;
+use App\Models\Role;
 use App\Models\Size;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
+use App\Models\UserDuty;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -31,6 +33,28 @@ class UserController extends Controller
             return new UserResource(User::with('equipments')->findOrFail($user_id));
         } else return response('unauthorized', 403);
     }
+    public function getDuties(Request $request)
+    {
+        if (!$request->user()->isAbleTo('view-all'))
+            return response('unauthorized', 403);
+        $duties = UserDuty::get();
+        return response()->json($duties);
+    }
+    public function getRoles(Request $request)
+    {
+        if (!$request->user()->isAbleTo('manage-roles'))
+            return response('unauthorized', 403);
+        $roles = Role::get();
+        return response()->json($roles);
+    }
+    public function updateRole(Request $request, User $user)
+    {
+        if (!$request->user()->isAbleTo('manage-roles'))
+            return response('unauthorized', 403);
+        $role = $request->input('role');
+        $user->syncRoles([$role]);
+        return response()->json(['message' => 'success']);
+    }
     public function getAvailables(Request $request)
     {
         if (!$request->user()->isAbleTo('view-all'))
@@ -39,6 +63,14 @@ class UserController extends Controller
         $courses = User::whereNotIn('id', explode('|', $excluded))->orderBy('lastname')->orderBy('firstname')->get();
         return MinimalUserResource::collection($courses);
     }
+    public function getUserRole(Request $request, User $user)
+    {
+        if (!$request->user()->isAbleTo('manage-roles'))
+            return response('unauthorized', 403);
+        $role = $user->roles()->first();
+        return response()->json(['role_id' => $role->id]);
+    }
+
     public function getStaff(Request $request)
     {
         if ($request->user()->isAbleTo('view-all')) {

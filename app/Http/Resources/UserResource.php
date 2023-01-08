@@ -15,6 +15,7 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
+
         $sizes = [];
         $allSizes = Size::get();
         foreach ($this->equipments as $equipment) {
@@ -38,7 +39,8 @@ class UserResource extends JsonResource
             'birthdate' => $this->birthdate ? $this->birthdate->format('Y-m-d') : null,
             'email' => $this->email,
             'sizes' => $sizes,
-            'duty' => $this->user_duty_id,
+            'duty' => $this->duty,
+            'role' => $this->roles()->first()
         ];
     }
 }

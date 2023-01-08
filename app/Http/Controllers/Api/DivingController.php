@@ -10,6 +10,8 @@ class DivingController extends Controller
 {
     public function index(Request $request)
     {
+        if (!$request->user()->isAbleTo('view-all'))
+            return response('unauthorized', 403);
         return response()->json(Diving::get());
     }
 }

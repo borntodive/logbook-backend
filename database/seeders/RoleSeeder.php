@@ -46,6 +46,14 @@ class RoleSeeder extends Seeder
                 'name' => 'delete-all',
                 'roles' => [$admin]
             ],
+            [
+                'name' => 'manage-roles',
+                'roles' => [$admin]
+            ],
+            [
+                'name' => 'manage-gears',
+                'roles' => [$admin]
+            ],
         ];
         foreach ($permissions as $permission) {
             $p = Permission::firstOrCreate([
