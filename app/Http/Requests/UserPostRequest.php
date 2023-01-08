@@ -33,7 +33,7 @@ class UserPostRequest extends FormRequest
             'email' => 'required|email',
             'birthdate' => 'required|date',
             'user_duty_id' => 'required|exists:user_duties,id',
-
+            'ssi_number' => 'required',
             'cf' => ['required', new CodiceFiscale],
             'gender' => ['required', Rule::in(['male', 'female']),],
             'height' => 'required|numeric',

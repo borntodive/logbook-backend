@@ -40,6 +40,8 @@ class UserResource extends JsonResource
             'email' => $this->email,
             'sizes' => $sizes,
             'duty' => $this->duty,
+            'ssi_number' => $this->ssi_number,
+
             'role' => $this->roles()->first()
         ];
     }
