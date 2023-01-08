@@ -40,7 +40,7 @@ class CourseController extends Controller
     }
     public function getAvailables(Request $request)
     {
-        if (!$request->user()->isAbleTo('view_all'))
+        if (!$request->user()->isAbleTo('view-all'))
             return response('unauthorized', 403);
         $excluded = $request->get('exclude', null);
         $courses = Course::whereNull('end_date')->whereNotIn('id', explode('|', $excluded))->get();
