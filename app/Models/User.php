@@ -98,7 +98,9 @@ class User extends Authenticatable
             unset($s['user_id']);
             $s['name'] = $equipment->name;
             $foundSize = $allSizes->firstWhere('id', $s['size_id']);
-            $s['size'] = $foundSize ? $foundSize->name : null;
+            $s['size'] = null;
+            if (!$equipment->owned)
+                $s['size'] = $foundSize ? $foundSize->name : null;
             $sizes[] = $s;
         }
         return $sizes;
