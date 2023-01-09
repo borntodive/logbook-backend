@@ -20,7 +20,7 @@ class RosterUserResource extends JsonResource
         $in_charge = false;
         $teaching = false;
 
-        if ($course !== $GUSTS_KEY) {
+        if ($course && $course !== $GUSTS_KEY) {
             dd($course);
             $courseUser = $course->users->where('id', $this->id)->first();
             if ($courseUser) {
