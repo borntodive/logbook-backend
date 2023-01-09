@@ -99,7 +99,7 @@ class User extends Authenticatable
             $s['name'] = $equipment->name;
             $foundSize = $allSizes->firstWhere('id', $s['size_id']);
             $s['size'] = null;
-            if (!$equipment->owned)
+            if (!$s['owend'])
                 $s['size'] = $foundSize ? $foundSize->name : null;
             $sizes[] = $s;
         }
