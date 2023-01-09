@@ -71,7 +71,7 @@ class User extends Authenticatable
 
     public function equipments()
     {
-        return $this->belongsToMany(Equipment::class)->withPivot(['size_id', 'number']);
+        return $this->belongsToMany(Equipment::class)->withPivot(['size_id', 'number', 'owned'])->using(EquipmentUser::class);;
     }
 
     public function courses()

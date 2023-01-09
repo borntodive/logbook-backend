@@ -38,8 +38,9 @@ class UserPostRequest extends FormRequest
             'height' => 'required|numeric',
             'weight' => 'required|numeric',
             'phone' => ['required', new PhoneNumber],
-            'equipments.*.equipment' => 'required|exists:equipment,name',
+            'equipments.*.equipment' => 'required|exists:equipment,id',
             'equipments.*.size' => ['required', new Size],
+            'equipments.*.owned' => ['required'],
 
         ];
     }

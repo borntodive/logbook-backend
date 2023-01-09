@@ -22,7 +22,7 @@ return new class extends Migration
             $table->foreignIdFor(Size::class)->nullable();
             $table->integer('number')->nullable();
             $table->timestamps();
-            $table->primary(['equipment_id','user_id']);
+            $table->primary(['equipment_id', 'user_id']);
         });
     }
 

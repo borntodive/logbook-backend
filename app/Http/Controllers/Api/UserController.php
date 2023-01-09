@@ -94,12 +94,12 @@ class UserController extends Controller
             $equipments = $request->safe()->only(['equipments']);
             $user->equipments()->detach();
             foreach ($equipments['equipments'] as $id => $equipment) {
-                $eq = Equipment::where('name', $equipment['equipment'])->first();
+                $eq = Equipment::where('id', $equipment['equipment'])->first();
                 if (is_numeric($equipment['size'])) {
-                    $user->equipments()->attach($eq->id, ['number' => $equipment['size']]);
+                    $user->equipments()->attach($equipment['equipment'], ['number' => $equipment['size'], 'owned' => $equipment['owned']]);
                 } else {
                     $size = Size::where('name', $equipment['size'])->first();
-                    $user->equipments()->attach($eq->id, ['size_id' => $size->id]);
+                    $user->equipments()->attach($equipment['equipment'], ['size_id' => $size->id, 'owned' => $equipment['owned']]);
                 }
             }
             return new UserResource($user);
@@ -123,12 +123,12 @@ class UserController extends Controller
             $user->attachRole($userRole);
             $user->equipments()->detach();
             foreach ($equipments['equipments'] as $id => $equipment) {
-                $eq = Equipment::where('name', $equipment['equipment'])->first();
+                $eq = Equipment::where('id', $equipment['equipment'])->first();
                 if (is_numeric($equipment['size'])) {
-                    $user->equipments()->attach($eq->id, ['number' => $equipment['size']]);
+                    $user->equipments()->attach($equipment['equipment'], ['number' => $equipment['size'], 'owned' => $equipment['owned']]);
                 } else {
                     $size = Size::where('name', $equipment['size'])->first();
-                    $user->equipments()->attach($eq->id, ['size_id' => $size->id]);
+                    $user->equipments()->attach($equipment['equipment'], ['size_id' => $size->id, 'owned' => $equipment['owned']]);
                 }
             }
             return new UserResource($user);

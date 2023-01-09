@@ -19,16 +19,17 @@ class UserResource extends JsonResource
         $sizes = [];
         $allSizes = Size::get();
         foreach ($this->equipments as $equipment) {
-
             $s = $equipment->pivot->toArray();
             unset($s['user_id']);
             $s['name'] = $equipment->name;
             $foundSize = $allSizes->firstWhere('id', $s['size_id']);
             $s['size'] = $foundSize ? $foundSize->name : null;
+
             $sizes[] = $s;
         }
         return [
             'id' => $this->id,
+            'avatar' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
             'gender' => $this->gender,
