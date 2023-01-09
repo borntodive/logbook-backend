@@ -68,7 +68,7 @@ class RosterResource extends JsonResource
 
             if (!isset($divers[$course_id])) {
                 $course_name = $course_id;
-                if ($course->certification) {
+                if ($course) {
                     $course_name = $course->certification->name . ' ' . $course->number . '/' . $course->start_date->format('Y');
                 }
                 $divers[$course_id]['course'] = $course_name;
