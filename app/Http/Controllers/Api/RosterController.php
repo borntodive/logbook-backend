@@ -80,9 +80,14 @@ class RosterController extends Controller
             ], false);
             $u = $roster->users()->where('user_id', $diver_id)->first();
             if ($isDefault) {
-                $u->equipments()->detach();
+                //$u->equipments()->detach();
+
                 foreach ($data['gears'] as $id => $equipment) {
-                    $u->equipments()->attach($equipment['equipment_id'], ['number' => $equipment['number'], 'size_id' => $equipment['size_id']]);
+                    $e = $u->equipments()->where('equipment_id', $equipment['equipment_id'])->first();
+                    if (!$e->pivot->owned) {
+                        $u->equipments()->detach($equipment['equipment_id']);
+                        $u->equipments()->attach($equipment['equipment_id'], ['number' => $equipment['number'], 'size_id' => $equipment['size_id']]);
+                    }
                 }
             }
 
