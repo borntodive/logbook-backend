@@ -58,6 +58,7 @@ class RosterResource extends JsonResource
         $divers = null;
         foreach ($this->users as $user) {
             $course_id = $user->pivot->course_id;
+            $course = null;
             if (!$course_id) {
                 $course_id = $GUSTS_KEY;
                 $user->course = $GUSTS_KEY;

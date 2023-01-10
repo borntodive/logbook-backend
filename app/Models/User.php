@@ -101,6 +101,10 @@ class User extends Authenticatable
             $s['size'] = null;
             if (!$s['owned'])
                 $s['size'] = $foundSize ? $foundSize->name : null;
+            else {
+                $s['size_id'] = null;
+                $s['number'] = null;
+            }
             $sizes[] = $s;
         }
         return $sizes;
