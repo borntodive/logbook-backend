@@ -53,6 +53,30 @@ class CourseController extends Controller
         } else return response('unauthorized', 403);
     }
 
+    public function duplicate(Request $request, Course $course)
+    {
+        if ($request->user()->isAbleTo('edit-all')) {
+            $newCourse = new Course();
+            $cYear = Carbon::parse($course->start_date)->format('Y');
+
+            $latestCourse = Course::where('certification_id', $course->certification_id)->whereYear('start_date', $cYear)->orderBy('number', 'DESC')->first();
+            $number = 1;
+            if ($latestCourse)
+                $number = $latestCourse->number + 1;
+            $newCourse->certification_id = $course->certification_id;
+            $newCourse->number = $number;
+            $newCourse->start_date = $course->start_date;
+            $newCourse->save();
+            foreach ($course->users as $id => $user) {
+                $progress = null;
+                if (!$user->pivot->teaching) {
+                    $progress = $course->getEmptyProgress();
+                }
+                $newCourse->users()->attach($user->id, ['in_charge' => $user->pivot->in_charge, 'teaching' => $user->pivot->teaching, 'price' => $newCourse->certification->price, 'progress' => $progress]);
+            }
+            return response()->json(['id' => $newCourse->id]);
+        } else return response('unauthorized', 403);
+    }
     public function getStudent(Request $request, Course $course, $student_id)
     {
         if ($request->user()->isAbleTo('view-all') || $request->user()->id == $student_id) {
@@ -167,13 +191,29 @@ class CourseController extends Controller
             $data = collect($request->safe())->toArray();
             $is_activity = $data['is_activity'];
             unset($data['is_activity']);
-            $old_progress = $u->pivot->progress;
-            $this->recuriveForEach($old_progress, $data, $is_activity);
-            $syncData['progress'] = $old_progress;
-            $course->users()->sync([
-                $student_id => $syncData,
-            ], false);
+            $apply_all = $data['apply_all'];
+            unset($data['apply_all']);
+            if (!$apply_all) {
+                $old_progress = $u->pivot->progress;
+                $this->recuriveForEach($old_progress, $data, $is_activity);
+                $syncData['progress'] = $old_progress;
+                $course->users()->sync([
+                    $student_id => $syncData,
+                ], false);
+            } else {
+                $students = $course->users()->where('teaching', false)->get();
+                foreach ($students as $student) {
+
+                    $old_progress = $student->pivot->progress;
+                    $this->recuriveForEach($old_progress, $data, $is_activity);
+                    $syncData['progress'] = $old_progress;
+                    $course->users()->sync([
+                        $student->id => $syncData,
+                    ], false);
+                }
+            }
             $course->student_id = $student_id;
+
             return new StudentResource($course);
         } else return response('unauthorized', 403);
     }
@@ -197,7 +237,6 @@ class CourseController extends Controller
                                 $value['instructor']['number'] = $instr->ssi_number;
                                 $value['instructor']['id'] = $instr->id;
                             }
-
                             $value = array_merge($value, $data);
                             break;
                         }

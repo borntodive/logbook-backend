@@ -51,6 +51,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{course}', [CourseController::class, 'get']);
         Route::get('/{course}/{student_id}', [CourseController::class, 'getStudent']);
         Route::post('/', [CourseController::class, 'store']);
+        Route::post('/duplicate/{course}', [CourseController::class, 'duplicate']);
+
         Route::put('/{course}', [CourseController::class, 'update']);
         Route::put('/{course}/{student_id}/exercise', [CourseController::class, 'updateExercise']);
         Route::put('/{course}/{student_id}', [CourseController::class, 'updateStudent']);

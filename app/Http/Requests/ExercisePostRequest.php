@@ -31,7 +31,8 @@ class ExercisePostRequest extends FormRequest
             'id' => 'required',
             'instructor' => 'numeric|nullable',
             'date' => 'date|nullable',
-            'is_activity' => 'boolean'
+            'is_activity' => 'boolean',
+            'apply_all' => 'boolean',
         ];
     }
 }
