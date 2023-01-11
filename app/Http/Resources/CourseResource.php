@@ -16,6 +16,22 @@ class CourseResource extends JsonResource
     public function toArray($request)
     {
         $users = [];
+        $maxPoints = 0;
+        $userStatus = [];
+        foreach ($this->users as $user) {
+            $points = 0;
+            $allCompleted = true;
+            if (!$user->pivot->teaching) {
+                $this->caluculatePoint($user->pivot->progress, $points, $allCompleted);
+                $userStatus[$user->pivot->user_id]['points'] = $points;
+                if ($points > $maxPoints)
+                    $maxPoints = $points;
+                $userStatus[$user->pivot->user_id]['all_completed'] = $allCompleted;
+            } else {
+                $userStatus[$user->pivot->user_id]['points'] = $points;
+                $userStatus[$user->pivot->user_id]['all_completed'] = $allCompleted;
+            }
+        }
         foreach ($this->users as $user) {
             $users[] = [
                 'data' => new CourseUserResource($user),
@@ -26,6 +42,8 @@ class CourseResource extends JsonResource
                 'payment_1' => $user->pivot->payment_1,
                 'payment_2' => $user->pivot->price,
                 'payment_3' => $user->pivot->price,
+                'timeline' => $userStatus[$user->pivot->user_id]['all_completed'] &&
+                    $userStatus[$user->pivot->user_id]['points'] == $maxPoints ? 'ONTIME' : "DELAYED",
                 'payment_complete' => $user->pivot->price - $user->pivot->payment_1 - $user->pivot->payment_2 - $user->pivot->payment_3 <= 0 ? true : false,
             ];
         }
@@ -39,5 +57,26 @@ class CourseResource extends JsonResource
             'image' => Storage::url('images/courses/' . $this->certification->code . '.jpg'),
             'users' => $users,
         ];
+    }
+
+    private function caluculatePoint($array, &$points, &$allCompleted)
+    {
+        foreach ($array as $idx => $item) {
+
+            if (isset($item['values'])) {
+                if (!isset($item['values'][0]['values'])) {
+                    $done = 0;
+                    foreach ($item['values'] as $exercise) {
+                        if ($exercise['date']) {
+                            $points++;
+                            $done++;
+                        }
+                    }
+                    if ($done < count($item['values']) & $done > 0)
+                        $allCompleted = false;
+                }
+                $this->caluculatePoint($item['values'], $points, $allCompleted);
+            }
+        }
     }
 }
