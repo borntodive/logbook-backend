@@ -135,6 +135,15 @@ class CourseController extends Controller
             $validated = $request->validated();
             $data = $request->safe()->except(['users']);
             $isSameCertification = $course->certification_id == $data['certification_id'];
+            if (!$isSameCertification) {
+                $cYear = Carbon::parse($data['start_date'])->format('Y');
+
+                $latestCourse = Course::where('certification_id', $data['certification_id'])->whereYear('start_date', $cYear)->orderBy('number', 'DESC')->first();
+                $data['number'] = 1;
+                if ($latestCourse)
+                    $data['number'] = $latestCourse->number + 1;
+            }
+
             $course->fill($data);
 
             $course->save();
