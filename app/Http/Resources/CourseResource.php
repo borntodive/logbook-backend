@@ -40,8 +40,11 @@ class CourseResource extends JsonResource
                 'progress' => $user->pivot->progress,
                 'price' => $user->pivot->price,
                 'payment_1' => $user->pivot->payment_1,
-                'payment_2' => $user->pivot->price,
-                'payment_3' => $user->pivot->price,
+                'payment_2' => $user->pivot->payment_2,
+                'payment_3' => $user->pivot->payment_3,
+                'payment_1_date' => $user->pivot->payment_1_date,
+                'payment_2_date' => $user->pivot->payment_2_date,
+                'payment_3_date' => $user->pivot->payment_3_date,
                 'timeline' => $userStatus[$user->pivot->user_id]['all_completed'] &&
                     $userStatus[$user->pivot->user_id]['points'] == $maxPoints ? 'ONTIME' : "DELAYED",
                 'payment_complete' => $user->pivot->price - $user->pivot->payment_1 - $user->pivot->payment_2 - $user->pivot->payment_3 <= 0 ? true : false,

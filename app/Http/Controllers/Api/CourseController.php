@@ -175,6 +175,12 @@ class CourseController extends Controller
             $u = $course->users()->where('user_id', $student_id)->first();
             $old_progress = $u->pivot->progress;
             $data['progress'] = $old_progress;
+            if ($data['payment_1'] != $u->pivot->payment_1)
+                $data['payment_1_date'] = now();
+            if ($data['payment_2'] != $u->pivot->payment_2)
+                $data['payment_2_date'] = now();
+            if ($data['payment_3'] != $u->pivot->payment_3)
+                $data['payment_3_date'] = now();
             $course->users()->sync([
                 $student_id => $data,
             ], false);

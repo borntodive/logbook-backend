@@ -23,6 +23,9 @@ class StudentResource extends JsonResource
             'payment_1' => $user->pivot->payment_1,
             'payment_2' => $user->pivot->payment_2,
             'payment_3' => $user->pivot->payment_3,
+            'payment_1_date' => $user->pivot->payment_1_date,
+            'payment_2_date' => $user->pivot->payment_2_date,
+            'payment_3_date' => $user->pivot->payment_3_date,
             'payment_complete' => $user->pivot->price - $user->pivot->payment_1 - $user->pivot->payment_2 - $user->pivot->payment_3 <= 0 ? true : false,
             'progress' => $user->pivot->progress,
         ];

@@ -76,7 +76,7 @@ class User extends Authenticatable
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3'])->using(CourseUser::class);;
+        return $this->belongsToMany(Course::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3', 'payment_1_date', 'payment_2_date', 'payment_3_date'])->using(CourseUser::class);;
     }
 
     public function rosters()
