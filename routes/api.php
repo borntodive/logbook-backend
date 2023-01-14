@@ -88,6 +88,13 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::prefix('divings')->group(function () {
         Route::get('/', [DivingController::class, 'index']);
+        Route::get('/all', [DivingController::class, 'indexAll']);
+        Route::get('/{diving}', [DivingController::class, 'get']);
+        Route::post('/', [DivingController::class, 'store']);
+        Route::put('/{diving}', [DivingController::class, 'update']);
+        Route::delete('/{diving}', [DivingController::class, 'destroy']);
+
+
         //Route::get('/{user_id}', [UserController::class, 'get']);
     });
 });
