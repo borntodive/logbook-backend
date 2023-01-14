@@ -33,6 +33,7 @@ class RosterPostRequest extends FormRequest
             'diving_id' => 'required|exists:divings,id',
             'price' => 'numeric|nullable',
             'cost' => 'numeric|nullable',
+            'gratuities' => 'numeric|nullable',
         ];
     }
 }

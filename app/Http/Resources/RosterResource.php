@@ -96,6 +96,8 @@ class RosterResource extends JsonResource
             'price' => $this->price,
             'diving' => $this->diving,
             'type' => $this->type,
+            'gratuities' => $this->gratuities,
+
             'divers' => array_values($divers)
         ];
     }

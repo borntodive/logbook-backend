@@ -19,13 +19,18 @@ class RosterFactory extends Factory
     {
         $diving
             = Diving::inRandomOrder()->first();
+        $type = fake()->randomElement(['POOL', 'DIVE']);
+        $cost = 0;
+        if ($type == 'DIVE')
+            $cost = fake()->numberBetween(50, 90);
+        $price = $cost + ($cost * (10 / 100));
         return [
             'date' => fake()->dateTime(),
-            'type' => fake()->randomElement(['POOL', 'DIVE']),
+            'type' => $type,
             'diving_id' => $diving->id,
             'note' => fake()->sentences(2, true),
-            'cost' => fake()->numberBetween(50, 90),
-            'price' => fake()->numberBetween(50, 90),
+            'cost' => $cost,
+            'price' => $price,
         ];
     }
 }

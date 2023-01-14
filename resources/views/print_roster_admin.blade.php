@@ -12,39 +12,37 @@
 </head>
 
 <body>
-
     <div class="mx-4">
+        @php
+            $total_divers = 0;
+            $total_price = 0;
+        @endphp
         <div class="card border-dark mb-3">
             <div class="card-body">
                 @php
-                    $rosterType = '';
-                    if ($roster->type == 'POOL') {
-                        $rosterType = 'Piscina';
-                    } elseif ($roster->type == 'DIVE') {
-                        $rosterType = 'Immersione';
-                    } elseif ($roster->type == 'THEORY') {
-                        $rosterType = 'Teoria';
-                    }
-
+                    $rosterType = 'Amministrativo';
                 @endphp
                 <h5 class="card-title">Roster
                     {{ $rosterType }}
                     del
-                    {{ date('d-m-Y H:i', strtotime($roster->date)) }}</h5>
+                    {{ date('d-m-Y H:i', strtotime($roster->date)) }}
+                </h5>
             </div>
         </div>
         <div class="card border-dark mb-3">
             <div class="card-header">Diving</div>
-
             <div class="card-body">
                 <h6>{{ $roster->diving->name }}</h6>
                 <div class="row">
                     <div class="col-6">
-                        {{ $roster->diving->address }} </div>
+                        {{ $roster->diving->address }}
+                    </div>
                     <div class="col">
-                        {{ $roster->diving->phone }} </div>
+                        {{ $roster->diving->phone }}
+                    </div>
                     <div class="col">
-                        {{ $roster->diving->email }} </div>
+                        {{ $roster->diving->email }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -57,9 +55,10 @@
                             <tr>
                                 <th scope="col"></th>
                                 <th scope="col">Nominativo</th>
-                                @foreach ($equipments as $equipment)
-                                    <th style="text-align: center" scope="col">{{ $equipment['translation'] }}</th>
-                                @endforeach
+                                <th scope="col" style="text-align: right">Saldo</th>
+                                <th scope="col" style="text-align: right">Pagato</th>
+
+
                             </tr>
                         </thead>
                         <tbody>
@@ -70,8 +69,13 @@
 
                             @endphp
                             @foreach ($divers as $diver)
+                                @php
+
+                                    $total_divers++;
+                                    $total_price += $diver->price ? $diver->price : 0;
+                                @endphp
                                 <tr>
-                                    <td>
+                                    <th scope="col">
                                         @if ($diver->in_charge)
                                             @php
                                                 $img = base64_encode('<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><!--! Font Awesome Pro 6.2.1 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license (Commercial License) Copyright 2022 Fonticons, Inc. --><path d="M16 0H144c5.3 0 10.3 2.7 13.3 7.1l81.1 121.6c-49.5 4.1-94 25.6-127.6 58.3L2.7 24.9C-.6 20-.9 13.7 1.9 8.5S10.1 0 16 0zM509.3 24.9L401.2 187.1c-33.5-32.7-78.1-54.2-127.6-58.3L354.7 7.1c3-4.5 8-7.1 13.3-7.1H496c5.9 0 11.3 3.2 14.1 8.5s2.5 11.5-.8 16.4zM432 336c0 97.2-78.8 176-176 176s-176-78.8-176-176s78.8-176 176-176s176 78.8 176 176zM264.4 241.1c-3.4-7-13.3-7-16.8 0l-22.4 45.4c-1.4 2.8-4 4.7-7 5.1L168 298.9c-7.7 1.1-10.7 10.5-5.2 16l36.3 35.4c2.2 2.2 3.2 5.2 2.7 8.3l-8.6 49.9c-1.3 7.6 6.7 13.5 13.6 9.9l44.8-23.6c2.7-1.4 6-1.4 8.7 0l44.8 23.6c6.9 3.6 14.9-2.2 13.6-9.9l-8.6-49.9c-.5-3 .5-6.1 2.7-8.3l36.3-35.4c5.6-5.4 2.5-14.8-5.2-16l-50.1-7.3c-3-.4-5.7-2.4-7-5.1l-22.4-45.4z"/></svg>');
@@ -86,27 +90,12 @@
                                             <img src="data:image/svg+xml;base64,{{ $img }}" width="15px"
                                                 style="margin-auto" />
                                         @endif
-                                    </td>
+                                    </th>
                                     <td>{{ $diver->lastname }} {{ $diver->firstname }}</td>
-                                    @foreach ($equipments as $key => $equipment)
-                                        @php
-                                            $currentSize = '';
-                                            foreach ($diver->gears as $gear) {
-                                                if ($gear->name == $equipment['name']) {
-                                                    if ($gear->size && isset($sizes[$gear->size])) {
-                                                        $currentSize = $sizes[$gear->size];
-                                                    } elseif ($gear->number) {
-                                                        $currentSize = $gear->number;
-                                                    } else {
-                                                        $currentSize = $gear->size;
-                                                    }
-                                                    break;
-                                                }
-                                            }
-
-                                        @endphp
-                                        <td style="text-align: center">{{ $currentSize }}</td>
-                                    @endforeach
+                                    <td style="text-align: right">{{ $diver->price ? $diver->price : 0 }} €</td>
+                                    <td>
+                                        <div style="float:right;border:solid; height:20px;width:20px"></div>
+                                    </td>
                                 </tr>
                             @endforeach
 
@@ -116,6 +105,44 @@
                 </div>
             </div>
         @endforeach
+        <div class="card border-dark mb-3" style="page-break-before: always;">
+            <div class="card-header">Totali</div>
+            <div class="card-body">
+                @php
+                    $total_cost = $roster->cost * $total_divers - $roster->cost * $roster->gratuities;
+                    $gain = $total_price - $total_cost;
+                @endphp
+                <table class="table table-striped">
+                    <tbody>
+
+                        <tr>
+
+                            <td>Totale da incassarre</td>
+                            <td style="text-align: right">{{ $total_price }} €</td>
+
+                        </tr>
+                        <tr>
+
+                            <td>Totale dovuto</td>
+                            <td style="text-align: right">{{ $total_cost }} €</td>
+
+                        </tr>
+                        <tr>
+
+                            <td>Guadagno</td>
+                            <td style="text-align: right">{{ $gain }} €</td>
+
+                        </tr>
+                        <tr>
+
+                            <td>Gratuità</td>
+                            <td style="text-align: right">{{ $roster->gratuities }}</td>
+
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
 </body>
 
 </html>

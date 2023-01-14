@@ -27,7 +27,10 @@ class RosterUserSeeder extends Seeder
                 foreach ($course->users as $user) {
                     try {
                         $addedUsers[] = $user->id;
-                        $roster->users()->attach($user->id, ['course_id' => $course->id, 'gears' => $user->getDefaultSizes()]);
+                        $price = $roster->price;
+                        if ($user->duty->id > 1)
+                            $price = $roster->cost;
+                        $roster->users()->attach($user->id, ['course_id' => $course->id, 'price' => $price, 'gears' => $user->getDefaultSizes()]);
                     } catch (Exception $e) {
                     }
                 }
@@ -35,7 +38,10 @@ class RosterUserSeeder extends Seeder
             $users = User::inRandomOrder()->whereNotIn('id', $addedUsers)->limit(8)->get();
             foreach ($users as $user) {
                 try {
-                    $roster->users()->attach($user->id, ['course_id' => null, 'gears' => $user->getDefaultSizes()]);
+                    $price = $roster->price;
+                    if ($user->duty->id > 1)
+                        $price = $roster->cost;
+                    $roster->users()->attach($user->id, ['course_id' => null, 'price' => $price, 'gears' => $user->getDefaultSizes()]);
                 } catch (Exception $e) {
                 }
             }

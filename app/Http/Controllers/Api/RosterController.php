@@ -205,4 +205,19 @@ class RosterController extends Controller
         $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
         return $pdf->stream($filename);
     }
+    public function printAdmin(Request $request, Roster $roster)
+    {
+        //$rRes = new RosterResource($roster);
+        $rosterRes = json_decode(json_encode(new RosterResource($roster)));
+
+        foreach ($rosterRes->divers as $idx => $course) {
+            if (count($course->divers) <= 0)
+                unset($rosterRes->divers[$idx]);
+        }
+        //return view('print_roster_admin', ['roster' => $rosterRes]);
+        $pdf = PDF::loadView('print_roster_admin', ['roster' => $rosterRes])->setPaper('a4');
+        $rosterType = 'Amministrativo';
+        $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
+        return $pdf->stream($filename);
+    }
 }
