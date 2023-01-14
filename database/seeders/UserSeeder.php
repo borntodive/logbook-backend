@@ -48,7 +48,7 @@ class UserSeeder extends Seeder
         ]);
         $davide->attachRole($adminRole);
 
-        $staffs = \App\Models\User::factory(15)->create([
+        /* $staffs = \App\Models\User::factory(15)->create([
             'cf' => 'CVLNDR84B18H501A',
             'user_duty_id' => 3,
         ]);
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
         ]);
         foreach ($users as $user) {
             $user->attachRole($userRole);
-        }
+        } */
         foreach (User::get() as $user) {
             foreach (Equipment::get() as $eq) {
                 $sizes = $eq->sizes;

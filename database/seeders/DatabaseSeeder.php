@@ -22,11 +22,11 @@ class DatabaseSeeder extends Seeder
             EquipmentSeeder::class,
             UserSeeder::class,
             CertificationSeeder::class,
-            CourseSeeder::class,
-            CourseUserSeeder::class,
-            DivingSeeder::class,
-            RosterSeeder::class,
-            RosterUserSeeder::class
+            //CourseSeeder::class,
+            //CourseUserSeeder::class,
+            //DivingSeeder::class,
+            //RosterSeeder::class,
+            //RosterUserSeeder::class
         ]);
     }
 }
