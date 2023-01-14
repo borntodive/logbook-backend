@@ -92,7 +92,9 @@
                                         @endif
                                     </th>
                                     <td>{{ $diver->lastname }} {{ $diver->firstname }}</td>
-                                    <td style="text-align: right">{{ $diver->price ? $diver->price : 0 }} €</td>
+                                    <td style="text-align: right">
+                                        {{ $diver->price ? number_format((float) $diver->price, 2) : number_format((float) 0, 2) }}
+                                        €</td>
                                     <td>
                                         <div style="float:right;border:solid; height:20px;width:20px"></div>
                                     </td>
@@ -118,24 +120,24 @@
                         <tr>
 
                             <td>Totale da incassarre</td>
-                            <td style="text-align: right">{{ $total_price }} €</td>
+                            <td style="text-align: right">{{ number_format((float) $total_price, 2) }} €</td>
 
                         </tr>
                         <tr>
 
                             <td>Totale dovuto</td>
-                            <td style="text-align: right">{{ $total_cost }} €</td>
+                            <td style="text-align: right">{{ number_format((float) $total_cost, 2) }} €</td>
 
                         </tr>
                         <tr>
 
                             <td>Guadagno</td>
-                            <td style="text-align: right">{{ $gain }} €</td>
+                            <td style="text-align: right">{{ number_format((float) $gain, 2) }} €</td>
 
                         </tr>
                         <tr>
 
-                            <td>Gratuità</td>
+                            <td>Numero Gratuità</td>
                             <td style="text-align: right">{{ $roster->gratuities }}</td>
 
                         </tr>
