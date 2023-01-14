@@ -16,102 +16,117 @@ class EquipmentSeeder extends Seeder
      */
     public function run()
     {
-        $equipments=[
-             [
-            'name'=> 'suit',
-            'sizes'=>[
-                'xxs',
-            'xs',
-            's',
-            'm',
-            'lg',
-            'xl',
-            'xxl'
-            ]
-        ],
+        $equipments = [
+            [
+                'name' => 'suit',
+                'order' => 3,
+                'sizes' => [
+                    'xxs',
+                    'xs',
+                    's',
+                    'm',
+                    'lg',
+                    'xl',
+                    'xxl'
+                ]
+            ],
 
-           [
-            'name'=> 'bcd',
-            'sizes'=>[
-                'xxs',
-            'xs',
-            's',
-            'm',
-            'lg',
-            'xl',
-            'xxl'
-            ]
-        ],
-         [
-            'name'=> 'boot',
-            'sizes'=>[
-                'xxs',
-            'xs',
-            's',
-            'm',
-            'lg',
-            'xl',
-            'xxl'
-            ]
-        ],
-        [
-            'name'=> 'fins',
-            'sizes'=>[
-                'xxs',
-            'xs',
-            's',
-            'm',
-            'lg',
-            'xl',
-            'xxl'
-            ]
-        ],
-        [
-            'name'=> 'mask',
-            'sizes'=>[
-                'uni',
+            [
+                'name' => 'bcd',
+                'order' => 1,
 
-            ]
-        ],
-        [
-            'name'=> 'weightsBelt',
-            'sizes'=>[
-                'uni',
+                'sizes' => [
+                    'xxs',
+                    'xs',
+                    's',
+                    'm',
+                    'lg',
+                    'xl',
+                    'xxl'
+                ]
+            ],
+            [
+                'name' => 'boot',
+                'order' => 5,
 
-            ]
-        ],
-        [
-            'name'=> 'regulator',
-            'sizes'=>[
-                'uni',
+                'sizes' => [
+                    'xxs',
+                    'xs',
+                    's',
+                    'm',
+                    'lg',
+                    'xl',
+                    'xxl'
+                ]
+            ],
+            [
+                'name' => 'fins',
+                'order' => 6,
 
-            ]
-        ],
-[
-            'name'=> 'weight',
-            'sizes'=>[
+                'sizes' => [
+                    'xxs',
+                    'xs',
+                    's',
+                    'm',
+                    'lg',
+                    'xl',
+                    'xxl'
+                ]
+            ],
+            [
+                'name' => 'mask',
+                'order' => 4,
 
-            ]
-        ],
-        [
-            'name'=> 'tank',
-            'sizes'=>[
-                '4L',
-                '7L',
-            '10L',
-            '11L',
-            '12L',
-            '15L',
-            'B10L',
-            'B12L',
+                'sizes' => [
+                    'uni',
 
+                ]
+            ],
+            [
+                'name' => 'weightsBelt',
+                'order' => 7,
+
+                'sizes' => [
+                    'uni',
+
+                ]
+            ],
+            [
+                'name' => 'regulator',
+                'order' => 2,
+
+                'sizes' => [
+                    'uni',
+
+                ]
+            ],
+            [
+                'name' => 'weight',
+                'order' => 8,
+
+                'sizes' => []
+            ],
+            [
+                'name' => 'tank',
+                'order' => 9,
+
+                'sizes' => [
+                    '4L',
+                    '7L',
+                    '10L',
+                    '11L',
+                    '12L',
+                    '15L',
+                    'B10L',
+                    'B12L',
+
+                ]
             ]
-        ]
         ];
-        foreach($equipments as $equipment) {
-            $eq=Equipment::create(['name'=>$equipment['name']]);
-            foreach ($equipment['sizes'] as $size){
-                $s=Size::where('name',$size)->first();
+        foreach ($equipments as $equipment) {
+            $eq = Equipment::create(['name' => $equipment['name'], 'order' => $equipment['order']]);
+            foreach ($equipment['sizes'] as $size) {
+                $s = Size::where('name', $size)->first();
                 $eq->sizes()->attach($s);
             }
         }

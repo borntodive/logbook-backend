@@ -14,6 +14,8 @@ use App\Models\Size;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Exception;
+use Spatie\Browsershot\Browsershot;
+use PDF;
 
 class RosterController extends Controller
 {
@@ -140,5 +142,67 @@ class RosterController extends Controller
             $roster->users()->detach($user_id);
             return response()->json(['status' => 'success']);
         } else return response('unauthorized', 403);
+    }
+
+    public function print(Request $request, Roster $roster)
+    {
+        //$rRes = new RosterResource($roster);
+        $rosterRes = json_decode(json_encode(new RosterResource($roster)));
+        $equipments = Equipment::get();
+        $equipmentTraslations = json_decode(
+            '{
+                "equipments": {
+                    "suit": "Muta",
+                    "bcd": "GAV",
+                    "boot": "Calzari",
+                    "fins": "Pinne",
+                    "mask": "Maschera",
+                    "weightsBelt": "Cintura pesi",
+                    "regulator": "Erogatore",
+                    "weight": "Pesi",
+                    "tank": "Bombola"
+                },
+                "sizes": {
+                    "xxs": "XXS",
+                    "xs": "XS",
+                    "s": "S",
+                    "m": "M",
+                    "lg": "L",
+                    "xl": "XL",
+                    "xxl": "XXL",
+                    "uni": "UNI",
+                    "4L": "4L",
+                    "7L": "7L",
+                    "10L": "10L",
+                    "11L": "11L",
+                    "12L": "12L",
+                    "15L": "15L",
+                    "B10L": "10+10L",
+                    "B12L": "12+12L"
+                }
+            }'
+        );
+        $equipments = $equipments->toArray();
+        $sizes = collect($equipmentTraslations->sizes);
+        foreach ($equipments as $idx => $equipment) {
+            $name = $equipment['name'];
+            $equipments[$idx]['translation'] = $equipmentTraslations->equipments->$name;
+        }
+        foreach ($rosterRes->divers as $idx => $course) {
+            if (count($course->divers) <= 0)
+                unset($rosterRes->divers[$idx]);
+        }
+
+        $pdf = PDF::loadView('print_roster', ['roster' => $rosterRes, 'equipments' => $equipments, 'sizes' => $sizes])->setPaper('a4', 'landscape');
+        $rosterType = '';
+        if ($roster->type == 'POOL') {
+            $rosterType = 'Piscina';
+        } elseif ($roster->type == 'DIVE') {
+            $rosterType = 'Immersione';
+        } elseif ($roster->type == 'THEORY') {
+            $rosterType = 'Teoria';
+        }
+        $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
+        return $pdf->stream($filename);
     }
 }
