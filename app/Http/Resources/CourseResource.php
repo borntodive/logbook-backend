@@ -22,6 +22,8 @@ class CourseResource extends JsonResource
             $points = 0;
             $allCompleted = true;
             if (!$user->pivot->teaching) {
+                if (!is_array($user->pivot->progress))
+                    dd($this->certification->name);
                 $this->caluculatePoint($user->pivot->progress, $points, $allCompleted);
                 $userStatus[$user->pivot->user_id]['points'] = $points;
                 if ($points > $maxPoints)
@@ -64,6 +66,7 @@ class CourseResource extends JsonResource
 
     private function caluculatePoint($array, &$points, &$allCompleted)
     {
+
         foreach ($array as $idx => $item) {
 
             if (isset($item['values'])) {

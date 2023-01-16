@@ -268,8 +268,8 @@ class RosterController extends Controller
                     foreach ($progress['values'] as $session) {
                         $missings = [];
                         $allCompleted = true;
-                        $neverStarted = false;
-                        $this->searchMissingActivities($session['values'], $missings, $allCompleted, $neverStarted);
+                        $activityCount = 0;
+                        $this->searchMissingActivities($session['values'], $missings, $activityCount);
                         $activityName = "Acqua confinata";
                         switch ($activityType) {
                             case "CW":
@@ -289,7 +289,8 @@ class RosterController extends Controller
                         $missingActivities[$courseName][$studentName][$activityType][$sessionName]['order'] = $session['order'];
                         $missingActivities[$courseName][$studentName][$activityType][$sessionName]['missings'] = $missings;
                         $missingActivities[$courseName][$studentName][$activityType][$sessionName]['completed'] = count($missings) === 0;
-                        $missingActivities[$courseName][$studentName][$activityType][$sessionName]['neverStarted'] = $neverStarted;
+                        $missingActivities[$courseName][$studentName][$activityType][$sessionName]['neverStarted'] =
+                            count($missings) === $activityCount;
                         $nextSessions[$courseName][$activityType] = 0;
                     }
                 }
@@ -298,12 +299,24 @@ class RosterController extends Controller
         foreach ($missingActivities as $courseName => $student) {
             foreach ($student as $studentName => $activity) {
                 foreach ($activity as $activityType => $session) {
-
-                    foreach ($session as $sessionName => $values) {
+                    $keys = array_keys($session);
+                    foreach (array_keys($keys) as $sessionKey) {
+                        $sessionName = current($keys);
+                        $values = $session[$sessionName];
                         if (
                             $values['completed'] && $values['order'] > $nextSessions[$courseName][$activityType]
-                        )
-                            $nextSessions[$courseName][$activityType] = $values['order'];
+                        ) {
+                            $nextSessionName = next(($keys));
+                            if ($nextSessionName) {
+                                $nextValues
+                                    = $session[$nextSessionName];
+                                if (count($nextValues['missings']))
+                                    $nextSessions[$courseName][$activityType] = $nextValues['order'];
+                                else
+                                    $nextSessions[$courseName][$activityType] = $values['order'];
+                            } else
+                                $nextSessions[$courseName][$activityType] = $values['order'];
+                        }
                     }
                 }
             }
@@ -339,14 +352,14 @@ class RosterController extends Controller
         ksort($nextActivities);
 
 
-        // return view('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType]);
+        // return view('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType, 'activityTypeName' => $activityTypeName]);
 
         $pdf = PDF::loadView('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType, 'activityTypeName' => $activityTypeName])->setPaper('a4');
         $rosterType = 'Tecnico';
         $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
         return $pdf->stream($filename);
     }
-    private function searchMissingActivities($array, &$missings, &$allCompleted, &$neverStarted)
+    private function searchMissingActivities($array, &$missings, &$activityCount)
     {
         foreach ($array as $idx => $item) {
 
@@ -354,18 +367,13 @@ class RosterController extends Controller
                 if (!isset($item['values'][0]['values'])) {
                     $done = 0;
                     foreach ($item['values'] as $exercise) {
-                        if ($exercise['date']) {
-                            $done++;
-                        } else {
+                        $activityCount++;
+                        if (!$exercise['date']) {
                             $missings[] = $exercise;
                         }
                     }
-                    if ($done < count($item['values']) & $done > 0)
-                        $allCompleted = false;
-                    if ($done == 0)
-                        $neverStarted = true;
                 }
-                $this->searchMissingActivities($item['values'], $missings, $allCompleted, $neverStarted);
+                $this->searchMissingActivities($item['values'], $missings, $activityCount);
             }
         }
     }

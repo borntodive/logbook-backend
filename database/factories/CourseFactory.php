@@ -20,7 +20,7 @@ class CourseFactory extends Factory
      */
     public function definition()
     {
-        $cert = Certification::where('code', '<>', 'AA')->inRandomOrder()->first();
+        $cert = Certification::where('code', '<>', 'AA')->whereNotNull('activities')->inRandomOrder()->first();
         $user = User::inRandomOrder()->first();
         return [
             'certification_id' => $cert->id,
