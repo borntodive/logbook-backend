@@ -8,11 +8,71 @@
     <title>Roster</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <style>
+        .mx-4 {
+            margin-left: 1rem;
 
+        }
+
+        h5 {
+            font-size: 1.25rem;
+        }
+
+        .card {
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            min-width: 0;
+            word-wrap: break-word;
+            background-clip: border-box;
+            border: 1px solid rgba(0, 0, 0, .125);
+            border-radius: 0.25rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .card-header {
+            padding: 0.5rem 1rem;
+            margin-bottom: 0;
+            background-color: rgba(0, 0, 0, .03);
+            border-bottom: 1px solid rgba(0, 0, 0, .125);
+        }
+
+        .card-body {
+            flex: 1 1 auto;
+            padding: 1rem 1rem;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            vertical-align: top;
+            border-color: #dee2e6;
+
+        }
+
+        .table-header {
+            width: 100%;
+            border-bottom: 0.5px solid;
+            font-weight: 500;
+            font-size: 1rem;
+            line-height: 1.5;
+        }
+
+        .odd-row {
+            background-color: rgba(0, 0, 0, 0.05);
+
+        }
+
+        .even-row {
+            background-color: transparent;
+
+        }
+    </style>
 </head>
 
 <body>
-    <div class="mx-4">
+    <div style=" margin-left: 1rem;  margin-right: 1rem;">
         @php
             $total_divers = 0;
             $total_price = 0;
@@ -20,7 +80,7 @@
             $total_gears = 0;
             $total_courses = 0;
         @endphp
-        <div class="card border-dark mb-3">
+        <div class="card">
             <div class="card-body">
                 @php
                     $rosterType = 'Amministrativo';
@@ -32,7 +92,7 @@
                 </h5>
             </div>
         </div>
-        <div class="card border-dark mb-3">
+        <div class="card">
             <div class="card-header">Diving</div>
             <div class="card-body">
                 <h6>{{ $roster->diving->name }}</h6>
@@ -50,10 +110,10 @@
             </div>
         </div>
         @foreach ($roster->divers as $course)
-            <div class="card border-dark mb-3" style="page-break-inside: avoid;">
+            <div class="card" style="page-break-inside: avoid;">
                 <div class="card-header">{{ $course->course == 'GUESTS' ? 'Ospiti' : $course->course }}</div>
                 <div class="card-body text-dark">
-                    <table class="table table-striped">
+                    <table class="table">
                         <thead>
                             <tr>
                                 <th scope="col"></th>
@@ -66,6 +126,7 @@
                         </thead>
                         <tbody>
                             @php
+                                $rowCount = 0;
                                 $divers = collect($course->divers)->sortBy(function ($item, $key) {
                                     return [!$item->teaching, !$item->in_charge, $item->lastname, $item->firstname];
                                 });
@@ -73,11 +134,15 @@
                             @endphp
                             @foreach ($divers as $diver)
                                 @php
-
+                                    $rowCount++;
                                     $total_divers++;
+                                    $class = 'even-row';
+                                    if ($rowCount % 2 === 0) {
+                                        $class = 'odd-row';
+                                    }
                                     $total_price += $diver->price ? $diver->price : 0;
                                 @endphp
-                                <tr>
+                                <tr class="{{ $class }}">
                                     <th scope="col">
                                         @if ($diver->in_charge)
                                             @php
@@ -103,20 +168,25 @@
                                             @endphp
                                             {{ $diver->price ? number_format((float) $diver->price, 2) : number_format((float) 0, 2) }}
                                             €</p>
-                                        @if (!$diver->teaching && $diver->courseData)
-                                            <p>Corso:
-                                                @php
-                                                    $courseBalance = $diver->courseData->price - ($courseBalance = $diver->courseData->payment_1 - ($courseBalance = $diver->courseData->payment_2 - ($courseBalance = $diver->courseData->payment_3)));
-                                                    $total += $courseBalance;
-                                                    $total_courses += $courseBalance;
-
-                                                @endphp
-                                                {{ number_format((float) $courseBalance, 2) }}
-                                                €</p>
-                                        @endif
                                         <p>Totale:
                                             {{ number_format((float) $total, 2) }}
                                             €</p>
+                                        @php
+                                            $courseBalace = null;
+                                            if (isset($diver->courseData) && $diver->courseData) {
+                                                $courseBalance = $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
+                                            }
+                                            $total += $courseBalance;
+                                            $total_courses += $courseBalance;
+
+                                        @endphp
+                                        @if ($courseBalance)
+                                            <p>Corso:
+
+                                                {{ number_format((float) $courseBalance, 2) }}
+                                                €</p>
+                                        @endif
+
                                     </td>
                                     <td>
                                         <div
@@ -146,61 +216,78 @@
                     $total_cost = $roster->cost * $total_divers - $roster->cost * $roster->gratuities;
                     $gain = $total_dive + $total_gears - $total_cost;
                 @endphp
-                <table class="table table-striped">
+                <div class="table-header"> Immersione</div>
+                <table class="table">
                     <tbody>
-
                         <tr>
 
-                            <td>Totale da incassarre Immersione</td>
-                            <td style="text-align: right">{{ number_format((float) $total_dive, 2) }} €</td>
+                            <td style="width: 16.6%">Totale da incassarre</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_dive, 2) }} €</td>
+                            <td style="width: 16.6%">Totale dovuto</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_cost, 2) }} €</td>
 
-                        </tr>
-                        <tr>
-
-                            <td>Totale dovuto Immersione</td>
-                            <td style="text-align: right">{{ number_format((float) $total_cost, 2) }} €</td>
-
-                        </tr>
-                        <tr>
-
-                            <td>Rimanenza Immersione</td>
-                            <td style="text-align: right">{{ number_format((float) $total_dive - $total_cost, 2) }} €
+                            <td style="width: 16.6%">Saldo</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_dive - $total_cost, 2) }}
+                                €
                             </td>
-
-                        </tr>
-                        <tr>
-
-                            <td>Totale da incassarre Atterzzatura</td>
-                            <td style="text-align: right">{{ number_format((float) $total_gears, 2) }} €</td>
-
-                        </tr>
-                        <tr>
-
-                            <td>Totale da incassarre senza corsi</td>
-                            <td style="text-align: right">{{ number_format((float) $total_dive + $total_gears, 2) }} €
-                            </td>
-
-                        </tr>
-                        <tr>
-
-                            <td>Rimanenza senza corsi</td>
-                            <td style="text-align: right">{{ number_format((float) $gain, 2) }} €</td>
-
-                        </tr>
-                        <tr>
-
-                            <td>Numero Gratuità</td>
-                            <td style="text-align: right">{{ $roster->gratuities }}</td>
-
-                        </tr>
-                        <tr>
-
-                            <td>Totale da incassarre Corse</td>
-                            <td style="text-align: right">{{ number_format((float) $total_courses, 2) }} €</td>
-
                         </tr>
                     </tbody>
                 </table>
+                <div class="table-header">Attrezzature</div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+
+                            <td style="width: 16.6%">Totale da incassarre</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_gears, 2) }} €</td>
+                            <td style="width: 16.6%"></td>
+                            <td style="width: 16.6%"></td>
+
+
+                            <td style="width: 16.6%">Saldo</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_gears, 2) }}
+                                €
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-header">Totale</div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+
+                            <td style="width: 16.6%">Totale da incassarre</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_gears + $total_dive, 2) }} €
+                            </td>
+                            <td style="width: 16.6%">Totale dovuto</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_cost, 2) }} €</td>
+
+                            <td style="width: 16.6%">Saldo</td>
+                            <td style="width: 16.6%">{{ number_format((float) $gain, 2) }}
+                                €
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-header">Corsi</div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+
+                            <td style="width: 16.6%">Totale da incassarre</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_courses, 2) }} €
+                            </td>
+                            <td style="width: 16.6%"></td>
+                            <td style="width: 16.6%"></td>
+
+                            <td style="width: 16.6%">Saldo</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_courses, 2) }}
+                                €
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div class="table-header">Numero Gratuità: {{ $roster->gratuities }}</div>
             </div>
         </div>
 </body>

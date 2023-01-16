@@ -117,7 +117,10 @@ class RosterController extends Controller
         if ($request->user()->isAbleTo('edit-all')) {
             foreach ($course->users as $user) {
                 try {
-                    $roster->users()->attach($user->id, ['course_id' => $course->id, 'gears' => $user->getDefaultSizes(), 'price' => $user->duty->name == 'Diver' ? $roster->price + 5 : $roster->cost]);
+                    $userPrice = $user->duty->name == 'Diver' ? $roster->price + 5 : $roster->cost;
+                    if ($roster->type !== "DIVE")
+                        $userPrice = null;
+                    $roster->users()->attach($user->id, ['course_id' => $course->id, 'gears' => $user->getDefaultSizes(), 'price' => $userPrice]);
                 } catch (Exception $e) {
                 }
             }
@@ -215,7 +218,7 @@ class RosterController extends Controller
             if (count($course->divers) <= 0)
                 unset($rosterRes->divers[$idx]);
         }
-        //return view('print_roster_admin', ['roster' => $rosterRes]);
+        return view('print_roster_admin', ['roster' => $rosterRes]);
         $pdf = PDF::loadView('print_roster_admin', ['roster' => $rosterRes])->setPaper('a4');
         $rosterType = 'Amministrativo';
         $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
