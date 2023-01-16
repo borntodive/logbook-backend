@@ -16,7 +16,9 @@
         @php
             $total_divers = 0;
             $total_price = 0;
-            $totalToGet = 0;
+            $total_dive = 0;
+            $total_gears = 0;
+            $total_courses = 0;
         @endphp
         <div class="card border-dark mb-3">
             <div class="card-body">
@@ -97,6 +99,7 @@
                                         <p>Immersione:
                                             @php
                                                 $total = $diver->price;
+                                                $total_dive += $diver->price;
                                             @endphp
                                             {{ $diver->price ? number_format((float) $diver->price, 2) : number_format((float) 0, 2) }}
                                             €</p>
@@ -105,15 +108,13 @@
                                                 @php
                                                     $courseBalance = $diver->courseData->price - ($courseBalance = $diver->courseData->payment_1 - ($courseBalance = $diver->courseData->payment_2 - ($courseBalance = $diver->courseData->payment_3)));
                                                     $total += $courseBalance;
+                                                    $total_courses += $courseBalance;
 
                                                 @endphp
                                                 {{ number_format((float) $courseBalance, 2) }}
                                                 €</p>
                                         @endif
                                         <p>Totale:
-                                            @php
-                                                $totalToGet += $total;
-                                            @endphp
                                             {{ number_format((float) $total, 2) }}
                                             €</p>
                                     </td>
@@ -143,26 +144,46 @@
             <div class="card-body">
                 @php
                     $total_cost = $roster->cost * $total_divers - $roster->cost * $roster->gratuities;
-                    $gain = $totalToGet - $total_cost;
+                    $gain = $total_dive + $total_gears - $total_cost;
                 @endphp
                 <table class="table table-striped">
                     <tbody>
 
                         <tr>
 
-                            <td>Totale da incassarre</td>
-                            <td style="text-align: right">{{ number_format((float) $totalToGet, 2) }} €</td>
+                            <td>Totale da incassarre Immersione</td>
+                            <td style="text-align: right">{{ number_format((float) $total_dive, 2) }} €</td>
 
                         </tr>
                         <tr>
 
-                            <td>Totale dovuto</td>
+                            <td>Totale dovuto Immersione</td>
                             <td style="text-align: right">{{ number_format((float) $total_cost, 2) }} €</td>
 
                         </tr>
                         <tr>
 
-                            <td>Rimanenza</td>
+                            <td>Rimanenza Immersione</td>
+                            <td style="text-align: right">{{ number_format((float) $total_dive - $total_cost, 2) }} €
+                            </td>
+
+                        </tr>
+                        <tr>
+
+                            <td>Totale da incassarre Atterzzatura</td>
+                            <td style="text-align: right">{{ number_format((float) $total_gears, 2) }} €</td>
+
+                        </tr>
+                        <tr>
+
+                            <td>Totale da incassarre senza corsi</td>
+                            <td style="text-align: right">{{ number_format((float) $total_dive + $total_gears, 2) }} €
+                            </td>
+
+                        </tr>
+                        <tr>
+
+                            <td>Rimanenza senza corsi</td>
                             <td style="text-align: right">{{ number_format((float) $gain, 2) }} €</td>
 
                         </tr>
@@ -170,6 +191,12 @@
 
                             <td>Numero Gratuità</td>
                             <td style="text-align: right">{{ $roster->gratuities }}</td>
+
+                        </tr>
+                        <tr>
+
+                            <td>Totale da incassarre Corse</td>
+                            <td style="text-align: right">{{ number_format((float) $total_courses, 2) }} €</td>
 
                         </tr>
                     </tbody>

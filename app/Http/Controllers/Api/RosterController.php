@@ -117,7 +117,7 @@ class RosterController extends Controller
         if ($request->user()->isAbleTo('edit-all')) {
             foreach ($course->users as $user) {
                 try {
-                    $roster->users()->attach($user->id, ['course_id' => $course->id, 'gears' => $user->getDefaultSizes(), 'price' => $user->duty->name == 'Diver' ? $roster->price : $roster->cost]);
+                    $roster->users()->attach($user->id, ['course_id' => $course->id, 'gears' => $user->getDefaultSizes(), 'price' => $user->duty->name == 'Diver' ? $roster->price + 5 : $roster->cost]);
                 } catch (Exception $e) {
                 }
             }
