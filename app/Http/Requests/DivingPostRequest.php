@@ -31,6 +31,7 @@ class DivingPostRequest extends FormRequest
             'name' => 'required',
             'email' => 'required|email',
             'address' => 'nullable',
+            'reference' => 'nullable',
             'note' => 'nullable',
             'phone' => ['required', new PhoneNumber],
         ];
