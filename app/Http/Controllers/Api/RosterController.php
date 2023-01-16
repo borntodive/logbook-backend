@@ -284,6 +284,7 @@ class RosterController extends Controller
                             default:
                                 $activityName = "Acqua confinata";
                         }
+                        $activityTypeName = $activityName;
                         $sessionName = isset($session['label']) && $session['label'] ? $session['label'] : $activityName . " " . $session['order'];
                         $missingActivities[$courseName][$studentName][$activityType][$sessionName]['order'] = $session['order'];
                         $missingActivities[$courseName][$studentName][$activityType][$sessionName]['missings'] = $missings;
@@ -340,7 +341,7 @@ class RosterController extends Controller
 
         // return view('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType]);
 
-        $pdf = PDF::loadView('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType])->setPaper('a4');
+        $pdf = PDF::loadView('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType, 'activityTypeName' => $activityTypeName])->setPaper('a4');
         $rosterType = 'Tecnico';
         $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
         return $pdf->stream($filename);
