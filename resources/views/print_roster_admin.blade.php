@@ -106,6 +106,9 @@
                     <div class="col">
                         {{ $roster->diving->email }}
                     </div>
+                    <div class="col">
+                        {{ $roster->diving->reference }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -221,9 +224,9 @@
                     <tbody>
                         <tr>
 
-                            <td style="width: 16.6%">Totale da incassarre</td>
+                            <td style="width: 16.6%">Incasso</td>
                             <td style="width: 16.6%">{{ number_format((float) $total_dive, 2) }} €</td>
-                            <td style="width: 16.6%">Totale dovuto</td>
+                            <td style="width: 16.6%">Dovuto</td>
                             <td style="width: 16.6%">{{ number_format((float) $total_cost, 2) }} €</td>
 
                             <td style="width: 16.6%">Saldo</td>
@@ -238,7 +241,7 @@
                     <tbody>
                         <tr>
 
-                            <td style="width: 16.6%">Totale da incassarre</td>
+                            <td style="width: 16.6%">Incasso</td>
                             <td style="width: 16.6%">{{ number_format((float) $total_gears, 2) }} €</td>
                             <td style="width: 16.6%"></td>
                             <td style="width: 16.6%"></td>
@@ -256,10 +259,10 @@
                     <tbody>
                         <tr>
 
-                            <td style="width: 16.6%">Totale da incassarre</td>
+                            <td style="width: 16.6%">Incasso</td>
                             <td style="width: 16.6%">{{ number_format((float) $total_gears + $total_dive, 2) }} €
                             </td>
-                            <td style="width: 16.6%">Totale dovuto</td>
+                            <td style="width: 16.6%">Dovuto</td>
                             <td style="width: 16.6%">{{ number_format((float) $total_cost, 2) }} €</td>
 
                             <td style="width: 16.6%">Saldo</td>
@@ -274,7 +277,7 @@
                     <tbody>
                         <tr>
 
-                            <td style="width: 16.6%">Totale da incassarre</td>
+                            <td style="width: 16.6%">Incasso</td>
                             <td style="width: 16.6%">{{ number_format((float) $total_courses, 2) }} €
                             </td>
                             <td style="width: 16.6%"></td>

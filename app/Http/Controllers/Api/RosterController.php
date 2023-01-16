@@ -218,7 +218,7 @@ class RosterController extends Controller
             if (count($course->divers) <= 0)
                 unset($rosterRes->divers[$idx]);
         }
-        return view('print_roster_admin', ['roster' => $rosterRes]);
+        //return view('print_roster_admin', ['roster' => $rosterRes]);
         $pdf = PDF::loadView('print_roster_admin', ['roster' => $rosterRes])->setPaper('a4');
         $rosterType = 'Amministrativo';
         $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";

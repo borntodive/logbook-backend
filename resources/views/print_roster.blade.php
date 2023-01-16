@@ -45,6 +45,9 @@
                         {{ $roster->diving->phone }} </div>
                     <div class="col">
                         {{ $roster->diving->email }} </div>
+                    <div class="col">
+                        {{ $roster->diving->reference }}
+                    </div>
                 </div>
             </div>
         </div>
