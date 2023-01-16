@@ -208,6 +208,7 @@ class RosterController extends Controller
     public function printAdmin(Request $request, Roster $roster)
     {
         //$rRes = new RosterResource($roster);
+        $roster->withCourseData = true;
         $rosterRes = json_decode(json_encode(new RosterResource($roster)));
 
         foreach ($rosterRes->divers as $idx => $course) {
@@ -219,5 +220,152 @@ class RosterController extends Controller
         $rosterType = 'Amministrativo';
         $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
         return $pdf->stream($filename);
+    }
+    public function printTech(Request $request, Roster $roster)
+    {
+        //$rRes = new RosterResource($roster);
+        $rosterRes = json_decode(json_encode(new RosterResource($roster)));
+        $missingActivities = [];
+        $nextActivities = [];
+        $activityType = "CW";
+        switch ($roster->type) {
+            case "POOL":
+                $activityType = "CW";
+                break;
+            case "DIVE":
+                $activityType = "OW";
+                break;
+            case "THEORY":
+                $activityType = "THEORY";
+                break;
+            default:
+                $activityType = "CW";
+        }
+        foreach ($rosterRes->divers as $idx => $rosterCourse) {
+            if (count($rosterCourse->divers) <= 0) {
+                unset($rosterRes->divers[$idx]);
+                continue;
+            }
+
+            if (!$rosterCourse->course_id || $rosterCourse->course_id == 'GUESTS') {
+                unset($rosterRes->divers[$idx]);
+                continue;
+            }
+
+            $course = Course::with('users')->find($rosterCourse->course_id);
+            if (!$course)
+                dd($rosterCourse->course_id);
+            $courseName
+                = $course->certification->name . ' ' . $course->number . '/' . $course->start_date->format('Y');
+            $nextSessions[$courseName] = null;
+            foreach ($course->users as $student) {
+                if ($student->pivot->teaching)
+                    continue;
+                foreach ($student->pivot->progress as $progress) {
+                    if ($progress['label'] != $activityType)
+                        continue;
+                    $studentName = $student->lastname . " " . $student->firstname;
+                    foreach ($progress['values'] as $session) {
+                        $missings = [];
+                        $allCompleted = true;
+                        $neverStarted = false;
+                        $this->searchMissingActivities($session['values'], $missings, $allCompleted, $neverStarted);
+                        $activityName = "Acqua confinata";
+                        switch ($activityType) {
+                            case "CW":
+                                $activityName = "Acqua confinata";
+                                break;
+                            case "OW":
+                                $activityName = "Acqua libera";
+                                break;
+                            case "THEORY":
+                                $activityName = "Acqua libera";
+                                break;
+                            default:
+                                $activityName = "Acqua confinata";
+                        }
+                        $sessionName = isset($session['label']) && $session['label'] ? $session['label'] : $activityName . " " . $session['order'];
+                        $missingActivities[$courseName][$studentName][$activityType][$sessionName]['order'] = $session['order'];
+                        $missingActivities[$courseName][$studentName][$activityType][$sessionName]['missings'] = $missings;
+                        $missingActivities[$courseName][$studentName][$activityType][$sessionName]['completed'] = count($missings) === 0;
+                        $missingActivities[$courseName][$studentName][$activityType][$sessionName]['neverStarted'] = $neverStarted;
+                        $nextSessions[$courseName][$activityType] = 0;
+                    }
+                }
+            }
+        }
+        foreach ($missingActivities as $courseName => $student) {
+            foreach ($student as $studentName => $activity) {
+                foreach ($activity as $activityType => $session) {
+
+                    foreach ($session as $sessionName => $values) {
+                        if (
+                            $values['completed'] && $values['order'] > $nextSessions[$courseName][$activityType]
+                        )
+                            $nextSessions[$courseName][$activityType] = $values['order'];
+                    }
+                }
+            }
+            $nextSessions[$courseName][$activityType]++;
+        }
+        $nextActivities = [];
+        foreach ($missingActivities as $courseName => $student) {
+            foreach ($student as $studentName => $activity) {
+                foreach ($activity as $activityType => $session) {
+                    $nextActivities[$courseName][$activityType]['overall'] = $nextSessions[$courseName][$activityType];
+                    $next
+                        = $nextSessions[$courseName][$activityType];
+
+                    foreach ($session as $sessionName => $values) {
+                        if ($values['order'] >= $next)
+                            continue;
+                        if (!$values['completed']) {
+                            $nextActivities[$courseName][$activityType]['students'][$studentName][$sessionName]['missings'] = $values['neverStarted'] ? ["Tutti"]  : $values['missings'];
+                        }
+                    }
+                }
+            }
+        }
+        foreach ($nextActivities as $courseName => $activities) {
+            foreach ($activities as $activityType => $students) {
+                if (!isset($nextActivities[$courseName][$activityType]['students']) || !$nextActivities[$courseName][$activityType]['students']) {
+                    $nextActivities[$courseName][$activityType]['students'] = [];
+                    continue;
+                }
+                ksort($nextActivities[$courseName][$activityType]['students']);
+            }
+        }
+        ksort($nextActivities);
+
+
+        // return view('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType]);
+
+        $pdf = PDF::loadView('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType])->setPaper('a4');
+        $rosterType = 'Tecnico';
+        $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
+        return $pdf->stream($filename);
+    }
+    private function searchMissingActivities($array, &$missings, &$allCompleted, &$neverStarted)
+    {
+        foreach ($array as $idx => $item) {
+
+            if (isset($item['values'])) {
+                if (!isset($item['values'][0]['values'])) {
+                    $done = 0;
+                    foreach ($item['values'] as $exercise) {
+                        if ($exercise['date']) {
+                            $done++;
+                        } else {
+                            $missings[] = $exercise;
+                        }
+                    }
+                    if ($done < count($item['values']) & $done > 0)
+                        $allCompleted = false;
+                    if ($done == 0)
+                        $neverStarted = true;
+                }
+                $this->searchMissingActivities($item['values'], $missings, $allCompleted, $neverStarted);
+            }
+        }
     }
 }

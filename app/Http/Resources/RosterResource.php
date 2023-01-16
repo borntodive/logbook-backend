@@ -19,7 +19,7 @@ class RosterUserResource extends JsonResource
         $GUSTS_KEY = 'GUESTS';
         $in_charge = false;
         $teaching = false;
-
+        $courseUser = null;
         if ($course && $course !== $GUSTS_KEY) {
             $courseUser = $course->users->where('id', $this->id)->first();
             if ($courseUser) {
@@ -27,6 +27,9 @@ class RosterUserResource extends JsonResource
                 $teaching = $courseUser->pivot->teaching;
             }
         }
+        $courseData = null;
+        if ($this->withCourseData && $courseUser)
+            $courseData = $courseUser->pivot;
         return [
             'id' => $this->id,
             'firstname' => $this->firstname,
@@ -36,7 +39,8 @@ class RosterUserResource extends JsonResource
             'in_charge' => $in_charge,
             'teaching' => $teaching,
             'payed' => $this->pivot->payed,
-            'gears' => $this->pivot->gears
+            'gears' => $this->pivot->gears,
+            'courseData' => $courseData
         ];
     }
 }
@@ -56,6 +60,9 @@ class RosterResource extends JsonResource
         $GUSTS_KEY = 'GUESTS';
 
         $divers = null;
+        if (!isset($this->withCourseData)) {
+            $this->withCourseData = false;
+        }
         foreach ($this->users as $user) {
             $course_id = $user->pivot->course_id;
             $course = null;
@@ -75,6 +82,8 @@ class RosterResource extends JsonResource
                 $divers[$course_id]['course'] = $course_name;
                 $divers[$course_id]['course_id'] = $course_id;
             }
+            $user->withCourseData
+                = $this->withCourseData;
             $divers[$course_id]['divers'][] = new RosterUserResource($user);
         }
         if (!isset($divers[$GUSTS_KEY])) {

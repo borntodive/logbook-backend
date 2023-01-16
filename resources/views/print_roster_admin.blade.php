@@ -16,6 +16,7 @@
         @php
             $total_divers = 0;
             $total_price = 0;
+            $totalToGet = 0;
         @endphp
         <div class="card border-dark mb-3">
             <div class="card-body">
@@ -93,10 +94,40 @@
                                     </th>
                                     <td>{{ $diver->lastname }} {{ $diver->firstname }}</td>
                                     <td style="text-align: right">
-                                        {{ $diver->price ? number_format((float) $diver->price, 2) : number_format((float) 0, 2) }}
-                                        €</td>
+                                        <p>Immersione:
+                                            @php
+                                                $total = $diver->price;
+                                            @endphp
+                                            {{ $diver->price ? number_format((float) $diver->price, 2) : number_format((float) 0, 2) }}
+                                            €</p>
+                                        @if (!$diver->teaching && $diver->courseData)
+                                            <p>Corso:
+                                                @php
+                                                    $courseBalance = $diver->courseData->price - ($courseBalance = $diver->courseData->payment_1 - ($courseBalance = $diver->courseData->payment_2 - ($courseBalance = $diver->courseData->payment_3)));
+                                                    $total += $courseBalance;
+
+                                                @endphp
+                                                {{ number_format((float) $courseBalance, 2) }}
+                                                €</p>
+                                        @endif
+                                        <p>Totale:
+                                            @php
+                                                $totalToGet += $total;
+                                            @endphp
+                                            {{ number_format((float) $total, 2) }}
+                                            €</p>
+                                    </td>
                                     <td>
-                                        <div style="float:right;border:solid; height:20px;width:20px"></div>
+                                        <div
+                                            style="display: flex;flex-direction: column; gap: 22px; width: 20px;float: right;">
+                                            <div style="display:block;float:right;border:solid; height:20px;width:20px">
+                                            </div>
+                                            @if (!$diver->teaching && $diver->courseData)
+                                                <div
+                                                    style="display:block;float:right;border:solid; height:20px;width:20px">
+                                                </div>
+                                            @endif
+                                        </div>
                                     </td>
                                 </tr>
                             @endforeach
@@ -112,7 +143,7 @@
             <div class="card-body">
                 @php
                     $total_cost = $roster->cost * $total_divers - $roster->cost * $roster->gratuities;
-                    $gain = $total_price - $total_cost;
+                    $gain = $totalToGet - $total_cost;
                 @endphp
                 <table class="table table-striped">
                     <tbody>
@@ -120,7 +151,7 @@
                         <tr>
 
                             <td>Totale da incassarre</td>
-                            <td style="text-align: right">{{ number_format((float) $total_price, 2) }} €</td>
+                            <td style="text-align: right">{{ number_format((float) $totalToGet, 2) }} €</td>
 
                         </tr>
                         <tr>
@@ -131,7 +162,7 @@
                         </tr>
                         <tr>
 
-                            <td>Guadagno</td>
+                            <td>Rimanenza</td>
                             <td style="text-align: right">{{ number_format((float) $gain, 2) }} €</td>
 
                         </tr>
