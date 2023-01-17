@@ -9,6 +9,7 @@ use App\Models\Equipment;
 use App\Models\Role;
 use App\Models\Size;
 use App\Models\User;
+use App\Models\UserEmergencycontact;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Models\UserDuty;
@@ -106,6 +107,16 @@ class UserController extends Controller
                     $user->equipments()->attach($equipment['equipment'], ['size_id' => $size->id, 'owned' => $equipment['owned']]);
                 }
             }
+            return new UserResource($user);
+        } else return response('unauthorized', 403);
+    }
+    public function updateEmergency(Request $request, User $user)
+    {
+        if ($request->user()->isAbleTo('edit-all') || $request->user()->id == $user->id) {
+            UserEmergencycontact::updateOrCreate(
+                ['user_id' => $user->id],
+                $request->all()
+            );
             return new UserResource($user);
         } else return response('unauthorized', 403);
     }

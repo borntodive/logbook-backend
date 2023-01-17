@@ -41,6 +41,7 @@ class UserResource extends JsonResource
             'sizes' => $sizes,
             'duty' => $this->duty,
             'ssi_number' => $this->ssi_number,
+            'emergencyContact' => $this->emergency_contact,
 
             'role' => $this->roles()->first()
         ];
