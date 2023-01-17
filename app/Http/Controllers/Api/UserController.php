@@ -74,15 +74,19 @@ class UserController extends Controller
     public function getStaff(Request $request)
     {
         if ($request->user()->isAbleTo('view-all')) {
+            $excluded = $request->get('exclude', null);
 
-            return MinimalUserResource::collection(User::select(['id', 'firstname', 'lastname', 'user_duty_id'])->orderBy('lastname', 'ASC')->where('user_duty_id', 3)->orWhere('user_duty_id', 2)->get());
+            $query = User::select(['id', 'firstname', 'lastname', 'user_duty_id'])->whereNotIn('id', explode('|', $excluded))->orderBy('lastname', 'ASC')->where('user_duty_id', 3)->orWhere('user_duty_id', 2);
+            return MinimalUserResource::collection($query->get());
         } else return response('unauthorized', 403);
     }
     public function getStudents(Request $request)
     {
         if ($request->user()->isAbleTo('view-all')) {
+            $excluded = $request->get('exclude', null);
 
-            return MinimalUserResource::collection(User::select(['id', 'firstname', 'lastname', 'user_duty_id'])->orderBy('lastname', 'ASC')->get());
+            $query = User::select(['id', 'firstname', 'lastname', 'user_duty_id'])->whereNotIn('id', explode('|', $excluded))->orderBy('lastname', 'ASC');
+            return MinimalUserResource::collection($query->get());
         } else return response('unauthorized', 403);
     }
     public function update(UserPostRequest $request, User $user)

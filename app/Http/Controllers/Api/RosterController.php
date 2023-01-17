@@ -108,6 +108,7 @@ class RosterController extends Controller
             $course_id = $request->input('course_id');
             if (!$course_id || $course_id == 'GUESTS')
                 $course_id = null;
+
             $roster->users()->attach($user->id, ['course_id' => $course_id, 'gears' => $user->getDefaultSizes(), 'price' => $user->duty->name == 'Diver' ? $roster->price : $roster->cost]);
             return response()->json(['status' => 'success']);
         } else return response('unauthorized', 403);

@@ -52,10 +52,13 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{course}/{student_id}', [CourseController::class, 'getStudent']);
         Route::post('/', [CourseController::class, 'store']);
         Route::post('/duplicate/{course}', [CourseController::class, 'duplicate']);
+        Route::post('/{course}/users', [CourseController::class, 'addUser']);
 
         Route::put('/{course}', [CourseController::class, 'update']);
         Route::put('/{course}/{student_id}/exercise', [CourseController::class, 'updateExercise']);
         Route::put('/{course}/{student_id}', [CourseController::class, 'updateStudent']);
+
+        Route::delete('/{course}/diver/{user_id}', [CourseController::class, 'destroyUser']);
         Route::delete('/{course}', [CourseController::class, 'destroy']);
     });
     Route::prefix('rosters')->group(function () {

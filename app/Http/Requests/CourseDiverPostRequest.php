@@ -8,7 +8,7 @@ use App\Rules\Size;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class CoursePostRequest extends FormRequest
+class CourseDiverPostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,11 +28,11 @@ class CoursePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'certification_id' => 'required|exists:certifications,id',
-            'specialities' => 'nullable',
-            'number' => 'numeric',
-            'start_date' => 'required|date',
-            'end_date' => 'date|nullable',
+
+            'name' => 'required|exists:users,id',
+            'price' => 'numeric|nullable',
+            'in_charge' => 'required|boolean',
+            'teaching' => 'required|boolean',
         ];
     }
 }

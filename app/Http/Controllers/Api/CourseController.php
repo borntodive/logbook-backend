@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\CourseDiverPostRequest;
 use App\Http\Requests\CoursePostRequest;
 use App\Http\Requests\ExercisePostRequest;
 use App\Http\Requests\StudentPostRequest;
@@ -114,18 +115,7 @@ class CourseController extends Controller
             if ($latestCourse)
                 $data['number'] = $latestCourse->number + 1;
             $course = Course::create($data);
-            //$course->save();
-            $users = $request->safe()->only(['users']);
-            $course->users()->detach();
 
-
-            foreach ($users['users'] as $id => $user) {
-                $progress = null;
-                if (!$user['teaching']) {
-                    $progress = $course->getEmptyProgress();
-                }
-                $course->users()->attach($user['name'], ['in_charge' => $user['in_charge'], 'teaching' => $user['teaching'], 'price' => $user['price'], 'progress' => $progress]);
-            }
             return new CourseResource($course);
         } else return response('unauthorized', 403);
     }
@@ -147,26 +137,35 @@ class CourseController extends Controller
             $course->fill($data);
 
             $course->save();
-            $users = $request->safe()->only(['users']);
-            $sync_data = [];
-            foreach ($users['users'] as $id => $user) {
-                $oldUser = $course->users()->where('id', $user['name'])->first();
-                if (!$isSameCertification || !$oldUser) {
-
-                    $progress = null;
-                    if (!$user['teaching']) {
-                        $progress = $course->getEmptyProgress();
-                    }
-                    $sync_data[$user['name']] =  ['in_charge' => $user['in_charge'], 'teaching' => $user['teaching'], 'price' => $user['price'], 'progress' => $progress];
-                } else {
-                    $sync_data[$user['name']] = ['in_charge' => $user['in_charge'], 'teaching' => $user['teaching'], 'price' => $user['price']];
-                }
-            }
-            $course->users()->sync($sync_data);
             return new CourseResource($course);
         } else return response('unauthorized', 403);
     }
-
+    public function addUser(CourseDiverPostRequest $request, Course $course)
+    {
+        if ($request->user()->isAbleTo('edit-all')) {
+            $validated = $request->validated();
+            $data = $request->safe()->except(['name']);
+            $oldUser = $course->users()->where('id', $request->name)->first();
+            if (!$oldUser) {
+                $progress = null;
+                if (!$data['teaching']) {
+                    $progress = $course->getEmptyProgress();
+                }
+                $data['progress'] = $progress;
+            }
+            $course->users()->sync([
+                $request->name => $data,
+            ], false);
+            return response()->json(['status' => 'success']);
+        } else return response('unauthorized', 403);
+    }
+    public function destroyUser(Request $request, Course $course, $user_id)
+    {
+        if ($request->user()->isAbleTo('edit-all')) {
+            $course->users()->detach($user_id);
+            return response()->json(['status' => 'success']);
+        } else return response('unauthorized', 403);
+    }
     public function updateStudent(StudentPostRequest $request, Course $course, $student_id)
     {
         if ($request->user()->isAbleTo('edit-all')) {
