@@ -282,7 +282,7 @@ class RosterController extends Controller
                                 $activityName = "Acqua libera";
                                 break;
                             case "THEORY":
-                                $activityName = "Acqua libera";
+                                $activityName = "Teoria";
                                 break;
                             default:
                                 $activityName = "Acqua confinata";
