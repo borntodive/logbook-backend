@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('equipment', function (Blueprint $table) {
             $table->id();
             $table->string('name');
+            $table->boolean('has_sizes')->default(true);
             $table->timestamps();
         });
     }

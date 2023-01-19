@@ -5,6 +5,7 @@ use App\Http\Controllers\Api\EquipmentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\CertificationController;
 use App\Http\Controllers\Api\DivingController;
+use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\RosterController;
 use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\UserController;
@@ -61,6 +62,10 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::delete('/{course}/diver/{user_id}', [CourseController::class, 'destroyUser']);
         Route::delete('/{course}', [CourseController::class, 'destroy']);
+    });
+    Route::prefix('inventory')->group(function () {
+        Route::get('/', [InventoryController::class, 'index']);
+        Route::get('/{equipment}', [InventoryController::class, 'get']);
     });
     Route::prefix('rosters')->group(function () {
         Route::get('/', [RosterController::class, 'index']);

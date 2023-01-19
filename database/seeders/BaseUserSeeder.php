@@ -9,7 +9,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Generator;
 
-class UserSeeder extends Seeder
+class BaseUserSeeder extends Seeder
 {
     /**
      * Run the database seeds.
@@ -20,25 +20,34 @@ class UserSeeder extends Seeder
     {
         $faker = app(Generator::class);
 
-        $staffRole = Role::where('name', 'staff')->first();
-        $userRole = Role::where('name', 'user')->first();
+        $adminRole = Role::where('name', 'admin')->first();
 
-
-        $staffs = \App\Models\User::factory(15)->create([
+        $andrea = \App\Models\User::factory()->create([
             'cf' => 'CVLNDR84B18H501A',
+            'firstname' => 'Andrea',
+            'lastname' => 'Covelli',
+            'gender' => 'male',
+            'email' => 'andrea.covelli@gmail.com',
             'user_duty_id' => 3,
+            'ssi_number' => $faker->numerify('#######')
+
+
         ]);
-        foreach ($staffs as $staff) {
-            $staff->attachRole($staffRole);
-        }
-        $users = \App\Models\User::factory(100)->create([
-            'cf' => 'CVLNDR84B18H501A'
+        $andrea->attachRole($adminRole);
+        $davide = \App\Models\User::factory()->create([
+            'cf' => 'CVLNDR84B18H501A',
+            'firstname' => 'Davide',
+            'lastname' => 'Bastiani',
+            'gender' => 'male',
+            'email' => 'davide@toponediving.it',
+            'user_duty_id' => 3,
+            'ssi_number' => $faker->numerify('#######')
+
+
         ]);
-        foreach ($users as $user) {
-            $user->attachRole($userRole);
-        }
+        $davide->attachRole($adminRole);
+
         foreach (User::get() as $user) {
-            $user->equipments()->detach();
             foreach (Equipment::get() as $eq) {
                 $sizes = $eq->sizes;
                 if ($eq->has_sizes) {

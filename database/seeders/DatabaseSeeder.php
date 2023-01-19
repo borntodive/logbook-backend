@@ -20,13 +20,18 @@ class DatabaseSeeder extends Seeder
             UserDutySeeder::class,
             SizeSeeder::class,
             EquipmentSeeder::class,
-            UserSeeder::class,
+            BaseUserSeeder::class,
             CertificationSeeder::class,
+            EquipmetTypeSeeder::class,
+            InventorySeeder::class,
+            // NON ESSENZIALI
+            UserSeeder::class,
             CourseSeeder::class,
             CourseUserSeeder::class,
             DivingSeeder::class,
             RosterSeeder::class,
-            RosterUserSeeder::class
+            RosterUserSeeder::class,
+
         ]);
     }
 }

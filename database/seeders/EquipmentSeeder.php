@@ -21,13 +21,22 @@ class EquipmentSeeder extends Seeder
                 'name' => 'suit',
                 'order' => 3,
                 'sizes' => [
-                    'xxs',
-                    'xs',
-                    's',
-                    'm',
-                    'lg',
-                    'xl',
-                    'xxl'
+                    'xxxsm',
+                    'xxsm',
+                    'xsm',
+                    'sm',
+                    'mm',
+                    'lgm',
+                    'xlm',
+                    'xxlm',
+                    'xxxsf',
+                    'xxsf',
+                    'xsf',
+                    'sf',
+                    'mf',
+                    'lgf',
+                    'xlf',
+                    'xxlf',
                 ]
             ],
 
@@ -36,13 +45,15 @@ class EquipmentSeeder extends Seeder
                 'order' => 1,
 
                 'sizes' => [
+                    'xxxs',
                     'xxs',
                     'xs',
                     's',
                     'm',
                     'lg',
                     'xl',
-                    'xxl'
+                    'xxl',
+                    'uni'
                 ]
             ],
             [
@@ -50,6 +61,7 @@ class EquipmentSeeder extends Seeder
                 'order' => 5,
 
                 'sizes' => [
+                    'xxxs',
                     'xxs',
                     'xs',
                     's',
@@ -64,6 +76,7 @@ class EquipmentSeeder extends Seeder
                 'order' => 6,
 
                 'sizes' => [
+                    'xxxs',
                     'xxs',
                     'xs',
                     's',
@@ -88,6 +101,10 @@ class EquipmentSeeder extends Seeder
 
                 'sizes' => [
                     'uni',
+                    '3P',
+                    '4P',
+                    '5P',
+                    '6P',
 
                 ]
             ],
@@ -96,15 +113,25 @@ class EquipmentSeeder extends Seeder
                 'order' => 2,
 
                 'sizes' => [
-                    'uni',
+                    'OCTO',
+                    'HOGA',
 
                 ]
             ],
             [
                 'name' => 'weight',
                 'order' => 8,
-
-                'sizes' => []
+                'has_sizes' => false,
+                'sizes' => [
+                    '0.5',
+                    '1',
+                    '1.5',
+                    '2',
+                    '2.5',
+                    '3',
+                    '3.5',
+                    '4'
+                ]
             ],
             [
                 'name' => 'tank',
@@ -112,11 +139,13 @@ class EquipmentSeeder extends Seeder
 
                 'sizes' => [
                     '4L',
+                    '5L',
                     '7L',
                     '10L',
                     '11L',
                     '12L',
                     '15L',
+                    '18L',
                     'B10L',
                     'B12L',
 
@@ -124,8 +153,10 @@ class EquipmentSeeder extends Seeder
             ]
         ];
         foreach ($equipments as $equipment) {
-            $eq = Equipment::create(['name' => $equipment['name'], 'order' => $equipment['order']]);
-            foreach ($equipment['sizes'] as $size) {
+            $sizes = $equipment['sizes'];
+            unset($equipment['sizes']);
+            $eq = Equipment::create($equipment);
+            foreach ($sizes  as $size) {
                 $s = Size::where('name', $size)->first();
                 $eq->sizes()->attach($s);
             }

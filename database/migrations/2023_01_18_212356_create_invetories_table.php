@@ -1,5 +1,8 @@
 <?php
 
+use App\Models\Equipment;
+use App\Models\EquipmentType;
+use App\Models\Size;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,10 +16,12 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('sizes', function (Blueprint $table) {
+        Schema::create('inventories', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->integer('order')->default(1);
+            $table->foreignIdFor(Equipment::class);
+            $table->foreignIdFor(EquipmentType::class)->nullable();
+            $table->foreignIdFor(Size::class);
+            $table->string('code')->unique();
             $table->timestamps();
         });
     }
@@ -28,6 +33,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('sizes');
+        Schema::dropIfExists('inventories');
     }
 };
