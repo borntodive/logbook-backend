@@ -300,12 +300,12 @@ class RosterController extends Controller
                             $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
                         $divers[$diver->id]['balance']['total']
                             += $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
-                        $countedCourses[$dive_id][$diver->courseData->course_id] = true;
+                        $countedCourses[$diver->id][$diver->courseData->course_id] = true;
                     }
                     $divers[$diver->id]['balance']['equipment'] = 0;
                     $totals['equipment']['income']  = 0;
 
-                    $divers[$diver->id]['balance']['total'] = $divers[$diver->id]['balance']['dive'] + $divers[$diver->id]['balance']['equipment'] + $divers[$diver->id]['balance']['course'];
+                    $divers[$diver->id]['balance']['total'] = $divers[$diver->id]['balance']['dive'] + $divers[$diver->id]['balance']['equipment'];
 
                     $totals['dive']['income'] += $diver->price;
 
