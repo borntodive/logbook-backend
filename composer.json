@@ -12,6 +12,7 @@
         "laravel/framework": "^9.19",
         "laravel/sanctum": "^3.0",
         "laravel/tinker": "^2.7",
+        "mikehaertl/phpwkhtmltopdf": "^2.5",
         "santigarcor/laratrust": "^7.1",
         "spatie/browsershot": "^3.57",
         "spatie/laravel-json-api-paginate": "^1.12"

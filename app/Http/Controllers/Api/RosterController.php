@@ -19,6 +19,8 @@ use Exception;
 use Illuminate\Support\Carbon;
 use Spatie\Browsershot\Browsershot;
 use PDF;
+use mikehaertl\wkhtmlto\Pdf as PdfT;
+
 
 class RosterController extends Controller
 {
@@ -307,11 +309,18 @@ class RosterController extends Controller
             }
             $totals['dive']['cost'] += $dive->cost * $totalDivers - $dive->cost * $rosterRes->gratuities;
         }
-        //return view('print_roster_admin', ['roster' => $rosterRes, 'divers' => $divers, 'totals' => $totals]);
-        $pdf = PDF::loadView('print_roster_admin', ['roster' => $rosterRes, 'divers' => $divers, 'totals' => $totals])->setPaper('a4');
+        $view = view('print_roster_admin', ['roster' => $rosterRes, 'divers' => $divers, 'totals' => $totals])->render();
+        /* $pdf = PDF::loadView('print_roster_admin', ['roster' => $rosterRes, 'divers' => $divers, 'totals' => $totals])->setPaper('a4');
         $rosterType = 'Amministrativo';
         $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
-        return $pdf->stream($filename);
+        return $pdf->stream($filename); */
+        $pdf = new PdfT;
+        $pdf->addPage($view);
+        if (!$pdf->send()) {
+            dd($pdf->getError());
+            // ... handle error here
+        }
+        //return Browsershot::url('https://google.com')->noSandbox()->timeout(360)->save('your.pdf');
     }
     public function printTech(Request $request, Roster $roster)
     {

@@ -96,155 +96,157 @@
             <div class="card-header">Diving</div>
             <div class="card-body">
                 <h6>{{ $roster->diving->name }}</h6>
-                <div class="row">
-                    <div class="col-6">
-                        {{ $roster->diving->address }}
-                    </div>
-                    <div class="col">
-                        {{ $roster->diving->reference }}
-                    </div>
-                    <div class="col">
-                        {{ $roster->diving->phone }}
-                    </div>
-                    <div class="col">
-                        {{ $roster->diving->email }}
-                    </div>
-
+                <div class="row"></div>
+                <div class="col-6">
+                    {{ $roster->diving->address }}
                 </div>
+                <div class="col">
+                    {{ $roster->diving->reference }}
+                </div>
+                <div class="col">
+                    {{ $roster->diving->phone }}
+                </div>
+                <div class="col">
+                    {{ $roster->diving->email }}
+                </div>
+
             </div>
         </div>
-        <div class="card">
-            <div class="card-header">{{ 'Ospiti' }}</div>
-            <div class="card-body text-dark">
-                <table class="table">
-                    <thead>
-                        <tr>
-                            <th scope="col">Nominativo</th>
-                            <th scope="col" style="text-align: right">Saldo</th>
-                            <th scope="col" style="text-align: right">Pagato</th>
-                            <th scope="col" style="text-align: right">Acconto</th>
+    </div>
+    <div class="card">
+        <div class="card-header">{{ 'Ospiti' }}</div>
+        <div class="card-body text-dark">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th scope="col">Nominativo</th>
+                        <th scope="col">Saldo</th>
+                        <th scope="col">Pagato</th>
+                        <th scope="col">Acconto</th>
 
-                        </tr>
-                    </thead>
-                    <tbody>
+                    </tr>
+                </thead>
+                <tbody>
+                    @php
+                        $rowCount = 0;
+                    @endphp
+                    @foreach ($divers as $diver)
                         @php
-                            $rowCount = 0;
+                            $rowCount++;
+                            $class = 'even-row';
+                            if ($rowCount % 2 === 0) {
+                                $class = 'odd-row';
+                            }
                         @endphp
-                        @foreach ($divers as $diver)
-                            @php
-                                $rowCount++;
-                                $class = 'even-row';
-                                if ($rowCount % 2 === 0) {
-                                    $class = 'odd-row';
-                                }
-                            @endphp
-                            <tr class="{{ $class }}">
-                                <td>{{ $diver['name'] }}</td>
-                                <td style="text-align: right">
-                                    @if ($roster->type == 'DIVE')
-                                        <p>Immersione:
+                        <tr class="{{ $class }}">
+                            <td>{{ $diver['name'] }}</td>
+                            <td style="text-align: right">
+                                @if ($roster->type == 'DIVE')
+                                    <p>Immersione:
 
-                                            {{ $diver['balance']['dive'] ? number_format((float) $diver['balance']['dive'], 2) : number_format((float) 0, 2) }}
-                                            €</p>
+                                        {{ $diver['balance']['dive'] ? number_format((float) $diver['balance']['dive'], 2) : number_format((float) 0, 2) }}
+                                        €</p>
+                                @endif
+                                @if ($diver['balance']['course'])
+                                    <p>Corso:
+
+                                        {{ number_format((float) $diver['balance']['course'], 2) }}
+                                        €</p>
+                                @endif
+
+                            </td>
+                            <td>
+                                <div style="text-align:center">
+                                    <p
+                                        style="display:block;border:solid; height:20px;width:20px;margin-left:auto;margin-right:auto">
+                                    </p>
+                                    @if ($diver['balance']['course'])
+                                        <p
+                                            style="display:block;border:solid; height:20px;width:20px;margin-left:auto;margin-right:auto">
+                                        </p>
+                                    @endif
+                                </div>
+                            </td>
+                            <td>
+                                <div style="margin-left: 40%;">
+                                    @if ($roster->type == 'DIVE')
+                                        <p style="border:solid; height:20px;width:100%">
+                                        </p>
                                     @endif
                                     @if ($diver['balance']['course'])
-                                        <p>Corso:
-
-                                            {{ number_format((float) $diver['balance']['course'], 2) }}
-                                            €</p>
+                                        <p style="border:solid; height:20px;width:100%">
+                                        </p>
                                     @endif
-
-                                </td>
-                                <td>
-                                    <div
-                                        style="display: flex;flex-direction: column; gap: 22px; width: 20px;float: right;">
-                                        <div style="display:block;float:right;border:solid; height:20px;width:20px">
-                                        </div>
-                                        @if ($diver['balance']['course'])
-                                            <div style="display:block;float:right;border:solid; height:20px;width:20px">
-                                            </div>
-                                        @endif
-                                    </div>
-                                </td>
-                                <td>
-                                    <div
-                                        style="display: flex;flex-direction: column; list-style: none; gap: 22px;justify-content:end;margin-left: 40%;">
-                                        <div style="border:solid; height:20px;width:100%">
-                                        </div>
-                                        @if ($diver['balance']['course'])
-                                            <div style="border:solid; height:20px;width:100%">
-                                            </div>
-                                        @endif
-                                    </div>
-                                </td>
-                            </tr>
-                        @endforeach
-                    </tbody>
-                </table>
-            </div>
+                                </div>
+                            </td>
+                        </tr>
+                    @endforeach
+                </tbody>
+            </table>
         </div>
+    </div>
 
-        <div class="card border-dark mb-3" style="page-break-before: always;">
-            <div class="card-header">Totali</div>
-            <div class="card-body">
-                <div class="table-header"> Immersione</div>
-                <table class="table">
-                    <tbody>
-                        <tr>
+    <div class="card border-dark mb-3" style="page-break-before: always;">
+        <div class="card-header">Totali</div>
+        <div class="card-body">
+            <div class="table-header"> Immersione</div>
+            <table class="table">
+                <tbody>
+                    <tr>
 
-                            <td style="width: 16.6%">Incasso</td>
-                            <td style="width: 16.6%">{{ number_format((float) $totals['dive']['income'], 2) }} €</td>
-                            <td style="width: 16.6%">Dovuto</td>
-                            <td style="width: 16.6%">{{ number_format((float) $totals['dive']['cost'], 2) }} €</td>
+                        <td style="width: 16.6%">Incasso</td>
+                        <td style="width: 16.6%">{{ number_format((float) $totals['dive']['income'], 2) }} €</td>
+                        <td style="width: 16.6%">Dovuto</td>
+                        <td style="width: 16.6%">{{ number_format((float) $totals['dive']['cost'], 2) }} €</td>
 
-                            <td style="width: 16.6%">Saldo</td>
-                            <td style="width: 16.6%">
-                                {{ number_format((float) $totals['dive']['income'] - $totals['dive']['cost'], 2) }}
-                                €
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="table-header">Attrezzature</div>
-                <table class="table">
-                    <tbody>
-                        <tr>
+                        <td style="width: 16.6%">Saldo</td>
+                        <td style="width: 16.6%">
+                            {{ number_format((float) $totals['dive']['income'] - $totals['dive']['cost'], 2) }}
+                            €
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="table-header">Attrezzature</div>
+            <table class="table">
+                <tbody>
+                    <tr>
 
-                            <td style="width: 16.6%">Incasso</td>
-                            <td style="width: 16.6%">{{ number_format((float) $totals['equipment']['income'], 2) }} €
-                            </td>
-                            <td style="width: 16.6%"></td>
-                            <td style="width: 16.6%"></td>
+                        <td style="width: 16.6%">Incasso</td>
+                        <td style="width: 16.6%">{{ number_format((float) $totals['equipment']['income'], 2) }} €
+                        </td>
+                        <td style="width: 16.6%"></td>
+                        <td style="width: 16.6%"></td>
 
 
-                            <td style="width: 16.6%">Saldo</td>
-                            <td style="width: 16.6%">{{ number_format((float) $totals['equipment']['income'], 2) }}
-                                €
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="table-header">Corsi</div>
-                <table class="table">
-                    <tbody>
-                        <tr>
+                        <td style="width: 16.6%">Saldo</td>
+                        <td style="width: 16.6%">{{ number_format((float) $totals['equipment']['income'], 2) }}
+                            €
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="table-header">Corsi</div>
+            <table class="table">
+                <tbody>
+                    <tr>
 
-                            <td style="width: 16.6%">Incasso</td>
-                            <td style="width: 16.6%">{{ number_format((float) $totals['course']['income'], 2) }} €
-                            </td>
-                            <td style="width: 16.6%"></td>
-                            <td style="width: 16.6%"></td>
+                        <td style="width: 16.6%">Incasso</td>
+                        <td style="width: 16.6%">{{ number_format((float) $totals['course']['income'], 2) }} €
+                        </td>
+                        <td style="width: 16.6%"></td>
+                        <td style="width: 16.6%"></td>
 
-                            <td style="width: 16.6%">Saldo</td>
-                            <td style="width: 16.6%">{{ number_format((float) $totals['course']['income'], 2) }}
-                                €
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-                <div class="table-header">Numero Gratuità: {{ $roster->gratuities }}</div>
-            </div>
+                        <td style="width: 16.6%">Saldo</td>
+                        <td style="width: 16.6%">{{ number_format((float) $totals['course']['income'], 2) }}
+                            €
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="table-header">Numero Gratuità: {{ $roster->gratuities }}</div>
         </div>
+    </div>
 </body>
 
 </html>
