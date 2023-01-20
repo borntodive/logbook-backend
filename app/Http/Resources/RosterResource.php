@@ -29,7 +29,7 @@ class RosterResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'date' => $this->date->format('Y-m-d\TH:i:s\Z'),
+            'date' => $this->date->format('Y-m-d\TH:i:s'),
             'diving' => $this->diving,
             'type' => $this->type,
             'gratuities' => $this->gratuities,

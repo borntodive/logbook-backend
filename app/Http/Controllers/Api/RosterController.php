@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\RosterDivePostRequest;
 use App\Http\Requests\RosterDiverPostRequest;
 use App\Http\Requests\RosterPostRequest;
 use App\Http\Resources\RosterResource;
@@ -15,6 +16,7 @@ use App\Models\Size;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Exception;
+use Illuminate\Support\Carbon;
 use Spatie\Browsershot\Browsershot;
 use PDF;
 
@@ -63,19 +65,53 @@ class RosterController extends Controller
     {
         if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
-            $data = $request->safe()->toArray();
+            $data = $request->safe()->except(['price', 'cost']);
             $roster->fill($data);
-
             $roster->save();
-
+            foreach ($roster->roster_dives as $dive) {
+                $dive->date = Carbon::createFromFormat('Y-m-d h:i', $roster->date->format('Y-m-d') . " " . $dive->date->format('h:i'))->toIso8601String();
+                $dive->save();
+            }
             return new RosterResource($roster);
         } else return response('unauthorized', 403);
     }
-
-    public function addDive(Request $request, Roster $roster)
+    public function updateDive(RosterDivePostRequest $request, RosterDive $roster)
     {
-        if ($request->user()->isAbleTo('view-all')) {
-            $roster->roster_dives()->create(['date' => $roster->date]);
+        if ($request->user()->isAbleTo('edit-all')) {
+            $validated = $request->validated();
+            $roster->fill($request->safe()->toArray());
+            $roster->save();
+            return response()->json(['status' => 'success']);
+        } else return response('unauthorized', 403);
+    }
+    public function duplicateDive(Request $request, RosterDive $roster)
+    {
+        if ($request->user()->isAbleTo('edit-all')) {
+            $newDive = $roster->replicate();
+            $newDive->created_at = Carbon::now();
+            $newDive->updated_at = Carbon::now();
+            $newDive->date = Carbon::createFromFormat('Y-m-d h:i', $roster->date->format('Y-m-d') . " " . $roster->date->clone()->addHours(1)->format('h:i'))->toIso8601String();
+
+            $newDive->save();
+            $data = [];
+            foreach ($roster->users as $diver) {
+
+                $d = $diver->pivot->toArray();
+                $id = $d['user_id'];
+                unset($d['roster_dive_id']);
+                unset($d['user_id']);
+                $data[$id] = $d;
+            }
+            $newDive->users()->attach($data);
+            return response()->json(['status' => 'success']);
+        } else return response('unauthorized', 403);
+    }
+    public function addDive(RosterDivePostRequest $request, Roster $roster)
+    {
+        if ($request->user()->isAbleTo('edit-all')) {
+            $validated = $request->validated();
+            $roster->roster_dives()->create($request->safe()->toArray());
+            return response()->json(['status' => 'success']);
         } else return response('unauthorized', 403);
     }
     public function updateDiver(RosterDiverPostRequest $request, RosterDive $roster, $diver_id)

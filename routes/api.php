@@ -73,9 +73,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/print-admin/{roster}', [RosterController::class, 'printAdmin']);
         Route::get('/print-tech/{roster}', [RosterController::class, 'printTech']);
         Route::get('/{roster}', [RosterController::class, 'get']);
+        Route::put('/dive/{roster}', [RosterController::class, 'updateDive']);
         Route::put('/{roster}', [RosterController::class, 'update']);
         Route::put('/{roster}/{diver_id}', [RosterController::class, 'updateDiver']);
-        Route::post('/add-dive/{roster}', [RosterController::class, 'addDive']);
+        Route::post('/duplicate-dive/{roster}', [RosterController::class, 'duplicateDive']);
+        Route::post('/dive/{roster}', [RosterController::class, 'addDive']);
         Route::post('/', [RosterController::class, 'store']);
 
         Route::post('/{roster}/user/{user}', [RosterController::class, 'addUser']);

@@ -14,7 +14,7 @@ class Roster extends Model
         'id',
     ];
     protected $casts = [
-        'date' => 'date',
+        'date' => 'datetime',
     ];
     protected static function boot()
     {
