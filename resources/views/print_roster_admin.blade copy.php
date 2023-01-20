@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Roster</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
-        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         .mx-4 {
             margin-left: 1rem;
@@ -74,16 +73,16 @@
 <body>
     <div style=" margin-left: 1rem;  margin-right: 1rem;">
         @php
-            $total_divers = 0;
-            $total_price = 0;
-            $total_dive = 0;
-            $total_gears = 0;
-            $total_courses = 0;
+        $total_divers = 0;
+        $total_price = 0;
+        $total_dive = 0;
+        $total_gears = 0;
+        $total_courses = 0;
         @endphp
         <div class="card">
             <div class="card-body">
                 @php
-                    $rosterType = 'Amministrativo';
+                $rosterType = 'Amministrativo';
                 @endphp
                 <h5 class="card-title">Roster
                     {{ $rosterType }}
@@ -128,56 +127,46 @@
                     </thead>
                     <tbody>
                         @php
-                            $rowCount = 0;
+                        $rowCount = 0;
                         @endphp
                         @foreach ($divers as $diver)
-                            @php
-                                $rowCount++;
-                                $class = 'even-row';
-                                if ($rowCount % 2 === 0) {
-                                    $class = 'odd-row';
-                                }
-                            @endphp
-                            <tr class="{{ $class }}">
-                                <td>{{ $diver['name'] }}</td>
-                                <td style="text-align: right">
-                                    @if ($roster->type == 'DIVE')
-                                        <p>Immersione:
+                        @php
+                        $rowCount++;
+                        $class = 'even-row';
+                        if ($rowCount % 2 === 0) {
+                        $class = 'odd-row';
+                        }
+                        @endphp
+                        <tr class="{{ $class }}">
+                            <td>{{ $diver['name'] }}</td>
+                            <td style="text-align: right">
+                                @if ($roster->type == 'DIVE')
+                                <p>Immersione:
 
-                                            {{ $diver['balance']['dive'] ? number_format((float) $diver['balance']['dive'], 2) : number_format((float) 0, 2) }}
-                                            €</p>
-                                    @endif
-                                    @if ($diver['balance']['course'])
-                                        <p>Corso:
+                                    {{ $diver->price ? number_format((float) $diver['balance']['dive'], 2) : number_format((float) 0, 2) }}
+                                    €
+                                </p>
+                                @endif
+                                @if ($diver['balance']['course'])
+                                <p>Corso:
 
-                                            {{ number_format((float) $diver['balance']['course'], 2) }}
-                                            €</p>
-                                    @endif
+                                    {{ number_format((float) $diver['balance']['course'], 2) }}
+                                    €
+                                </p>
+                                @endif
 
-                                </td>
-                                <td>
-                                    <div
-                                        style="display: flex;flex-direction: column; gap: 22px; width: 20px;float: right;">
-                                        <div style="display:block;float:right;border:solid; height:20px;width:20px">
-                                        </div>
-                                        @if ($diver['balance']['course'])
-                                            <div style="display:block;float:right;border:solid; height:20px;width:20px">
-                                            </div>
-                                        @endif
+                            </td>
+                            <td>
+                                <div style="display: flex;flex-direction: column; gap: 22px; width: 20px;float: right;">
+                                    <div style="display:block;float:right;border:solid; height:20px;width:20px">
                                     </div>
-                                </td>
-                                <td>
-                                    <div
-                                        style="display: flex;flex-direction: column; list-style: none; gap: 22px;justify-content:end;margin-left: 40%;">
-                                        <div style="border:solid; height:20px;width:100%">
-                                        </div>
-                                        @if ($diver['balance']['course'])
-                                            <div style="border:solid; height:20px;width:100%">
-                                            </div>
-                                        @endif
+                                    @if (!$diver['balance']['course'])
+                                    <div style="display:block;float:right;border:solid; height:20px;width:20px">
                                     </div>
-                                </td>
-                            </tr>
+                                    @endif
+                                </div>
+                            </td>
+                        </tr>
                         @endforeach
                     </tbody>
                 </table>
@@ -187,6 +176,10 @@
         <div class="card border-dark mb-3" style="page-break-before: always;">
             <div class="card-header">Totali</div>
             <div class="card-body">
+                @php
+                $total_cost = $roster->cost * $total_divers - $roster->cost * $roster->gratuities;
+                $gain = $total_dive + $total_gears - $total_cost;
+                @endphp
                 <div class="table-header"> Immersione</div>
                 <table class="table">
                     <tbody>
@@ -198,8 +191,7 @@
                             <td style="width: 16.6%">{{ number_format((float) $totals['dive']['cost'], 2) }} €</td>
 
                             <td style="width: 16.6%">Saldo</td>
-                            <td style="width: 16.6%">
-                                {{ number_format((float) $totals['dive']['income'] - $totals['dive']['cost'], 2) }}
+                            <td style="width: 16.6%">{{ number_format((float) $totals['dive']['income']- $totals['dive']['cost'] 2) }}
                                 €
                             </td>
                         </tr>
@@ -211,8 +203,7 @@
                         <tr>
 
                             <td style="width: 16.6%">Incasso</td>
-                            <td style="width: 16.6%">{{ number_format((float) $totals['equipment']['income'], 2) }} €
-                            </td>
+                            <td style="width: 16.6%">{{ number_format((float) $totals['equipment']['income'], 2) }} €</td>
                             <td style="width: 16.6%"></td>
                             <td style="width: 16.6%"></td>
 
@@ -224,19 +215,37 @@
                         </tr>
                     </tbody>
                 </table>
+                <div class="table-header">Totale</div>
+                <table class="table">
+                    <tbody>
+                        <tr>
+
+                            <td style="width: 16.6%">Incasso</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_gears + $total_dive, 2) }} €
+                            </td>
+                            <td style="width: 16.6%">Dovuto</td>
+                            <td style="width: 16.6%">{{ number_format((float) $total_cost, 2) }} €</td>
+
+                            <td style="width: 16.6%">Saldo</td>
+                            <td style="width: 16.6%">{{ number_format((float) $gain, 2) }}
+                                €
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
                 <div class="table-header">Corsi</div>
                 <table class="table">
                     <tbody>
                         <tr>
 
                             <td style="width: 16.6%">Incasso</td>
-                            <td style="width: 16.6%">{{ number_format((float) $totals['course']['income'], 2) }} €
+                            <td style="width: 16.6%">{{ number_format((float) $total_courses, 2) }} €
                             </td>
                             <td style="width: 16.6%"></td>
                             <td style="width: 16.6%"></td>
 
                             <td style="width: 16.6%">Saldo</td>
-                            <td style="width: 16.6%">{{ number_format((float) $totals['course']['income'], 2) }}
+                            <td style="width: 16.6%">{{ number_format((float) $total_courses, 2) }}
                                 €
                             </td>
                         </tr>

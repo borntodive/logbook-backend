@@ -246,9 +246,11 @@ class RosterController extends Controller
             $name = $equipment['name'];
             $equipments[$idx]['translation'] = $equipmentTraslations->equipments->$name;
         }
-        foreach ($rosterRes->divers as $idx => $course) {
-            if (count($course->divers) <= 0)
-                unset($rosterRes->divers[$idx]);
+        foreach ($rosterRes->dives as $id => $dive) {
+            foreach ($dive->divers as $idx => $course) {
+                if (count($course->divers) <= 0)
+                    unset($rosterRes->dives[$id]->divers[$idx]);
+            }
         }
 
         $pdf = PDF::loadView('print_roster', ['roster' => $rosterRes, 'equipments' => $equipments, 'sizes' => $sizes])->setPaper('a4', 'landscape');
@@ -267,14 +269,46 @@ class RosterController extends Controller
     {
         //$rRes = new RosterResource($roster);
         $roster->withCourseData = true;
+        $divers = [];
+        $totals['dive']['income'] = 0;
+        $totals['course']['income']  = 0;
+        $totals['equipment']['income']  = 0;
+        $totals['dive']['cost'] = 0;
+        $totals['course']['cost']  = 0;
+        $totals['equipment']['cost']  = 0;
         $rosterRes = json_decode(json_encode(new RosterResource($roster)));
 
-        foreach ($rosterRes->divers as $idx => $course) {
-            if (count($course->divers) <= 0)
-                unset($rosterRes->divers[$idx]);
+        foreach ($rosterRes->dives as $dive_id => $dive) {
+            $totalDivers = 0;
+            foreach ($dive->divers as $course_id => $course) {
+                foreach ($course->divers as $diver_id => $diver) {
+                    $totalDivers++;
+                    if (!isset($divers[$diver->id])) {
+                        $divers[$diver->id]['name'] = $diver->lastname . ' ' . $diver->firstname;
+                        $divers[$diver->id]['balance']['dive'] = 0;
+                        $divers[$diver->id]['balance']['course'] = 0;
+                        $divers[$diver->id]['balance']['equipment'] = 0;
+                        $divers[$diver->id]['balance']['total'] = 0;
+                    }
+                    $divers[$diver->id]['balance']['dive'] += $diver->price;
+                    if (isset($diver->courseData) && $diver->courseData && !$diver->teaching) {
+                        $divers[$diver->id]['balance']['course'] += $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
+                        $totals['course']['income']  +=
+                            $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
+                    }
+                    $divers[$diver->id]['balance']['equipment'] = 0;
+                    $totals['equipment']['income']  = 0;
+
+                    $divers[$diver->id]['balance']['total'] = $divers[$diver->id]['balance']['dive'] + $divers[$diver->id]['balance']['equipment'] + $divers[$diver->id]['balance']['course'];
+                    $totals['dive']['income'] += $diver->price;
+
+                    $totals['equipment']['income']  += 0;
+                }
+            }
+            $totals['dive']['cost'] += $dive->cost * $totalDivers - $dive->cost * $rosterRes->gratuities;
         }
-        //return view('print_roster_admin', ['roster' => $rosterRes]);
-        $pdf = PDF::loadView('print_roster_admin', ['roster' => $rosterRes])->setPaper('a4');
+        //return view('print_roster_admin', ['roster' => $rosterRes, 'divers' => $divers, 'totals' => $totals]);
+        $pdf = PDF::loadView('print_roster_admin', ['roster' => $rosterRes, 'divers' => $divers, 'totals' => $totals])->setPaper('a4');
         $rosterType = 'Amministrativo';
         $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
         return $pdf->stream($filename);
@@ -299,61 +333,62 @@ class RosterController extends Controller
             default:
                 $activityType = "CW";
         }
-        foreach ($rosterRes->divers as $idx => $rosterCourse) {
-            if (count($rosterCourse->divers) <= 0) {
-                unset($rosterRes->divers[$idx]);
-                continue;
-            }
-
-            if (!$rosterCourse->course_id || $rosterCourse->course_id == 'GUESTS') {
-                unset($rosterRes->divers[$idx]);
-                continue;
-            }
-
-            $course = Course::with('users')->find($rosterCourse->course_id);
-            if (!$course)
-                dd($rosterCourse->course_id);
-            $courseName
-                = $course->certification->name . ' ' . $course->number . '/' . $course->start_date->format('Y');
-            $nextSessions[$courseName] = null;
-            foreach ($course->users as $student) {
-                if ($student->pivot->teaching)
+        if (isset($rosterRes->dives[0]))
+            foreach ($rosterRes->dives[0]->divers as $idx => $rosterCourse) {
+                if (count($rosterCourse->divers) <= 0) {
+                    unset($rosterRes->divers[$idx]);
                     continue;
-                foreach ($student->pivot->progress as $progress) {
-                    if ($progress['label'] != $activityType)
+                }
+
+                if (!$rosterCourse->course_id || $rosterCourse->course_id == 'GUESTS') {
+                    unset($rosterRes->divers[$idx]);
+                    continue;
+                }
+
+                $course = Course::with('users')->find($rosterCourse->course_id);
+                if (!$course)
+                    dd($rosterCourse->course_id);
+                $courseName
+                    = $course->certification->name . ' ' . $course->number . '/' . $course->start_date->format('Y');
+                $nextSessions[$courseName] = null;
+                foreach ($course->users as $student) {
+                    if ($student->pivot->teaching)
                         continue;
-                    $studentName = $student->lastname . " " . $student->firstname;
-                    foreach ($progress['values'] as $session) {
-                        $missings = [];
-                        $allCompleted = true;
-                        $activityCount = 0;
-                        $this->searchMissingActivities($session['values'], $missings, $activityCount);
-                        $activityName = "Acqua confinata";
-                        switch ($activityType) {
-                            case "CW":
-                                $activityName = "Acqua confinata";
-                                break;
-                            case "OW":
-                                $activityName = "Acqua libera";
-                                break;
-                            case "THEORY":
-                                $activityName = "Teoria";
-                                break;
-                            default:
-                                $activityName = "Acqua confinata";
+                    foreach ($student->pivot->progress as $progress) {
+                        if ($progress['label'] != $activityType)
+                            continue;
+                        $studentName = $student->lastname . " " . $student->firstname;
+                        foreach ($progress['values'] as $session) {
+                            $missings = [];
+                            $allCompleted = true;
+                            $activityCount = 0;
+                            $this->searchMissingActivities($session['values'], $missings, $activityCount);
+                            $activityName = "Acqua confinata";
+                            switch ($activityType) {
+                                case "CW":
+                                    $activityName = "Acqua confinata";
+                                    break;
+                                case "OW":
+                                    $activityName = "Acqua libera";
+                                    break;
+                                case "THEORY":
+                                    $activityName = "Teoria";
+                                    break;
+                                default:
+                                    $activityName = "Acqua confinata";
+                            }
+                            $activityTypeName = $activityName;
+                            $sessionName = isset($session['label']) && $session['label'] ? $session['label'] : $activityName . " " . $session['order'];
+                            $missingActivities[$courseName][$studentName][$activityType][$sessionName]['order'] = $session['order'];
+                            $missingActivities[$courseName][$studentName][$activityType][$sessionName]['missings'] = $missings;
+                            $missingActivities[$courseName][$studentName][$activityType][$sessionName]['completed'] = count($missings) === 0;
+                            $missingActivities[$courseName][$studentName][$activityType][$sessionName]['neverStarted'] =
+                                count($missings) === $activityCount;
+                            $nextSessions[$courseName][$activityType] = 0;
                         }
-                        $activityTypeName = $activityName;
-                        $sessionName = isset($session['label']) && $session['label'] ? $session['label'] : $activityName . " " . $session['order'];
-                        $missingActivities[$courseName][$studentName][$activityType][$sessionName]['order'] = $session['order'];
-                        $missingActivities[$courseName][$studentName][$activityType][$sessionName]['missings'] = $missings;
-                        $missingActivities[$courseName][$studentName][$activityType][$sessionName]['completed'] = count($missings) === 0;
-                        $missingActivities[$courseName][$studentName][$activityType][$sessionName]['neverStarted'] =
-                            count($missings) === $activityCount;
-                        $nextSessions[$courseName][$activityType] = 0;
                     }
                 }
             }
-        }
         foreach ($missingActivities as $courseName => $student) {
             foreach ($student as $studentName => $activity) {
                 foreach ($activity as $activityType => $session) {
