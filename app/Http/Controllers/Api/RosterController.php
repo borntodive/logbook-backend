@@ -278,6 +278,7 @@ class RosterController extends Controller
         $totals['dive']['cost'] = 0;
         $totals['course']['cost']  = 0;
         $totals['equipment']['cost']  = 0;
+        $countedCourses = [];
         $rosterRes = json_decode(json_encode(new RosterResource($roster)));
 
         foreach ($rosterRes->dives as $dive_id => $dive) {
@@ -293,15 +294,19 @@ class RosterController extends Controller
                         $divers[$diver->id]['balance']['total'] = 0;
                     }
                     $divers[$diver->id]['balance']['dive'] += $diver->price;
-                    if (isset($diver->courseData) && $diver->courseData && !$diver->teaching) {
+                    if (isset($diver->courseData) && $diver->courseData && !$diver->teaching && !isset($countedCourses[$diver->id][$diver->courseData->course_id])) {
                         $divers[$diver->id]['balance']['course'] += $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
                         $totals['course']['income']  +=
                             $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
+                        $divers[$diver->id]['balance']['total']
+                            += $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
+                        $countedCourses[$dive_id][$diver->courseData->course_id] = true;
                     }
                     $divers[$diver->id]['balance']['equipment'] = 0;
                     $totals['equipment']['income']  = 0;
 
                     $divers[$diver->id]['balance']['total'] = $divers[$diver->id]['balance']['dive'] + $divers[$diver->id]['balance']['equipment'] + $divers[$diver->id]['balance']['course'];
+
                     $totals['dive']['income'] += $diver->price;
 
                     $totals['equipment']['income']  += 0;
