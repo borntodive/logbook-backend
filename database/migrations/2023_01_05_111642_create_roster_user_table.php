@@ -1,7 +1,7 @@
 <?php
 
 use App\Models\Course;
-use App\Models\Roster;
+use App\Models\RosterDive;
 use App\Models\User;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
@@ -17,7 +17,7 @@ return new class extends Migration
     public function up()
     {
         Schema::create('roster_user', function (Blueprint $table) {
-            $table->foreignIdFor(Roster::class);
+            $table->foreignIdFor(RosterDive::class);
             $table->foreignIdFor(User::class);
             $table->foreignIdFor(Course::class)->nullable();
             $table->string('note')->nullable();
@@ -27,7 +27,7 @@ return new class extends Migration
             $table->boolean('staff')->default(false);
             $table->json('gears')->nullable();
             $table->timestamps();
-            $table->primary(['roster_id', 'user_id']);
+            $table->primary(['roster_dive_id', 'user_id']);
         });
     }
 

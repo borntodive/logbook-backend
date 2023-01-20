@@ -75,10 +75,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{roster}', [RosterController::class, 'get']);
         Route::put('/{roster}', [RosterController::class, 'update']);
         Route::put('/{roster}/{diver_id}', [RosterController::class, 'updateDiver']);
+        Route::post('/add-dive/{roster}', [RosterController::class, 'addDive']);
         Route::post('/', [RosterController::class, 'store']);
 
         Route::post('/{roster}/user/{user}', [RosterController::class, 'addUser']);
         Route::post('/{roster}/course/{course}', [RosterController::class, 'AddCourse']);
+        Route::delete('/dive/{roster}', [RosterController::class, 'destroyDive']);
         Route::delete('/{roster}/course/{course_id}', [RosterController::class, 'destroyCourse']);
         Route::delete('/{roster}/diver/{user_id}', [RosterController::class, 'destroyUser']);
         Route::delete('/{roster}', [RosterController::class, 'destroy']);

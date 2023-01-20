@@ -6,15 +6,14 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
 
-class Roster extends Model
+class RosterDive extends Model
 {
     use HasFactory;
-
     protected $guarded = [
         'id',
     ];
     protected $casts = [
-        'date' => 'date',
+        'date' => 'datetime',
     ];
     protected static function boot()
     {
@@ -23,22 +22,13 @@ class Roster extends Model
             $builder->orderBy('date', 'asc');
         });
     }
-    public function scopePools($query)
+    public function users()
     {
-        return $query->where('type', 1);
+        return $this->belongsToMany(User::class, 'roster_user')->withPivot(['course_id', 'note', 'price', 'course_note', 'payed', 'gears'])->using(RosterUser::class);
     }
 
-    public function scopeDives($query)
+    public function roster()
     {
-        return $query->where('type', 2);
-    }
-
-    public function roster_dives()
-    {
-        return $this->hasMany(RosterDive::class)->orderBy('date', 'asc');;
-    }
-    public function diving()
-    {
-        return $this->belongsTo(Diving::class);
+        return $this->belongsTo(Roster::class);
     }
 }

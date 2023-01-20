@@ -28,9 +28,9 @@ class RosterFactory extends Factory
             'date' => fake()->dateTime(),
             'type' => $type,
             'diving_id' => $diving->id,
-            'note' => fake()->sentences(2, true),
-            'cost' => $cost,
-            'price' => $price,
+            //'note' => fake()->sentences(2, true),
+            //'cost' => $cost,
+            //'price' => $price,
         ];
     }
 }

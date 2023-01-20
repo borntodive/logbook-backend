@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\Course;
 use App\Models\Roster;
+use App\Models\RosterDive;
 use App\Models\User;
 use App\Models\Size;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -19,7 +20,7 @@ class RosterUserSeeder extends Seeder
      */
     public function run()
     {
-        $rosters = Roster::get();
+        $rosters = RosterDive::get();
         $addedUsers = null;
         foreach ($rosters as $roster) {
             $courses = Course::inRandomOrder()->limit(3)->get();

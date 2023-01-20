@@ -18,6 +18,19 @@ class RosterSeeder extends Seeder
      */
     public function run()
     {
-        \App\Models\Roster::factory(15)->create();
+        $rosters = \App\Models\Roster::factory(15)->create();
+        foreach ($rosters as $roster) {
+            $date = $roster->date->clone();
+            if ($roster->type == 'DIVE') {
+                for ($i = 0; $i < rand(1, 3); $i++) {
+                    $cost = fake()->numberBetween(50, 90);
+                    $price = $cost + ($cost * (10 / 100));
+                    if ($i > 0)
+                        $date = $date->addMinutes(75);
+                    \App\Models\RosterDive::factory()->create(['roster_id' => $roster->id, 'cost' => $cost, 'price' => $price, 'date' => $date]);
+                }
+            } else
+                \App\Models\RosterDive::factory()->create(['roster_id' => $roster->id, 'date' => $date]);
+        }
     }
 }

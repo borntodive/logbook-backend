@@ -9,6 +9,7 @@ use App\Http\Resources\RosterResource;
 use App\Models\Course;
 use App\Models\Equipment;
 use App\Models\Roster;
+use App\Models\RosterDive;
 use App\Models\RosterUser;
 use App\Models\Size;
 use App\Models\User;
@@ -33,10 +34,11 @@ class RosterController extends Controller
     {
         if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
-            $data = $request->safe()->toArray();
+            $data = $request->safe()->except(['price', 'cost']);
             $roster = Roster::create($data);
-
-
+            $data = $request->safe()->only(['price', 'cost']);
+            $data['date'] = $roster->date;
+            $roster->roster_dives()->create($data);
             return new RosterResource($roster);
         } else return response('unauthorized', 403);
     }
@@ -69,7 +71,14 @@ class RosterController extends Controller
             return new RosterResource($roster);
         } else return response('unauthorized', 403);
     }
-    public function updateDiver(RosterDiverPostRequest $request, Roster $roster, $diver_id)
+
+    public function addDive(Request $request, Roster $roster)
+    {
+        if ($request->user()->isAbleTo('view-all')) {
+            $roster->roster_dives()->create(['date' => $roster->date]);
+        } else return response('unauthorized', 403);
+    }
+    public function updateDiver(RosterDiverPostRequest $request, RosterDive $roster, $diver_id)
     {
         if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
@@ -102,7 +111,7 @@ class RosterController extends Controller
         } else return response('unauthorized', 403);
     }
 
-    public function addUser(Request $request, Roster $roster, User $user)
+    public function addUser(Request $request, RosterDive $roster, User $user)
     {
         if ($request->user()->isAbleTo('edit-all')) {
             $course_id = $request->input('course_id');
@@ -113,13 +122,13 @@ class RosterController extends Controller
             return response()->json(['status' => 'success']);
         } else return response('unauthorized', 403);
     }
-    public function addCourse(Request $request, Roster $roster, Course $course)
+    public function addCourse(Request $request, RosterDive $roster, Course $course)
     {
         if ($request->user()->isAbleTo('edit-all')) {
             foreach ($course->users as $user) {
                 try {
                     $userPrice = $user->duty->name == 'Diver' ? $roster->price + 5 : $roster->cost;
-                    if ($roster->type !== "DIVE")
+                    if ($roster->roster->type !== "DIVE")
                         $userPrice = null;
                     $roster->users()->attach($user->id, ['course_id' => $course->id, 'gears' => $user->getDefaultSizes(), 'price' => $userPrice]);
                 } catch (Exception $e) {
@@ -128,7 +137,7 @@ class RosterController extends Controller
             return response()->json(['status' => 'success']);
         } else return response('unauthorized', 403);
     }
-    public function destroyCourse(Request $request, Roster $roster, $course_id)
+    public function destroyCourse(Request $request, RosterDive $roster, $course_id)
     {
         if ($request->user()->isAbleTo('edit-all')) {
             if ($course_id !== 'GUESTS')
@@ -140,7 +149,16 @@ class RosterController extends Controller
         } else return response('unauthorized', 403);
     }
 
-    public function destroyUser(Request $request, Roster $roster, $user_id)
+    public function destroyDive(Request $request, RosterDive $roster)
+    {
+        if ($request->user()->isAbleTo('edit-all')) {
+
+            $roster->users()->detach();
+            $roster->delete();
+            return response()->json(['status' => 'success']);
+        } else return response('unauthorized', 403);
+    }
+    public function destroyUser(Request $request, RosterDive $roster, $user_id)
     {
         if ($request->user()->isAbleTo('edit-all')) {
             $roster->users()->detach($user_id);

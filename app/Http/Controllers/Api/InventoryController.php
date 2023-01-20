@@ -23,6 +23,6 @@ class InventoryController extends Controller
         $sort = $request->get('sort', 'name');
         $sortDirection = $request->get('sortDirection', 'ASC');
         $search = $request->get('search', '');
-        return EquipmentResource::collection(Equipment::where('name', 'like', '%' . $search . '%')->orderBy($sort, $sortDirection)->jsonPaginate());
+        return EquipmentResource::collection(Equipment::jsonPaginate());
     }
 }
