@@ -51,12 +51,17 @@
 
         }
 
-        .table-header {
+        tbody {
             width: 100%;
-            border-bottom: 0.5px solid;
-            font-weight: 500;
-            font-size: 1rem;
-            line-height: 1.5;
+            border-top: 0.5px solid;
+
+        }
+
+        thead:after {
+            content: "@";
+            display: block;
+            line-height: 10px;
+            text-indent: -99999px;
         }
 
         .odd-row {
@@ -117,7 +122,7 @@
         <div class="card-header">{{ 'Ospiti' }}</div>
         <div class="card-body text-dark">
             <table class="table">
-                <thead>
+                <thead class="table-header">
                     <tr>
                         <th scope="col">Nominativo</th>
                         <th scope="col">Saldo</th>
