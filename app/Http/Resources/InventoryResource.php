@@ -18,17 +18,20 @@ class InventoryResource extends JsonResource
         $equipments = [];
         $types = $this->types()->distinct()->get();
         $total = 0;
+        $totalAvailable = 0;
         foreach ($types as $type) {
             $sizes = $this->inventory_sizes()->where('equipment_type_id', $type->id)->distinct()->get();
             foreach ($sizes as $size) {
                 $eqs
                     = Inventory::where('equipment_type_id', $type->id)->where('equipment_id', $this->id)->where('size_id', $size->id)->first();
-                $codes = [];
-                foreach ($eqs->codes as $code) {
-                    $codes[] = $code;
+                $items = [];
+                foreach ($eqs->items as $item) {
+                    $items[] = $item;
                     $total++;
+                    if ($item['available'])
+                        $totalAvailable++;
                 }
-                $equipments[$type->name][$size->name] = $codes;
+                $equipments[$type->name][$size->name] = $items;
             }
         }
         return [
@@ -36,7 +39,7 @@ class InventoryResource extends JsonResource
             'name' => $this->name,
             'has_sizes' => $this->has_sizes,
             'count' => $total,
-
+            'countAvailable' => $totalAvailable,
             'inventory' => $equipments,
 
         ];

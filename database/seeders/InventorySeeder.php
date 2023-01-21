@@ -298,12 +298,14 @@ class InventorySeeder extends Seeder
                         Size::where('name', $size)->first();
                     if (!isset($s->id))
                         dd($size);
-                    $codes = [];
-                    /* for ($i = 0; $i < rand(0, 10); $i++) {
-                        $codes[]
-                            = Str::uuid();
-                    } */
-                    Inventory::create(['equipment_id' => $eq->id, 'equipment_type_id' => $t->id, 'size_id' => $s->id, 'codes' => $codes]);
+                    $items = [];
+                    for ($i = 0; $i < rand(0, 10); $i++) {
+                        $items[] = [
+                            'code'      => Str::uuid(),
+                            'available' => random_int(0, 100) < 40,
+                        ];
+                    }
+                    Inventory::create(['equipment_id' => $eq->id, 'equipment_type_id' => $t->id, 'size_id' => $s->id, 'items' => $items]);
                 }
             }
         }

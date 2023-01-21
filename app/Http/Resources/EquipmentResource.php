@@ -18,17 +18,20 @@ class EquipmentResource extends JsonResource
         $equipments = [];
         $types = $this->types()->distinct()->get();
         $total = 0;
+        $totalAvailable = 0;
         foreach ($types as $type) {
             $sizes = $this->inventory_sizes()->where('equipment_type_id', $type->id)->distinct()->get();
             foreach ($sizes as $size) {
                 $eqs
                     = Inventory::where('equipment_type_id', $type->id)->where('equipment_id', $this->id)->where('size_id', $size->id)->first();
-                $codes = [];
-                foreach ($eqs->codes as $code) {
-                    $codes[] = $code;
+                $items = [];
+                foreach ($eqs->items as $item) {
+                    $items[] = $item;
                     $total++;
+                    if ($item['available'])
+                        $totalAvailable++;
                 }
-                $equipments[$type->name][$size->name] = $codes;
+                $equipments[$type->name][$size->name] = $items;
             }
         }
         return [
@@ -37,6 +40,8 @@ class EquipmentResource extends JsonResource
             'has_sizes' => $this->has_sizes,
             'image' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
             'count' => $total,
+            'countAvailable' => $totalAvailable,
+
         ];
     }
 }

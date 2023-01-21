@@ -36,12 +36,15 @@ class InventoryController extends Controller
             return response('unauthorized', 403);
         $size = Size::where('name', $request->input('size'))->firstOrFail();
         $type = EquipmentType::where('name', $request->input('type'))->firstOrFail();
-        $code
-            = Str::uuid();
+
         $invertory = Inventory::firstOrCreate(['equipment_id' => $equipment->id, 'equipment_type_id' => $type->id, 'size_id' => $size->id]);
-        $codes = $invertory->codes;
-        $codes[] = $code;
-        $invertory->codes = $codes;
+        $items = $invertory->items;
+        $items[] =
+            [
+                'code'      => Str::uuid(),
+                'available' => true,
+            ];
+        $invertory->items = $items;
         $invertory->save();
         return response()->json(['message' => 'success']);
     }
