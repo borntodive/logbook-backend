@@ -12,4 +12,7 @@ class Inventory extends Model
         'id',
 
     ];
+    protected $casts = [
+        'codes' => 'array',
+    ];
 }

@@ -24,6 +24,7 @@ class DatabaseSeeder extends Seeder
             CertificationSeeder::class,
             EquipmetTypeSeeder::class,
             InventorySeeder::class,
+
             // NON ESSENZIALI
             /* UserSeeder::class,
             CourseSeeder::class,

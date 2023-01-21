@@ -83,7 +83,7 @@ class RosterController extends Controller
             $validated = $request->validated();
             $roster->fill($request->safe()->toArray());
             $roster->save();
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
     public function duplicateDive(Request $request, RosterDive $roster)
@@ -105,7 +105,7 @@ class RosterController extends Controller
                 $data[$id] = $d;
             }
             $newDive->users()->attach($data);
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
     public function addDive(RosterDivePostRequest $request, Roster $roster)
@@ -113,7 +113,7 @@ class RosterController extends Controller
         if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
             $roster->roster_dives()->create($request->safe()->toArray());
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
     public function updateDiver(RosterDiverPostRequest $request, RosterDive $roster, $diver_id)
@@ -145,7 +145,7 @@ class RosterController extends Controller
                 $course = Course::find($u->course_id);
             }
             $u->course = $course;
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
 
@@ -157,7 +157,7 @@ class RosterController extends Controller
                 $course_id = null;
 
             $roster->users()->attach($user->id, ['course_id' => $course_id, 'gears' => $user->getDefaultSizes(), 'price' => $user->duty->name == 'Diver' ? $roster->price : $roster->cost]);
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
     public function addCourse(Request $request, RosterDive $roster, Course $course)
@@ -172,7 +172,7 @@ class RosterController extends Controller
                 } catch (Exception $e) {
                 }
             }
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
     public function destroyCourse(Request $request, RosterDive $roster, $course_id)
@@ -183,7 +183,7 @@ class RosterController extends Controller
             else
                 $users = $roster->users()->where('course_id', null)->get();
             $roster->users()->detach($users->pluck('id'));
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
 
@@ -193,14 +193,14 @@ class RosterController extends Controller
 
             $roster->users()->detach();
             $roster->delete();
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
     public function destroyUser(Request $request, RosterDive $roster, $user_id)
     {
         if ($request->user()->isAbleTo('edit-all')) {
             $roster->users()->detach($user_id);
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
 
@@ -320,13 +320,6 @@ class RosterController extends Controller
         $rosterType = 'Amministrativo';
         $filename = "Roster " . $rosterType . " del " . date('dmY-Hi', strtotime($roster->date)) . ".pdf";
         return $pdf->stream($filename);
-        $pdf = new PdfT;
-        $pdf->addPage($view);
-        if (!$pdf->send()) {
-            dd($pdf->getError());
-            // ... handle error here
-        }
-        //return Browsershot::url('https://google.com')->noSandbox()->timeout(360)->save('your.pdf');
     }
     public function printTech(Request $request, Roster $roster)
     {

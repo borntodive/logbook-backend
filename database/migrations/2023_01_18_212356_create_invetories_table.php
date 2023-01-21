@@ -21,7 +21,7 @@ return new class extends Migration
             $table->foreignIdFor(Equipment::class);
             $table->foreignIdFor(EquipmentType::class)->nullable();
             $table->foreignIdFor(Size::class);
-            $table->string('code')->unique();
+            $table->json('codes')->nullable();
             $table->timestamps();
         });
     }

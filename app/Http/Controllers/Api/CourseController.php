@@ -156,14 +156,14 @@ class CourseController extends Controller
             $course->users()->sync([
                 $request->name => $data,
             ], false);
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
     public function destroyUser(Request $request, Course $course, $user_id)
     {
         if ($request->user()->isAbleTo('edit-all')) {
             $course->users()->detach($user_id);
-            return response()->json(['status' => 'success']);
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
     public function updateStudent(StudentPostRequest $request, Course $course, $student_id)

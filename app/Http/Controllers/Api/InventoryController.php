@@ -6,7 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\EquipmentResource;
 use App\Http\Resources\InventoryResource;
 use App\Models\Equipment;
+use App\Models\EquipmentType;
+use App\Models\Inventory;
+use App\Models\Size;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
+
 
 class InventoryController extends Controller
 {
@@ -24,5 +29,20 @@ class InventoryController extends Controller
         $sortDirection = $request->get('sortDirection', 'ASC');
         $search = $request->get('search', '');
         return EquipmentResource::collection(Equipment::jsonPaginate());
+    }
+    public function addSize(Request $request, Equipment $equipment)
+    {
+        if (!$request->user()->isAbleTo('manage-gears'))
+            return response('unauthorized', 403);
+        $size = Size::where('name', $request->input('size'))->firstOrFail();
+        $type = EquipmentType::where('name', $request->input('type'))->firstOrFail();
+        $code
+            = Str::uuid();
+        $invertory = Inventory::firstOrCreate(['equipment_id' => $equipment->id, 'equipment_type_id' => $type->id, 'size_id' => $size->id]);
+        $codes = $invertory->codes;
+        $codes[] = $code;
+        $invertory->codes = $codes;
+        $invertory->save();
+        return response()->json(['message' => 'success']);
     }
 }
