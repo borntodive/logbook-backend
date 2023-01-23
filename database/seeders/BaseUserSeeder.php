@@ -23,7 +23,6 @@ class BaseUserSeeder extends Seeder
         $adminRole = Role::where('name', 'admin')->first();
 
         $andrea = \App\Models\User::factory()->create([
-            'cf' => 'CVLNDR84B18H501A',
             'firstname' => 'Andrea',
             'lastname' => 'Covelli',
             'gender' => 'male',
@@ -35,7 +34,6 @@ class BaseUserSeeder extends Seeder
         ]);
         $andrea->attachRole($adminRole);
         $davide = \App\Models\User::factory()->create([
-            'cf' => 'CVLNDR84B18H501A',
             'firstname' => 'Davide',
             'lastname' => 'Bastiani',
             'gender' => 'male',

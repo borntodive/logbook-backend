@@ -215,6 +215,7 @@ class InventorySeeder extends Seeder
                         'name' => 'recreational',
                         'sizes' => [
                             'OCTO',
+                            '2REG'
                         ]
                     ],
                     [
