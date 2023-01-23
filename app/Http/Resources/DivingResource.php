@@ -26,8 +26,6 @@ class DivingResource extends JsonResource
             'dive_price' => $this->dive_price,
             'note' => $this->note,
             'reference' => $this->reference,
-            'created_at' => $this->created_at,
-            'updated_at' => $this->updated_at,
         ];
     }
 }

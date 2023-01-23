@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\EquipmentController;
 use App\Http\Controllers\Api\AuthController;
@@ -45,6 +46,11 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{user}', [UserController::class, 'update']);
         Route::delete('/{user}', [UserController::class, 'destroy']);
     });
+    Route::prefix('agenda')->group(
+        function () {
+            Route::get('/', [AgendaController::class, 'index']);
+        }
+    );
     Route::prefix('courses')->group(function () {
         Route::get('/', [CourseController::class, 'index']);
         Route::get('/availables', [CourseController::class, 'getAvailables']);
