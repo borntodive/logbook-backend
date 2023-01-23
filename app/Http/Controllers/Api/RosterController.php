@@ -374,6 +374,21 @@ class RosterController extends Controller
             default:
                 $activityType = "CW";
         }
+        $activityName = "Acqua confinata";
+        switch ($activityType) {
+            case "CW":
+                $activityName = "Acqua confinata";
+                break;
+            case "OW":
+                $activityName = "Acqua libera";
+                break;
+            case "THEORY":
+                $activityName = "Teoria";
+                break;
+            default:
+                $activityName = "Acqua confinata";
+        }
+        $activityTypeName = $activityName;
         if (isset($rosterRes->dives[0]))
             foreach ($rosterRes->dives[0]->divers as $idx => $rosterCourse) {
                 if (count($rosterCourse->divers) <= 0) {
@@ -387,6 +402,7 @@ class RosterController extends Controller
                 }
 
                 $course = Course::with('users')->find($rosterCourse->course_id);
+
                 if (!$course)
                     dd($rosterCourse->course_id);
                 $courseName
@@ -395,30 +411,20 @@ class RosterController extends Controller
                 foreach ($course->users as $student) {
                     if ($student->pivot->teaching)
                         continue;
+
                     foreach ($student->pivot->progress as $progress) {
+
                         if ($progress['label'] != $activityType)
                             continue;
                         $studentName = $student->lastname . " " . $student->firstname;
                         foreach ($progress['values'] as $session) {
+
                             $missings = [];
                             $allCompleted = true;
                             $activityCount = 0;
                             $this->searchMissingActivities($session['values'], $missings, $activityCount);
-                            $activityName = "Acqua confinata";
-                            switch ($activityType) {
-                                case "CW":
-                                    $activityName = "Acqua confinata";
-                                    break;
-                                case "OW":
-                                    $activityName = "Acqua libera";
-                                    break;
-                                case "THEORY":
-                                    $activityName = "Teoria";
-                                    break;
-                                default:
-                                    $activityName = "Acqua confinata";
-                            }
-                            $activityTypeName = $activityName;
+
+
                             $sessionName = isset($session['label']) && $session['label'] ? $session['label'] : $activityName . " " . $session['order'];
                             $missingActivities[$courseName][$studentName][$activityType][$sessionName]['order'] = $session['order'];
                             $missingActivities[$courseName][$studentName][$activityType][$sessionName]['missings'] = $missings;
@@ -430,6 +436,7 @@ class RosterController extends Controller
                     }
                 }
             }
+
         foreach ($missingActivities as $courseName => $student) {
             foreach ($student as $studentName => $activity) {
                 foreach ($activity as $activityType => $session) {

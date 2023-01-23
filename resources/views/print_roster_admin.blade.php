@@ -93,7 +93,7 @@
                 <h5 class="card-title">Roster
                     {{ $rosterType }}
                     del
-                    {{ date('d-m-Y H:i', strtotime($roster->date)) }}
+                    {{ date('d-m-Y', strtotime($roster->date)) }}
                 </h5>
             </div>
         </div>

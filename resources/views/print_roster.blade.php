@@ -30,7 +30,7 @@
                 <h5 class="card-title">Roster
                     {{ $rosterType }}
                     del
-                    {{ date('d-m-Y H:i', strtotime($roster->date)) }}</h5>
+                    {{ date('d-m-Y', strtotime($roster->date)) }}</h5>
             </div>
         </div>
         <div class="card border-dark mb-3">
@@ -55,7 +55,8 @@
 
         @foreach ($roster->dives as $idx => $dive)
             <div style="page-break-inside: avoid;">
-                <h2>Immersione # {{ $idx + 1 }}</h2>
+                <h2>Immersione # {{ $idx + 1 }} - {{ date('H:i', strtotime($dive->date)) }}</h5>
+                </h2>
                 @foreach ($dive->divers as $course)
                     <div class="card border-dark mb-3">
                         <div class="card-header">{{ $course->course == 'GUESTS' ? 'Ospiti' : $course->course }}</div>
