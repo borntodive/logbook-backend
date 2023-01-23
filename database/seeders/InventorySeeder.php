@@ -8,6 +8,7 @@ use App\Models\Inventory;
 use App\Models\Size;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\App;
 use Illuminate\Support\Str;
 
 class InventorySeeder extends Seeder
@@ -300,11 +301,13 @@ class InventorySeeder extends Seeder
                     if (!isset($s->id))
                         dd($size);
                     $items = [];
-                    for ($i = 0; $i < rand(0, 10); $i++) {
-                        $items[] = [
-                            'code'      => Str::uuid(),
-                            'available' => random_int(0, 100) < 40,
-                        ];
+                    if (!App::environment('production')) {
+                        for ($i = 0; $i < rand(0, 10); $i++) {
+                            $items[] = [
+                                'code'      => Str::uuid(),
+                                'available' => random_int(0, 100) < 40,
+                            ];
+                        }
                     }
                     Inventory::create(['equipment_id' => $eq->id, 'equipment_type_id' => $t->id, 'size_id' => $s->id, 'items' => $items]);
                 }
