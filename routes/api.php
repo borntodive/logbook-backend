@@ -67,6 +67,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [InventoryController::class, 'index']);
         Route::get('/{equipment}', [InventoryController::class, 'get']);
         Route::post('/add-size/{equipment}', [InventoryController::class, 'addSize']);
+        Route::delete('/{code}', [InventoryController::class, 'destroy']);
     });
     Route::prefix('rosters')->group(function () {
         Route::get('/', [RosterController::class, 'index']);

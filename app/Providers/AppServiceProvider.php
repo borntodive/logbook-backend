@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Course;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use App\Observers\CourseObserver;
 
@@ -25,6 +26,8 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        // Course::observe(CourseObserver::class);
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
     }
 }

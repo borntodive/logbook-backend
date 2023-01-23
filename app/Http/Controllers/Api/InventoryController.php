@@ -48,4 +48,20 @@ class InventoryController extends Controller
         $invertory->save();
         return response()->json(['message' => 'success']);
     }
+    public function destroy(Request $request, $code)
+    {
+        if (!$request->user()->isAbleTo('manage-gears'))
+            return response('unauthorized', 403);
+        $eq = Inventory::whereJsonContains('items', [['code' => $code]])->first();
+        $oldItems = $eq->items;
+        foreach ($oldItems as $id => $item) {
+            if ($item['code'] == $code) {
+                unset($oldItems[$id]);
+                break;
+            }
+        }
+        $eq->items = array_values($oldItems);
+        $eq->save();
+        return response()->json(['message' => 'success']);
+    }
 }
