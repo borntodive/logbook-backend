@@ -49,8 +49,11 @@ class RosterController extends Controller
     public function destroy(Request $request, Roster $roster)
     {
         if ($request->user()->isAbleTo('delete-all')) {
-
-            $roster->users()->detach();
+            $dives = $roster->roster_dives;
+            foreach ($dives as $dive) {
+                $dive->users()->detach();
+            }
+            $roster->roster_dives()->delete();
             $roster->delete();
             return response()->json(['status' => 'deleted']);
         } else return response('unauthorized', 403);
