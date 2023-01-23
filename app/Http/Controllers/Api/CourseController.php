@@ -137,14 +137,16 @@ class CourseController extends Controller
             $course->fill($data);
 
             $course->save();
+            $usersData = [];
             if (!$isSameCertification) {
                 foreach ($course->users as $id => $user) {
                     $progress = null;
                     if (!$user->pivot->teaching) {
                         $progress = $course->getEmptyProgress();
                     }
-                    $course->users()->sync($user->id, ['in_charge' => $user->pivot->in_charge, 'teaching' => $user->pivot->teaching, 'price' => $course->certification->discounted_price, 'progress' => $progress], false);
+                    $usersData[$user->id] = ['in_charge' => $user->pivot->in_charge, 'teaching' => $user->pivot->teaching, 'price' => !$user->pivot->teaching ? $course->certification->discounted_price : null, 'progress' => $progress];
                 }
+                $course->users()->sync($usersData);
             }
 
             return new CourseResource($course);
