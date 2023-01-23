@@ -162,9 +162,11 @@
                             </td>
                             <td>
                                 <div style="text-align:center">
-                                    <p
-                                        style="display:block;border:solid; height:20px;width:20px;margin-left:auto;margin-right:auto">
-                                    </p>
+                                    @if ($roster->type == 'DIVE')
+                                        <p
+                                            style="display:block;border:solid; height:20px;width:20px;margin-left:auto;margin-right:auto">
+                                        </p>
+                                    @endif
                                     @if ($diver['balance']['course'])
                                         <p
                                             style="display:block;border:solid; height:20px;width:20px;margin-left:auto;margin-right:auto">
