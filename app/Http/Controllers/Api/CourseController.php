@@ -73,7 +73,7 @@ class CourseController extends Controller
                 if (!$user->pivot->teaching) {
                     $progress = $course->getEmptyProgress();
                 }
-                $newCourse->users()->attach($user->id, ['in_charge' => $user->pivot->in_charge, 'teaching' => $user->pivot->teaching, 'price' => $newCourse->certification->price, 'progress' => $progress]);
+                $newCourse->users()->attach($user->id, ['in_charge' => $user->pivot->in_charge, 'teaching' => $user->pivot->teaching, 'price' => $newCourse->certification->discounted_price, 'progress' => $progress]);
             }
             return response()->json(['id' => $newCourse->id]);
         } else return response('unauthorized', 403);
