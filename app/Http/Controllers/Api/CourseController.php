@@ -71,7 +71,7 @@ class CourseController extends Controller
             foreach ($course->users as $id => $user) {
                 $progress = null;
                 if (!$user->pivot->teaching) {
-                    $progress = $course->getEmptyProgress();
+                    $progress = $newCourse->getEmptyProgress();
                 }
                 $newCourse->users()->attach($user->id, ['in_charge' => $user->pivot->in_charge, 'teaching' => $user->pivot->teaching, 'price' => $newCourse->certification->discounted_price, 'progress' => $progress]);
             }
@@ -137,6 +137,16 @@ class CourseController extends Controller
             $course->fill($data);
 
             $course->save();
+            if (!$isSameCertification) {
+                foreach ($course->users as $id => $user) {
+                    $progress = null;
+                    if (!$user->pivot->teaching) {
+                        $progress = $course->getEmptyProgress();
+                    }
+                    $course->users()->sync($user->id, ['in_charge' => $user->pivot->in_charge, 'teaching' => $user->pivot->teaching, 'price' => $course->certification->discounted_price, 'progress' => $progress], false);
+                }
+            }
+
             return new CourseResource($course);
         } else return response('unauthorized', 403);
     }
