@@ -102,6 +102,10 @@ class SizeSeeder extends Seeder
                 'order' => 2
             ],
             [
+                'name' => '2REG',
+                'order' => 3
+            ],
+            [
                 'name' => '3P',
                 'order' => 1
             ],

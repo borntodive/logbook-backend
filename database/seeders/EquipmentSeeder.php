@@ -115,6 +115,7 @@ class EquipmentSeeder extends Seeder
                 'sizes' => [
                     'OCTO',
                     'HOGA',
+                    '2REG'
 
                 ]
             ],
