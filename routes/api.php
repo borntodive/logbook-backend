@@ -4,6 +4,7 @@ use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\EquipmentController;
 use App\Http\Controllers\Api\AuthController;
+use App\Http\Controllers\Api\BalanceController;
 use App\Http\Controllers\Api\CertificationController;
 use App\Http\Controllers\Api\DivingController;
 use App\Http\Controllers\Api\InventoryController;
@@ -52,6 +53,11 @@ Route::middleware('auth:sanctum')->group(function () {
             Route::get('/', [AgendaController::class, 'index']);
         }
     );
+    Route::prefix('balance')->group(
+        function () {
+            Route::get('/', [BalanceController::class, 'index']);
+        }
+    );
     Route::prefix('courses')->group(function () {
         Route::get('/', [CourseController::class, 'index']);
         Route::get('/availables', [CourseController::class, 'getAvailables']);
@@ -84,6 +90,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{roster}', [RosterController::class, 'get']);
         Route::put('/dive/{roster}', [RosterController::class, 'updateDive']);
         Route::put('/{roster}', [RosterController::class, 'update']);
+        Route::put('/{roster}/{diver_id}/pay', [RosterController::class, 'updateDiverPayment']);
         Route::put('/{roster}/{diver_id}', [RosterController::class, 'updateDiver']);
         Route::post('/duplicate-dive/{roster}', [RosterController::class, 'duplicateDive']);
         Route::post('/dive/{roster}', [RosterController::class, 'addDive']);

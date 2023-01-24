@@ -15,7 +15,6 @@ class UserResource extends JsonResource
      */
     public function toArray($request)
     {
-
         $sizes = [];
         $allSizes = Size::get();
         foreach ($this->equipments as $equipment) {

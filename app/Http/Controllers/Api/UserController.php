@@ -33,7 +33,6 @@ class UserController extends Controller
     public function get(Request $request, $user_id)
     {
         if ($request->user()->isAbleTo('view-all') || $request->user()->id == $user_id) {
-            $user = User::with('equipments')->findOrFail($user_id);
             return new UserResource(User::with('equipments')->findOrFail($user_id));
         } else return response('unauthorized', 403);
     }
