@@ -261,7 +261,7 @@ class UserController extends Controller
             $completed = 0;
             if (!$course->pivot->teaching)
                 $this->caluculateProgress($course->pivot->progress, $completed, $total);
-            $data['course']['percent'] = $completed / $total;
+            $data['course']['percent'] = $total ? $completed / $total : 0;
         }
 
         return response()->json(['data' => $data]);
