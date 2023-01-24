@@ -238,6 +238,11 @@ class UserController extends Controller
             $cBalance = $course->pivot->price - $course->pivot->payment_1 - $course->pivot->payment_2 - $course->pivot->payment_3;
             $balance += $cBalance;
         }
+        $unpayedRosters = $user->unpayedRosters;
+        foreach ($unpayedRosters as $roster) {
+            $rBalance = $roster->pivot->price;
+            $balance += $rBalance;
+        }
         $data['balance'] = $balance;
 
         /*

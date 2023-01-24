@@ -100,6 +100,13 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(RosterDive::class, 'roster_user')->withPivot(['course_id', 'note', 'price', 'course_note', 'payed', 'gears'])->using(RosterUser::class);
     }
+    public function unpayedRosters()
+    {
+        return $this->belongsToMany(RosterDive::class, 'roster_user')->withPivot(['course_id', 'note', 'price', 'course_note', 'payed', 'gears'])->using(RosterUser::class)
+            ->where(function (Builder $query) {
+                $query->where('roster_user.payed', '<>', 1);
+            });
+    }
     public function duty()
     {
         return $this->belongsTo(UserDuty::class, 'user_duty_id');
