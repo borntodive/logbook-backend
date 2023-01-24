@@ -330,13 +330,16 @@ class RosterController extends Controller
                         $divers[$diver->id]['balance']['total'] = 0;
                     }
                     $divers[$diver->id]['balance']['dive'] += $diver->price;
-                    if (isset($diver->courseData) && $diver->courseData && !$diver->teaching && !isset($countedCourses[$diver->id][$diver->courseData->course_id])) {
-                        $divers[$diver->id]['balance']['course'] += $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
-                        $totals['course']['income']  +=
-                            $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
-                        $divers[$diver->id]['balance']['total']
-                            += $diver->courseData->price - $diver->courseData->payment_1 - $diver->courseData->payment_2 - $diver->courseData->payment_3;
-                        $countedCourses[$diver->id][$diver->courseData->course_id] = true;
+                    $user = User::find($diver->id);
+                    foreach ($user->courses as $course) {
+                        $student = $course->users()->where('user_id', $user->id)->first();
+                        if (isset($student->pivot)  && !$student->pivot->teaching && !isset($countedCourses[$diver->id][$student->pivot->course_id])) {
+                            $balance = $student->pivot->price - $student->pivot->payment_1 - $student->pivot->payment_2 - $student->pivot->payment_3;
+                            $divers[$diver->id]['balance']['course'] += $balance;
+                            $totals['course']['income']  += $balance;
+                            $divers[$diver->id]['balance']['total'] += $balance;
+                            $countedCourses[$diver->id][$student->pivot->course_id] = true;
+                        }
                     }
                     $divers[$diver->id]['balance']['equipment'] = 0;
                     $totals['equipment']['income']  = 0;

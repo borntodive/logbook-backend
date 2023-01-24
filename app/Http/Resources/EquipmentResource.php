@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Inventory;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class EquipmentResource extends JsonResource
 {
@@ -38,7 +39,7 @@ class EquipmentResource extends JsonResource
             'id' => $this->id,
             'name' => $this->name,
             'has_sizes' => $this->has_sizes,
-            'image' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            'image' => Storage::url('images/equipments/' . $this->name . '.jpeg'),
             'count' => $total,
             'countAvailable' => $totalAvailable,
 

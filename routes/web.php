@@ -19,5 +19,5 @@ Route::get('/', function () {
 });
 
 Route::prefix('rosters')->group(function () {
-    Route::get('print/{roster}', [RosterController::class, 'printTech']);
+    Route::get('print/{roster}', [RosterController::class, 'printAdmin']);
 });

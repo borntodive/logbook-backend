@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Inventory;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Storage;
 
 class InventoryResource extends JsonResource
 {
@@ -37,6 +38,7 @@ class InventoryResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'image' => Storage::url('images/equipments/' . $this->equipments . '.jpeg'),
             'has_sizes' => $this->has_sizes,
             'count' => $total,
             'countAvailable' => $totalAvailable,

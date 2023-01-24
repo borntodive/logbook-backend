@@ -153,7 +153,7 @@
                                         €</p>
                                 @endif
                                 @if ($diver['balance']['course'])
-                                    <p>Corso:
+                                    <p>Corsi:
 
                                         {{ number_format((float) $diver['balance']['course'], 2) }}
                                         €</p>
