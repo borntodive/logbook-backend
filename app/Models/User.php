@@ -3,6 +3,7 @@
 namespace App\Models;
 
 // use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
@@ -78,9 +79,23 @@ class User extends Authenticatable
 
     public function courses()
     {
-        return $this->belongsToMany(Course::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3', 'payment_1_date', 'payment_2_date', 'payment_3_date'])->using(CourseUser::class);;
+        return $this->belongsToMany(Course::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3', 'payment_1_date', 'payment_2_date', 'payment_3_date', 'payed'])->using(CourseUser::class);;
     }
 
+    public function unpayedCourses()
+    {
+        return $this->belongsToMany(Course::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3', 'payment_1_date', 'payment_2_date', 'payment_3_date', 'payed'])->using(CourseUser::class)
+            ->where(function (Builder $query) {
+                $query->where('course_user.payed', '<>', 1);
+            });
+    }
+    public function openedCourses()
+    {
+        return $this->belongsToMany(Course::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3', 'payment_1_date', 'payment_2_date', 'payment_3_date', 'payed'])->using(CourseUser::class)
+            ->where(function (Builder $query) {
+                $query->where('course_user.end_date', null);
+            });
+    }
     public function rosters()
     {
         return $this->belongsToMany(RosterDive::class, 'roster_user')->withPivot(['course_id', 'note', 'price', 'course_note', 'payed', 'gears'])->using(RosterUser::class);

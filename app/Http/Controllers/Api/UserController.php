@@ -4,15 +4,18 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserPostRequest;
+use App\Http\Resources\AgendaResource;
 use App\Http\Resources\MinimalUserResource;
 use App\Models\Equipment;
 use App\Models\Role;
+use App\Models\RosterUser;
 use App\Models\Size;
 use App\Models\User;
 use App\Models\UserEmergencycontact;
 use Illuminate\Http\Request;
 use App\Http\Resources\UserResource;
 use App\Models\UserDuty;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -157,5 +160,124 @@ class UserController extends Controller
             $user->delete();
             return response()->json(['status' => 'deleted']);
         } else return response('unauthorized', 403);
+    }
+
+    public function getDashboard(Request $request)
+    {
+        $user = $request->user();
+        $data = [];
+
+        /*
+        ###########
+        ## STATS ##
+        ###########
+        */
+        $data['stats']['courses'] = $user->courses()->count();
+        $result = DB::select(DB::raw("SELECT
+                                        count(*) AS count
+                                    FROM
+                                        `roster_user`
+                                    WHERE
+                                        `user_id` = :user_id
+                                        AND EXISTS (
+                                            SELECT
+                                                *
+                                            FROM
+                                                `rosters`
+                                                INNER JOIN `roster_dives` ON `rosters`.`id` = `roster_dives`.`roster_id`
+                                            WHERE
+                                                `roster_user`.`roster_dive_id` = `roster_dives`.`id`
+                                                AND `type` = 'POOL'
+                                            ORDER BY
+                                                `roster_dives`.`date` ASC)"), array(
+            'user_id' => $user->id,
+        ));
+        $pools = isset($result[0]->count) ? $result[0]->count : 0;
+        $result = DB::select(DB::raw("SELECT
+                                        count(*) AS count
+                                    FROM
+                                        `roster_user`
+                                    WHERE
+                                        `user_id` = :user_id
+                                        AND EXISTS (
+                                            SELECT
+                                                *
+                                            FROM
+                                                `rosters`
+                                                INNER JOIN `roster_dives` ON `rosters`.`id` = `roster_dives`.`roster_id`
+                                            WHERE
+                                                `roster_user`.`roster_dive_id` = `roster_dives`.`id`
+                                                AND `type` = 'DIVE'
+                                            ORDER BY
+                                                `roster_dives`.`date` ASC)"), array(
+            'user_id' => $user->id,
+        ));
+        $dives = isset($result[0]->count) ? $result[0]->count : 0;
+        $data['stats']['dives'] = $dives;
+        $data['stats']['pools'] = $pools;
+
+        /*
+        ############
+        ## AGENDA ##
+        ############
+        */
+
+        $agendaRes
+            = new AgendaResource($user->rosters()->jsonPaginate(2));
+        $agenda = isset($agendaRes->appointments) ? $agendaRes->appointments : [];
+        $data['agenda'] = $agendaRes;
+
+        /*
+        #############
+        ## BALANCE ##
+        #############
+        */
+        $balance = 0;
+        $unpayedCourses = $user->unpayedCourses;
+        foreach ($unpayedCourses as $course) {
+            $cBalance = $course->pivot->price - $course->pivot->payment_1 - $course->pivot->payment_2 - $course->pivot->payment_3;
+            $balance += $cBalance;
+        }
+        $data['balance'] = $balance;
+
+        /*
+        #############
+        ## COURSE ##
+        #############
+        */
+
+        $course = $user->openedCourses()->orderBy('start_date', 'DESC')->first();
+        $data['course']['name'] = "";
+        $data['course']['progress'] = "";
+        if ($course) {
+            $data['course']['name'] = $course->certification->name . ' ' . $course->number . '/' . $course->start_date->format('Y');
+            $data['course']['id'] = $course->id;
+            $total = 0;
+            $completed = 0;
+            $this->caluculateProgress($course->pivot->progress, $completed, $total);
+            $data['course']['percent'] = $completed / $total;
+        }
+
+        return response()->json(['data' => $data]);
+    }
+
+    private function caluculateProgress($array, &$completed, &$total)
+    {
+
+        foreach ($array as $idx => $item) {
+
+            if (isset($item['values'])) {
+                if (!isset($item['values'][0]['values'])) {
+
+                    foreach ($item['values'] as $exercise) {
+                        $total++;
+                        if ($exercise['date']) {
+                            $completed++;
+                        }
+                    }
+                }
+                $this->caluculateProgress($item['values'], $completed, $total);
+            }
+        }
     }
 }

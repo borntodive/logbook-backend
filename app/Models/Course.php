@@ -24,7 +24,7 @@ class Course extends Model
     }
     public function users()
     {
-        return $this->belongsToMany(User::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3', 'payment_1_date', 'payment_2_date', 'payment_3_date'])->using(CourseUser::class);
+        return $this->belongsToMany(User::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3', 'payment_1_date', 'payment_2_date', 'payment_3_date', 'payed'])->using(CourseUser::class);
     }
 
     public function getEmptyProgress()

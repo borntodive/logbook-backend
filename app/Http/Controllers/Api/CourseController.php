@@ -165,6 +165,8 @@ class CourseController extends Controller
                 }
                 $data['progress'] = $progress;
             }
+            $data['payed'] = true;
+            if (!$data['teaching']) $data['payed'] = false;
             $course->users()->sync([
                 $request->name => $data,
             ], false);
@@ -192,6 +194,8 @@ class CourseController extends Controller
                 $data['payment_2_date'] = now();
             if ($data['payment_3'] != $u->pivot->payment_3)
                 $data['payment_3_date'] = now();
+            $data['payed'] = false;
+            if ($data['price'] - $data['payment_1'] - $data['payment_2'] - $data['payment_3'] <= 0) $data['payed'] = true;
             $course->users()->sync([
                 $student_id => $data,
             ], false);
