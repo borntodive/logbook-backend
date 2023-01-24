@@ -187,6 +187,7 @@ class CourseController extends Controller
             $data = collect($request->safe())->toArray();
             $u = $course->users()->where('user_id', $student_id)->first();
             $old_progress = $u->pivot->progress;
+
             $data['progress'] = $old_progress;
             if ($data['payment_1'] != $u->pivot->payment_1)
                 $data['payment_1_date'] = now();
@@ -227,6 +228,12 @@ class CourseController extends Controller
                 $old_progress = $u->pivot->progress;
                 $this->recuriveForEach($old_progress, $data, $is_activity);
                 $syncData['progress'] = $old_progress;
+                $completed = 0;
+                $total = 0;
+                $this->caluculateProgress($syncData['progress'], $completed, $total);
+                $syncData['end_date'] = null;
+                if ($completed == $total)
+                    $syncData['end_date'] = now();
                 $course->users()->sync([
                     $student_id => $syncData,
                 ], false);
@@ -237,15 +244,57 @@ class CourseController extends Controller
                     $old_progress = $student->pivot->progress;
                     $this->recuriveForEach($old_progress, $data, $is_activity);
                     $syncData['progress'] = $old_progress;
+                    $completed = 0;
+                    $total = 0;
+                    $this->caluculateProgress($syncData['progress'], $completed, $total);
+                    $syncData['end_date'] = null;
+                    if ($completed == $total)
+                        $syncData['end_date'] = now();
                     $course->users()->sync([
                         $student->id => $syncData,
                     ], false);
                 }
             }
-            $course->student_id = $student_id;
 
+            $endDate = null;
+            $students = $course->users()->where('teaching', false)->get();
+            foreach ($students as $student) {
+
+                if (!$student->pivot->end_date) {
+
+                    $endDate = null;
+                    break;
+                } elseif ($student->pivot->end_date > $endDate) {
+                    $endDate = $student->pivot->end_date;
+                }
+            }
+
+            if ($endDate) {
+                $course->end_date = $endDate;
+                $course->save();
+            }
+            $course->student_id = $student_id;
             return new StudentResource($course);
         } else return response('unauthorized', 403);
+    }
+    private function caluculateProgress($array, &$completed, &$total)
+    {
+
+        foreach ($array as $idx => $item) {
+
+            if (isset($item['values'])) {
+                if (!isset($item['values'][0]['values'])) {
+
+                    foreach ($item['values'] as $exercise) {
+                        $total++;
+                        if ($exercise['date']) {
+                            $completed++;
+                        }
+                    }
+                }
+                $this->caluculateProgress($item['values'], $completed, $total);
+            }
+        }
     }
     private function recuriveForEach(&$array, $data, $is_activity = false)
     {
