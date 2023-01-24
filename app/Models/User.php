@@ -67,6 +67,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'birthdate' => 'datetime:Y-m-d',
+        'dan_exp' => 'datetime:Y-m-d',
+        'asd_membership' => 'boolean',
     ];
 
     public function equipments()
