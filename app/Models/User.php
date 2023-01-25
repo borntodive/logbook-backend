@@ -10,6 +10,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
 use App\Transformers\UserTransformer;
 use Laratrust\Traits\LaratrustUserTrait;
+use Illuminate\Support\Facades\Storage;
 
 class User extends Authenticatable
 {
@@ -86,7 +87,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Course::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3', 'payment_1_date', 'payment_2_date', 'payment_3_date', 'payed'])->using(CourseUser::class)
             ->where(function (Builder $query) {
-                $query->where('course_user.payed', '<>', 1);
+                $query->where('course_user.payed', '<>', 1)->where('course_user.teaching', null);
             });
     }
     public function openedCourses()
@@ -135,5 +136,13 @@ class User extends Authenticatable
             $sizes[] = $s;
         }
         return $sizes;
+    }
+
+    public function getAvatarUrl()
+    {
+        if (!$this->avatar)
+            $this->avatar = 'generic.png';
+        $filePath = 'images/avatars/' . $this->avatar;
+        return Storage::url($filePath);
     }
 }

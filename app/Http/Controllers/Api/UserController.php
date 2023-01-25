@@ -17,6 +17,8 @@ use App\Http\Resources\UserResource;
 use App\Models\UserDuty;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Validation\Rules\File;
+use Illuminate\Support\Facades\Storage;
 
 class UserController extends Controller
 {
@@ -96,9 +98,16 @@ class UserController extends Controller
     {
         if ($request->user()->isAbleTo('edit-all') || $request->user()->id == $user->id) {
             $validated = $request->validated();
-            $user->fill($request->safe()->except(['equipments']));
-            $user->save();
+            $user->fill($request->safe()->except(['equipments', 'avatarName']));
             $equipments = $request->safe()->only(['equipments']);
+            $avatarName = $request->avatarName;
+            dd(Storage::exists('tmp/' . $avatarName));
+            if ($avatarName && Storage::exists('tmp/' . $avatarName)) {
+                Storage::move('tmp/' . $avatarName, 'images/avatars/' . $avatarName);
+                $user->avatar = $avatarName;
+            }
+            $user->save();
+
             $user->equipments()->detach();
             foreach ($equipments['equipments'] as $id => $equipment) {
                 $eq = Equipment::where('id', $equipment['equipment'])->first();
@@ -111,6 +120,30 @@ class UserController extends Controller
             }
             return new UserResource($user);
         } else return response('unauthorized', 403);
+    }
+
+    public function uploadAvatar(Request $request)
+    {
+        if (!$request->user()->isAbleTo('edit-all'))
+            return response('unauthorized', 403);
+
+
+        $path = public_path('tmp/uploads');
+
+        if (!file_exists($path)) {
+            mkdir($path, 0777, true);
+        }
+        $file = $request->file('avatar');
+        if ($file) {
+            $name = uniqid() . '.' . trim($file->getClientOriginalExtension());
+            $path = $request->file('avatar')->storeAs(
+                'public/tmp',
+                $name
+            );
+
+            return response()->json(['name' => $name, 'tempSrc' => Storage::url('tmp/' . $name)]);
+        }
+        return response()->json(['message' => 'error'], 405);
     }
     public function updateEmergency(Request $request, User $user)
     {

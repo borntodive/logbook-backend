@@ -33,6 +33,7 @@ class UserPostRequest extends FormRequest
             'email' => 'required|email',
             'birthdate' => 'required|date',
             'user_duty_id' => 'required|exists:user_duties,id',
+            'avatarName' => 'nullable',
             'ssi_number' => 'nullable',
             'dan_number' => 'nullable',
             'dan_exp' => 'date|nullable',
