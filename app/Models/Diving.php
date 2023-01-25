@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 
 class Diving extends Model
 {
@@ -15,5 +16,12 @@ class Diving extends Model
     public function rosters()
     {
         return $this->hasMany(Roster::class);
+    }
+    public function getLogoUrl()
+    {
+        if (!$this->logo)
+            $this->logo = 'generic.png';
+        $filePath = 'images/divings/' . $this->logo;
+        return Storage::url($filePath);
     }
 }

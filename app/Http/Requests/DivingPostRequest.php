@@ -29,6 +29,7 @@ class DivingPostRequest extends FormRequest
     {
         return [
             'name' => 'required',
+            'logoName' => 'nullable',
             'email' => 'required|email',
             'address' => 'nullable',
             'reference' => 'nullable',

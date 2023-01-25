@@ -17,7 +17,7 @@ class DivingResource extends JsonResource
 
         return [
             'id' => $this->id,
-            'logo' => 'https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80',
+            'logo' => $this->getLogoUrl(),
             'name' => $this->name,
             'address' => $this->address,
             'phone' => $this->phone,

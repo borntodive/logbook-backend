@@ -7,6 +7,7 @@ use App\Http\Requests\DivingPostRequest;
 use App\Http\Resources\DivingResource;
 use App\Models\Diving;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class DivingController extends Controller
 {
@@ -36,9 +37,15 @@ class DivingController extends Controller
     {
         if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
-            $diving->fill($request->safe()->toArray());
-            $diving->save();
+            $diving->fill($request->safe()->except(['logoName']));
 
+            $logoName = $request->logoName;
+
+            if ($logoName && Storage::exists('public/tmp/' . $logoName)) {
+                Storage::move('public/tmp/' . $logoName, 'public/images/divings/' . $logoName);
+                $diving->logo = $logoName;
+            }
+            $diving->save();
             return new DivingResource($diving);
         } else return response('unauthorized', 403);
     }
@@ -63,5 +70,32 @@ class DivingController extends Controller
             $diving->delete();
             return response()->json(['status' => 'deleted']);
         } else return response('unauthorized', 403);
+    }
+    public function uploadLogo(Request $request)
+    {
+        if (!$request->user()->isAbleTo('edit-all'))
+            return response('unauthorized', 403);
+
+        $file = $request->file('logo');
+        if ($file) {
+            $name = uniqid() . '.' . trim($file->getClientOriginalExtension());
+            $path = $request->file('logo')->storeAs(
+                'public/tmp',
+                $name
+            );
+
+            return response()->json(['name' => $name, 'tempSrc' => Storage::url('tmp/' . $name)]);
+        }
+        return response()->json(['message' => 'error'], 405);
+    }
+    public function destroyLogo(Request $request, Diving $diving)
+    {
+        if (!$request->user()->isAbleTo('edit-all'))
+            return response('unauthorized', 403);
+
+
+        $diving->logo = null;
+        $diving->save();
+        return response()->json(['message' => 'success', 'tempSrc' => $diving->getLogoUrl()]);
     }
 }

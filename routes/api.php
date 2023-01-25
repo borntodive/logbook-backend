@@ -123,8 +123,12 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/all', [DivingController::class, 'indexAll']);
         Route::get('/{diving}', [DivingController::class, 'get']);
         Route::post('/', [DivingController::class, 'store']);
+        Route::post('/{diving}/logo', [DivingController::class, 'uploadLogo']);
+
         Route::put('/{diving}', [DivingController::class, 'update']);
         Route::delete('/{diving}', [DivingController::class, 'destroy']);
+        Route::delete('/{diving}/logo', [DivingController::class, 'destroyLogo']);
+
 
 
         //Route::get('/{user_id}', [UserController::class, 'get']);
