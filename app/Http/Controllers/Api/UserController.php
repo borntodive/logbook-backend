@@ -101,9 +101,10 @@ class UserController extends Controller
             $user->fill($request->safe()->except(['equipments', 'avatarName']));
             $equipments = $request->safe()->only(['equipments']);
             $avatarName = $request->avatarName;
-            dd(Storage::exists('tmp/' . $avatarName));
-            if ($avatarName && Storage::exists('tmp/' . $avatarName)) {
-                Storage::move('tmp/' . $avatarName, 'images/avatars/' . $avatarName);
+            //dd(Storage::path('tmp'));
+            //dd(Storage::exists('public/tmp/' . $avatarName));
+            if ($avatarName && Storage::exists('public/tmp/' . $avatarName)) {
+                Storage::move('public/tmp/' . $avatarName, 'public/images/avatars/' . $avatarName);
                 $user->avatar = $avatarName;
             }
             $user->save();
@@ -144,6 +145,16 @@ class UserController extends Controller
             return response()->json(['name' => $name, 'tempSrc' => Storage::url('tmp/' . $name)]);
         }
         return response()->json(['message' => 'error'], 405);
+    }
+    public function destroyAvatar(Request $request, User $user)
+    {
+        if (!$request->user()->isAbleTo('edit-all'))
+            return response('unauthorized', 403);
+
+
+        $user->avatar = null;
+        $user->save();
+        return response()->json(['message' => 'success', 'tempSrc' => $user->getAvatarUrl()]);
     }
     public function updateEmergency(Request $request, User $user)
     {

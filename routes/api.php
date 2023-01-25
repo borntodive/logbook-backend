@@ -48,6 +48,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/emergency/{user}', [UserController::class, 'updateEmergency']);
         Route::put('/{user}', [UserController::class, 'update']);
         Route::delete('/{user}', [UserController::class, 'destroy']);
+        Route::delete('/{user}/avatar', [UserController::class, 'destroyAvatar']);
     });
     Route::prefix('agenda')->group(
         function () {
