@@ -85,7 +85,7 @@
             Diving ;</p>
 
         <p>Per lo svolgimento delle attività in acqua libera, l’Associazione mette a disposizione la seguente
-            attrezzatura, per il noleggio <span style="font-weight: bold"></span>{{ $rent->name }}</span>, come da
+            attrezzatura, per il noleggio <span style="font-weight: bold">{{ $rent->name }}</span>, come da
             seguente elenco:</p>
 
         <table style='width:100%; margin-top:10px;margin-bottom:10px' class="equipmentsTable">
