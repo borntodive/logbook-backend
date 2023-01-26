@@ -38,6 +38,7 @@ class EquipmentResource extends JsonResource
         return [
             'id' => $this->id,
             'name' => $this->name,
+            'price' => $this->price,
             'has_sizes' => $this->has_sizes,
             'image' => Storage::url('images/equipments/' . $this->name . '.jpeg'),
             'count' => $total,

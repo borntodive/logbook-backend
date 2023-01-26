@@ -8,6 +8,7 @@ use App\Http\Controllers\Api\BalanceController;
 use App\Http\Controllers\Api\CertificationController;
 use App\Http\Controllers\Api\DivingController;
 use App\Http\Controllers\Api\InventoryController;
+use App\Http\Controllers\Api\RentController;
 use App\Http\Controllers\Api\RosterController;
 use App\Http\Controllers\Api\SizeController;
 use App\Http\Controllers\Api\UserController;
@@ -93,6 +94,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/dive/{roster}', [RosterController::class, 'updateDive']);
         Route::put('/{roster}', [RosterController::class, 'update']);
         Route::put('/{roster}/{diver_id}/pay', [RosterController::class, 'updateDiverPayment']);
+        Route::put('/{roster}/{diver_id}/unpay', [RosterController::class, 'updateDiverUnPayment']);
         Route::put('/{roster}/{diver_id}', [RosterController::class, 'updateDiver']);
         Route::post('/duplicate-dive/{roster}', [RosterController::class, 'duplicateDive']);
         Route::post('/dive/{roster}', [RosterController::class, 'addDive']);
@@ -128,9 +130,16 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::put('/{diving}', [DivingController::class, 'update']);
         Route::delete('/{diving}', [DivingController::class, 'destroy']);
         Route::delete('/{diving}/logo', [DivingController::class, 'destroyLogo']);
+    });
+    Route::prefix('rents')->group(function () {
+        Route::get('/', [RentController::class, 'index']);
+        Route::get('/{rent}', [RentController::class, 'get']);
+        Route::put('/{rent}/add-equipment', [RentController::class, 'addEquipment']);
+        Route::put('/{rent}', [RentController::class, 'update']);
 
+        Route::post('/', [RentController::class, 'store']);
 
-
-        //Route::get('/{user_id}', [UserController::class, 'get']);
+        Route::delete('equipment/{code}', [RentController::class, 'destroyEquipment']);
+        Route::delete('{rent}', [RentController::class, 'destroy']);
     });
 });

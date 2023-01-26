@@ -6087,7 +6087,49 @@
             "code" => "DG",
             'cost' => 110.90,
             "price" => 500.00,
-            "discounted_price" => 400.00
+            "discounted_price" => 400.00,
+            "activities" => [
+                [
+                    'label' => 'THEORY',
+                    'order' => 1,
+                    'values' => [
+                        [
+                            'label' => 'Ripassi delle conoscenze',
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            'label' => 'Ripassi delle conoscenze',
+                                        ]
+
+                                    ]
+                                ]
+                            ],
+                        ],
+                        [
+                            'label' => 'Esame',
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            'label' => 'Esame',
+                                        ]
+
+                                    ]
+                                ]
+                            ],
+                        ],
+                    ]
+                ],
+            ]
         ],
 
         [

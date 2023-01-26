@@ -1,5 +1,6 @@
 <?php
 
+use App\Models\Rent;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -13,11 +14,11 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('equipment', function (Blueprint $table) {
+        Schema::create('rent_equipment', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
-            $table->float('price')->nullable();
-            $table->boolean('has_sizes')->default(true);
+            $table->foreignIdFor(Rent::class);
+            $table->string('code');
+            $table->string('brand')->nullable();
             $table->timestamps();
         });
     }
@@ -29,6 +30,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('equipment');
+        Schema::dropIfExists('rent_equipment');
     }
 };

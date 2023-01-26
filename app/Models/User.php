@@ -112,6 +112,10 @@ class User extends Authenticatable
     {
         return $this->belongsTo(UserDuty::class, 'user_duty_id');
     }
+    public function rents()
+    {
+        return $this->hasMany(Rent::class);
+    }
     public function emergency_contact()
     {
         return $this->hasOne(UserEmergencycontact::class);

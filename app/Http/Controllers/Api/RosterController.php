@@ -161,7 +161,16 @@ class RosterController extends Controller
             return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
+    public function updateDiverUnPayment(Request $request, RosterDive $roster, $diver_id)
+    {
+        if ($request->user()->isAbleTo('edit-all')) {
+            $roster->users()->sync([
+                $diver_id => ['payed' => false],
+            ], false);
 
+            return response()->json(['message' => 'success']);
+        } else return response('unauthorized', 403);
+    }
     public function addUser(Request $request, RosterDive $roster, User $user)
     {
         if ($request->user()->isAbleTo('edit-all')) {

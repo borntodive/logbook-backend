@@ -19,6 +19,7 @@ class EquipmentSeeder extends Seeder
         $equipments = [
             [
                 'name' => 'suit',
+                'price' => 10,
                 'order' => 3,
                 'sizes' => [
                     'xxxsm',
@@ -43,7 +44,7 @@ class EquipmentSeeder extends Seeder
             [
                 'name' => 'bcd',
                 'order' => 1,
-
+                'price' => 15,
                 'sizes' => [
                     'xxxs',
                     'xxs',
@@ -59,7 +60,7 @@ class EquipmentSeeder extends Seeder
             [
                 'name' => 'boot',
                 'order' => 5,
-
+                'price' => 5,
                 'sizes' => [
                     'xxxs',
                     'xxs',
@@ -74,7 +75,7 @@ class EquipmentSeeder extends Seeder
             [
                 'name' => 'fins',
                 'order' => 6,
-
+                'price' => 5,
                 'sizes' => [
                     'xxxs',
                     'xxs',
@@ -89,7 +90,7 @@ class EquipmentSeeder extends Seeder
             [
                 'name' => 'mask',
                 'order' => 4,
-
+                'price' => 5,
                 'sizes' => [
                     'uni',
 
@@ -98,7 +99,7 @@ class EquipmentSeeder extends Seeder
             [
                 'name' => 'weightsBelt',
                 'order' => 7,
-
+                'price' => 5,
                 'sizes' => [
                     'uni',
                     '3P',
@@ -111,7 +112,7 @@ class EquipmentSeeder extends Seeder
             [
                 'name' => 'regulator',
                 'order' => 2,
-
+                'price' => 15,
                 'sizes' => [
                     'OCTO',
                     'HOGA',
@@ -121,6 +122,7 @@ class EquipmentSeeder extends Seeder
             ],
             [
                 'name' => 'weight',
+                'price' => 2,
                 'order' => 8,
                 'has_sizes' => false,
                 'sizes' => [
@@ -137,7 +139,7 @@ class EquipmentSeeder extends Seeder
             [
                 'name' => 'tank',
                 'order' => 9,
-
+                'price' => 10,
                 'sizes' => [
                     '4L',
                     '5L',
