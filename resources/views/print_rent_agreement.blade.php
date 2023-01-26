@@ -58,10 +58,10 @@
 
 <body>
     <div id="header">
-        <img src="{{ url('storage/images/pdf/logo_tod_header_agreement.png') }}" height="150" style="margin:auto" />
+        <img src="{{ url('storage/images/pdf/logo_tod_header_agreement.jpg') }}" height="150" style="margin:auto" />
     </div>
     <div id="footer">
-        <img src="{{ url('storage/images/pdf/logo_tod_footer_agreement.png') }}" height="70" style="margin:auto" />
+        <img src="{{ url('storage/images/pdf/logo_tod_footer_agreement.jpg') }}" height="70" style="margin:auto" />
     </div>
     <div id="content" class="margin-left:16px; margin-right:16px">
         <div style="text-align: center">
