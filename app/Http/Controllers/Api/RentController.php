@@ -12,6 +12,7 @@ use App\Models\Rent;
 use App\Models\RentEquipment;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use PDF;
 
 class RentController extends Controller
 {
@@ -114,5 +115,94 @@ class RentController extends Controller
             $rent->delete();
             return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
+    }
+    public function printAgreement(Request $request, Rent $rent)
+    {
+        //$rRes = new RosterResource($roster);
+        $rentRes = json_decode(json_encode(new RentResource($rent)));
+        $translations =
+            [
+                "sizes" => [
+                    "xxxs" => "XXXS",
+                    "xxs" => "XXS",
+                    "xs" => "XS",
+                    "s" => "S",
+                    "m" => "M",
+                    "lg" => "L",
+                    "xl" => "XL",
+                    "xxl" => "XXL",
+                    "uni" => "UNI",
+                    "4L" => "4L",
+                    "5L" => "5L",
+                    "7L" => "7L",
+                    "10L" => "10L",
+                    "11L" => "11L",
+                    "12L" => "12L",
+                    "15L" => "15L",
+                    "18L" => "18L",
+                    "B10L" => "10+10L",
+                    "B12L" => "12+12L",
+                    "HOGA" => "HOGA",
+                    "OCTO" => "OCTO",
+                    "2REG" => "2ERO",
+                    "3P" => "3P",
+                    "4P" => "4P",
+                    "5P" => "5P",
+                    "6P" => "6P",
+                    "xxxsm" => "XXXS-M",
+                    "xxsm" => "XXS-M",
+                    "xsm" => "XS-M",
+                    "sm" => "S-M",
+                    "mm" => "M-M",
+                    "lgm" => "L-M",
+                    "xlm" => "XL-M",
+                    "xxlm" => "XXL-M",
+                    "xxxsf" => "XXXS-F",
+                    "xxsf" => "XXS-F",
+                    "xsf" => "XS-F",
+                    "sf" => "S-F",
+                    "mf" => "M-F",
+                    "lgf" => "L-F",
+                    "xlf" => "XL-F",
+                    "xxlf" => "XXL-F",
+                    "O.5" => "0.5",
+                    "1",
+                    "1.5" => "1.5",
+                    "2",
+                    "2.5" => "2.5",
+                    "3",
+                    "3.5" => "3.5",
+                    "4"
+                ],
+                "inventory" => [
+                    "recreational" => "Ricreativo",
+                    "technical" => "Tecnico",
+                    "pool" => "Piscina",
+                    "dive" => "Immersione",
+                    "dry" => "Stagna",
+                    "strap" => "Cinghiolo",
+                    "footpoket" => "A scarpetta",
+                    "classic" => "Classica",
+                    "pockets" => "A tasche",
+                    "aluminum" => "Alluminio",
+                    "iron" => "Acciaio"
+                ],
+                "equipments" => [
+                    "suit" => "Muta",
+                    "bcd" => "GAV",
+                    "boot" => "Calzari",
+                    "fins" => "Pinne",
+                    "mask" => "Maschera",
+                    "weightsBelt" => "Cintura pesi",
+                    "regulator" => "Erogatore",
+                    "weight" => "Pesi",
+                    "tank" => "Bombola"
+                ]
+            ];;
+        //return view('print_rent_agreement', ['rent' => $rentRes, 'translations' => $translations]);
+
+        $pdf = PDF::loadView('print_rent_agreement', ['rent' => $rentRes, 'translations' => $translations])->setPaper('a4');
+        $filename = "Contratto noleggio " . $rentRes->name . " del " . date('dmY', strtotime($rentRes->startDate)) . ".pdf";
+        return $pdf->stream($filename);
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\RentController;
 use App\Http\Controllers\Api\RosterController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,4 +21,8 @@ Route::get('/', function () {
 
 Route::prefix('rosters')->group(function () {
     Route::get('print/{roster}', [RosterController::class, 'printAdmin']);
+});
+
+Route::prefix('rents')->group(function () {
+    Route::get('print/{rent}', [RentController::class, 'printAgreement']);
 });

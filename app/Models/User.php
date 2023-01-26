@@ -26,7 +26,6 @@ class User extends Authenticatable
         'id',
 
     ];
-
     public $transformer = UserTransformer::class;
 
     public function scopeSearch($query, $keyword, $columns)

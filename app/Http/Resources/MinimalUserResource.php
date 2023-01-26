@@ -4,6 +4,7 @@ namespace App\Http\Resources;
 
 use App\Models\Size;
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Carbon;
 
 class MinimalUserResource extends JsonResource
 {
@@ -20,6 +21,7 @@ class MinimalUserResource extends JsonResource
             'id' => $this->id,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
+            'birthdate' => Carbon::create($this->birthdate)->format('d-m-Y'),
             'avatar' =>
             $this->getAvatarUrl(),
 
