@@ -162,7 +162,7 @@
                             </td>
                             <td>
                                 <div style="text-align:center">
-                                    @if ($roster->type == 'DIVE')
+                                    @if ($roster->type == 'DIVE' && $diver['balance']['dive'])
                                         <p
                                             style="display:block;border:solid; height:20px;width:20px;margin-left:auto;margin-right:auto">
                                         </p>
@@ -176,7 +176,7 @@
                             </td>
                             <td>
                                 <div style="margin-left: 40%;">
-                                    @if ($roster->type == 'DIVE')
+                                    @if ($roster->type == 'DIVE' && $diver['balance']['dive'])
                                         <p style="border:solid; height:20px;width:100%">
                                         </p>
                                     @endif
