@@ -133,6 +133,8 @@ Route::middleware('auth:sanctum')->group(function () {
     });
     Route::prefix('rents')->group(function () {
         Route::get('/', [RentController::class, 'index']);
+        Route::get('/user/{user}', [RentController::class, 'getByUser']);
+
         Route::get('/{rent}', [RentController::class, 'get']);
         Route::get('/print-agreement/{rent}', [RentController::class, 'printAgreement']);
 

@@ -21,6 +21,7 @@
         right: 0px;
         height: 120px;
         text-align: center;
+        background-color: red;
 
     }
 

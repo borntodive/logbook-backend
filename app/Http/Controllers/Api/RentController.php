@@ -34,15 +34,29 @@ class RentController extends Controller
             $rents = $rents->where('rents.return_date', '<>', null);
         if ($filter == 'future')
             $rents = $rents->whereNull('rents.return_date')->where('rents.start_date', '>', now());
-        /*  $rents = $rents->join(
-            'users',
-            function ($join) use ($search) {
-                $join->on('users.id', '=', 'rents.user_id')
-                    ->where('users.firstname', 'like', '%' . $search . '%')
-                    ->orWhere('users.lastname', 'like', '%' . $search . '%');
-            }
-        ); */
+
         return MinimalRentResource::collection($rents->jsonPaginate());
+    }
+    public function getByUser(Request $request, $user_id)
+    {
+
+        if ($request->user()->isAbleTo('view-all') || $request->user()->id == $user_id) {
+
+            $sort = $request->get('sort', 'start_date');
+            $sortDirection = $request->get('sortDirection', 'ASC');
+            $search = $request->get('search', '');
+            $filter = $request->get('filter', 'open');
+
+            $rents = Rent::select('rents.*')->whereHas('user', fn ($query) => $query->where('id', '=', $user_id))->orderBy('start_date', $sortDirection)
+                ->orderBy('number', $sortDirection);
+            if ($filter == 'open')
+                $rents = $rents->where('rents.return_date', null)->where('rents.start_date', '<=', now());
+            if ($filter == 'closed')
+                $rents = $rents->where('rents.return_date', '<>', null);
+            if ($filter == 'future')
+                $rents = $rents->whereNull('rents.return_date')->where('rents.start_date', '>', now());
+            return MinimalRentResource::collection($rents->jsonPaginate());
+        } else return response('unauthorized', 403);
     }
     public function store(RentPostRequest $request)
     {
