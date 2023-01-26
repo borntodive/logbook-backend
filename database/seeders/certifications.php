@@ -6086,8 +6086,8 @@
             "name" => "Dive Guide ",
             "code" => "DG",
             'cost' => 110.90,
-            "price" => 500.00,
-            "discounted_price" => 400.00,
+            "price" => 590.00,
+            "discounted_price" => 500.00,
             "activities" => [
                 [
                     'label' => 'THEORY',

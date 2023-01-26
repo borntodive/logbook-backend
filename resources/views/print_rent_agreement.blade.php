@@ -136,7 +136,7 @@
                     <th class="no-border"></th>
                     <th class="no-border"></th>
                     <th class="no-border"></th>
-                    <th>Prezzo Listino</th>
+                    <th>Prezzo Listino / giorno</th>
                     <td style="text-align:right">{{ sprintf('%0.2f', $total) }} €</td>
                 </tr>
                 <tr>
@@ -154,8 +154,24 @@
                     <th class="no-border"></th>
                     <th class="no-border"></th>
                     <th class="no-border"></th>
-                    <th>Totale</th>
+                    <th>Prezzo Scontato / giorno</th>
                     <td style="text-align:right">{{ sprintf('%0.2f', $rent->price) }} €</td>
+                </tr>
+                <tr>
+                    <th class="no-border"></th>
+                    <th class="no-border"></th>
+                    <th class="no-border"></th>
+                    <th class="no-border"></th>
+                    <th>Giorni di utilizzo</th>
+                    <td style="text-align:right">{{ sprintf('%0.2f', $rent->usedDays) }} €</td>
+                </tr>
+                <tr>
+                    <th class="no-border"></th>
+                    <th class="no-border"></th>
+                    <th class="no-border"></th>
+                    <th class="no-border"></th>
+                    <th>Totale</th>
+                    <td style="text-align:right">{{ sprintf('%0.2f', $rent->price * $rent->usedDays) }} €</td>
                 </tr>
             </tbody>
         </table>
