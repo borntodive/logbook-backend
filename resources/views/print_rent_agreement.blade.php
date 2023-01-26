@@ -85,7 +85,7 @@
             Diving ;</p>
 
         <p>Per lo svolgimento delle attività in acqua libera, l’Associazione mette a disposizione la seguente
-            attrezzatura come da seguente elenco:</p>
+            attrezzatura, per il noleggio {{ $rent->name }}, come da seguente elenco:</p>
 
         <table style='width:100%; margin-top:10px;margin-bottom:10px' class="equipmentsTable">
             <thead>
@@ -163,7 +163,7 @@
                     <th class="no-border"></th>
                     <th class="no-border"></th>
                     <th>Giorni di utilizzo</th>
-                    <td style="text-align:right">{{ sprintf('%0.2f', $rent->usedDays) }} €</td>
+                    <td style="text-align:right">{{ $rent->usedDays }} </td>
                 </tr>
                 <tr>
                     <th class="no-border"></th>
@@ -175,6 +175,8 @@
                 </tr>
             </tbody>
         </table>
+        <p>Data inizio noleggio: {{ date('d-m-Y', strtotime($rent->startDate)) }}</p>
+        <p>Data fine noleggio (prevista): {{ date('d-m-Y', strtotime($rent->endDate)) }}</p>
         <p>Le parti danno espressamente atto, con la firma della presente scrittura, che tali beni sono stati
             esaminati
             dall’utilizzatore insieme ad un istruttore autorizzato dell’associazione e si trovano in stato di
