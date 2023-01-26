@@ -20,15 +20,9 @@ class RentEquipment extends Model
 
         return Inventory::whereJsonContains('items', [['code' => $this->code]])->first();
     }
-    public function getAvailability()
-    {
-        $inventory = Inventory::whereJsonContains('items', [['code' => $this->code]])->first();
 
-        foreach ($inventory->items as $item) {
-            if ($item['code'] == $this->code) {
-                return $item['available'] ? true : false;
-            }
-        }
-        return false;
+    public function rent()
+    {
+        return $this->belongsTo(Rent::class);
     }
 }

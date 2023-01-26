@@ -2,6 +2,7 @@
 
 namespace App\Http\Resources;
 
+use App\Helpers\InventoryHelper;
 use App\Models\Inventory;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Storage;
@@ -25,9 +26,9 @@ class InventoryResource extends JsonResource
             foreach ($sizes as $size) {
                 $eqs
                     = Inventory::where('equipment_type_id', $type->id)->where('equipment_id', $this->id)->where('size_id', $size->id)->first();
-                $items = [];
-                foreach ($eqs->items as $item) {
-                    $items[] = $item;
+                $invHelper = new InventoryHelper($eqs);
+                $items = $invHelper->checkEquipmentsAvailability();
+                foreach ($items as $item) {
                     $total++;
                     if ($item['available'])
                         $totalAvailable++;

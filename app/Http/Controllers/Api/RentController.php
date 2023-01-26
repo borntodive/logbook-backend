@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\InventoryHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RentPostRequest;
 use App\Http\Resources\CourseResource;
@@ -88,8 +89,14 @@ class RentController extends Controller
         if ($request->user()->isAbleTo('edit-all')) {
             $code = $request->code;
             $brand = $request->brand;
-            $e = RentEquipment::create(['rent_id' => $rent->id, 'code' => $code, 'brand' => $brand]);
-            return response()->json(['message' => 'success']);
+            $otherEq = RentEquipment::where('rent_id', $rent->id)->where('code', $code)->first();
+            $invHelper = new InventoryHelper();
+            if ($invHelper->checkItemAvailability($code, $rent) && !$otherEq) {
+                $e = RentEquipment::create(['rent_id' => $rent->id, 'code' => $code, 'brand' => $brand]);
+                return response()->json(['message' => 'success']);
+            } else {
+                return response()->json(['message' => 'NOTAVAILABLE']);
+            }
         } else return response('unauthorized', 403);
     }
     public function destroyEquipment(Request $request, $code)
