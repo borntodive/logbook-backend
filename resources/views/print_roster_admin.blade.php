@@ -146,7 +146,7 @@
                         <tr class="{{ $class }}">
                             <td>{{ $diver['name'] }}</td>
                             <td style="text-align: right">
-                                @if ($roster->type == 'DIVE')
+                                @if ($roster->type == 'DIVE' && $diver['balance']['dive'])
                                     <p>Immersione:
 
                                         {{ $diver['balance']['dive'] ? number_format((float) $diver['balance']['dive'], 2) : number_format((float) 0, 2) }}

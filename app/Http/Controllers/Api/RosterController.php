@@ -348,7 +348,10 @@ class RosterController extends Controller
                         $divers[$diver->id]['balance']['equipment'] = 0;
                         $divers[$diver->id]['balance']['total'] = 0;
                     }
-                    $divers[$diver->id]['balance']['dive'] += $diver->price;
+                    if (!$diver->payed)
+                        $divers[$diver->id]['balance']['dive'] += $diver->price;
+                    else
+                        $divers[$diver->id]['balance']['dive'] = 0;
                     $user = User::find($diver->id);
                     foreach ($user->courses as $course) {
                         $student = $course->users()->where('user_id', $user->id)->first();
