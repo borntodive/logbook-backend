@@ -85,7 +85,8 @@
             Diving ;</p>
 
         <p>Per lo svolgimento delle attività in acqua libera, l’Associazione mette a disposizione la seguente
-            attrezzatura, per il noleggio {{ $rent->name }}, come da seguente elenco:</p>
+            attrezzatura, per il noleggio <span style="font-weight: bold"></span>{{ $rent->name }}</span>, come da
+            seguente elenco:</p>
 
         <table style='width:100%; margin-top:10px;margin-bottom:10px' class="equipmentsTable">
             <thead>
@@ -175,8 +176,15 @@
                 </tr>
             </tbody>
         </table>
-        <p>Data inizio noleggio: {{ date('d-m-Y', strtotime($rent->startDate)) }}</p>
-        <p>Data fine noleggio (prevista): {{ date('d-m-Y', strtotime($rent->endDate)) }}</p>
+        <table style="width:100%;margin-top:20px">
+            <tr style="line-height: 50px;">
+                <td>Data inizio noleggio:</td>
+                <td style=""> {{ date('d-m-Y', strtotime($rent->startDate)) }}</td>
+                <td>Data fine noleggio (prevista): </td>
+                <td>{{ date('d-m-Y', strtotime($rent->endDate)) }}</td>
+            </tr>
+        </table>
+
         <p>Le parti danno espressamente atto, con la firma della presente scrittura, che tali beni sono stati
             esaminati
             dall’utilizzatore insieme ad un istruttore autorizzato dell’associazione e si trovano in stato di
@@ -208,11 +216,9 @@
             stesso.
         </p>
         <p><span style="font-weight: bold">Art. 5 – Scadenza del contratto -</span> Il contratto ha termine alla
-            data di
-            cessazione dell’attività didattica, quali ne siano le ragioni ed anche in caso di mancato rilascio del
-            brevetto anche per fatto e/o responsabilità esclusive dell’Associazione. Alla scadenza il bene dovrà
+            data di fine noleggio effettiva. Alla scadenza i beni dovranno
             essere
-            restituito presso la sede dell’Associazione.
+            restituiti presso la sede dell’Associazione.
         </p>
         <p><span style="font-weight: bold">Art. 6 – Facoltà di recesso -</span> Resta salva la facoltà di entrambe
             le
