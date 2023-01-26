@@ -19,7 +19,7 @@
         left: 0px;
         top: -180px;
         right: 0px;
-        height: 150px;
+        height: 120px;
         text-align: center;
 
     }
@@ -29,7 +29,7 @@
         left: 0px;
         bottom: -180px;
         right: 0px;
-        height: 75px;
+        height: 65px;
         text-align: center;
 
     }
@@ -58,10 +58,10 @@
 
 <body>
     <div id="header">
-        <img src="{{ url('storage/images/pdf/logo_tod_header_agreement.jpg') }}" height="150" style="margin:auto" />
+        <img src="{{ url('storage/images/pdf/logo_tod_header_agreement.jpg') }}" height="120" style="margin:auto" />
     </div>
     <div id="footer">
-        <img src="{{ url('storage/images/pdf/logo_tod_footer_agreement.jpg') }}" height="70" style="margin:auto" />
+        <img src="{{ url('storage/images/pdf/logo_tod_footer_agreement.jpg') }}" height="60" style="margin:auto" />
     </div>
     <div id="content" class="margin-left:16px; margin-right:16px">
         <div style="text-align: center">
