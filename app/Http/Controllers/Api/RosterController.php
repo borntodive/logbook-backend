@@ -30,8 +30,13 @@ class RosterController extends Controller
             return response('unauthorized', 403);
         $sort = $request->get('sort', 'date');
         $type = $request->get('type', 'POOL');
+        $filter = $request->get('filter', 'future');
         $sortDirection = $request->get('sortDirection', 'ASC');
         $rosters = Roster::where('type', $type)->orderBy($sort, $sortDirection);
+        if ($filter == 'future')
+            $rosters = $rosters->where('date', '>=', now());
+        elseif ($filter == 'past')
+            $rosters = $rosters->where('date', '<', now());
         return RosterResource::collection($rosters->jsonPaginate());
     }
     public function store(RosterPostRequest $request)
@@ -363,14 +368,19 @@ class RosterController extends Controller
                             $countedCourses[$diver->id][$student->pivot->course_id] = true;
                         }
                     }
-                    $divers[$diver->id]['balance']['equipment'] = 0;
-                    $totals['equipment']['income']  = 0;
+                    $unpayedRents = $user->unpayedRents;
+                    foreach ($unpayedRents as $rent) {
+                        $rBalance = $rent->price * $rent->used_days - $rent->payment_1 - $rent->payment_2;
+                        $divers[$diver->id]['balance']['equipment'] += $rBalance;
+                        $totals['equipment']['income']  += $rBalance;
+                        $divers[$diver->id]['balance']['total'] += $rBalance;
+                        $totals['equipment']['income']  += $rBalance;
+                    }
+
 
                     $divers[$diver->id]['balance']['total'] = $divers[$diver->id]['balance']['dive'] + $divers[$diver->id]['balance']['equipment'];
 
                     $totals['dive']['income'] += $diver->price;
-
-                    $totals['equipment']['income']  += 0;
                 }
             }
             $totals['dive']['cost'] += $dive->cost * $totalDivers - $dive->cost * $rosterRes->gratuities;

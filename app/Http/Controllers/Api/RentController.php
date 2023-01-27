@@ -88,14 +88,28 @@ class RentController extends Controller
         if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
             $data = $request->safe()->toArray();
-
-
+            $balance = ($data['price'] * $data['used_days']) - $data['payment_1'] - $data['payment_2'];
+            $data['payed'] = false;
+            if ($balance <= 0)
+                $data['payed'] = true;
             $rent->fill($data);
 
             $rent->save();
 
 
             return new RentResource($rent);
+        } else return response('unauthorized', 403);
+    }
+    public function toggleReturned(Request $request, Rent $rent)
+    {
+        if ($request->user()->isAbleTo('edit-all')) {
+            $returned = $request->input('returned', false);
+            if ($returned)
+                $rent->return_date = now();
+            else
+                $rent->return_date = null;
+            $rent->save();
+            return response()->json(['message' => 'success']);
         } else return response('unauthorized', 403);
     }
 

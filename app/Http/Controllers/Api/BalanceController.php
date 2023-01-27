@@ -41,8 +41,17 @@ class BalanceController extends Controller
                 'ammount' => $cBalance
             ];
         }
-        $data['equipment']['total'] = 0;
-        $data['equipment']['data'] = [];
+        $data['rents']['total'] = 0;
+        $data['rents']['data'] = [];
+        foreach ($user->unpayedRents as $rent) {
+            $rBalance = $rent->price * $rent->used_days - $rent->payment_1 - $rent->payment_2;
+            $data['rents']['total'] += $rBalance;
+            $data['rents']['data'][] = [
+                'name' => $rent->number . '/' . $rent->start_date->format('Y'),
+                'startDate' => $rent->start_date->format('d-m-Y '),
+                'ammount' => $rBalance
+            ];
+        }
         return response()->json(['data' => ['balance' => $data]]);
     }
 }

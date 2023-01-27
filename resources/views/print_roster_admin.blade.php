@@ -158,7 +158,12 @@
                                         {{ number_format((float) $diver['balance']['course'], 2) }}
                                         €</p>
                                 @endif
+                                @if ($diver['balance']['equipment'])
+                                    <p>Noleggi:
 
+                                        {{ number_format((float) $diver['balance']['equipment'], 2) }}
+                                        €</p>
+                                @endif
                             </td>
                             <td>
                                 <div style="text-align:center">
@@ -172,6 +177,11 @@
                                             style="display:block;border:solid; height:20px;width:20px;margin-left:auto;margin-right:auto">
                                         </p>
                                     @endif
+                                    @if ($diver['balance']['equipment'])
+                                        <p
+                                            style="display:block;border:solid; height:20px;width:20px;margin-left:auto;margin-right:auto">
+                                        </p>
+                                    @endif
                                 </div>
                             </td>
                             <td>
@@ -181,6 +191,10 @@
                                         </p>
                                     @endif
                                     @if ($diver['balance']['course'])
+                                        <p style="border:solid; height:20px;width:100%">
+                                        </p>
+                                    @endif
+                                    @if ($diver['balance']['equipment'])
                                         <p style="border:solid; height:20px;width:100%">
                                         </p>
                                     @endif
@@ -214,7 +228,7 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="table-header">Attrezzature</div>
+            <div class="table-header">Noleggi</div>
             <table class="table">
                 <tbody>
                     <tr>

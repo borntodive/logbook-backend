@@ -286,6 +286,11 @@ class UserController extends Controller
             $rBalance = $roster->pivot->price;
             $balance += $rBalance;
         }
+        $unpayedRents = $user->unpayedRents;
+        foreach ($unpayedRents as $rent) {
+            $rBalance = $rent->price * $rent->used_days - $rent->payment_1 - $rent->payment_2;
+            $balance += $rBalance;
+        }
         $data['balance'] = $balance;
 
         /*

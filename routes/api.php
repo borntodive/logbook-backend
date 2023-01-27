@@ -138,6 +138,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/{rent}', [RentController::class, 'get']);
         Route::get('/print-agreement/{rent}', [RentController::class, 'printAgreement']);
 
+        Route::put('/{rent}/toggle-returned', [RentController::class, 'toggleReturned']);
         Route::put('/{rent}/add-equipment', [RentController::class, 'addEquipment']);
         Route::put('/{rent}', [RentController::class, 'update']);
 

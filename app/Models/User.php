@@ -115,6 +115,11 @@ class User extends Authenticatable
     {
         return $this->hasMany(Rent::class);
     }
+    public function unpayedRents()
+    {
+        return $this->hasMany(Rent::class)
+            ->where('payed', '<>', 1);
+    }
     public function emergency_contact()
     {
         return $this->hasOne(UserEmergencycontact::class);

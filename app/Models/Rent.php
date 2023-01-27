@@ -24,6 +24,7 @@ class Rent extends Model
     protected $casts = [
         'start_date' => 'datetime:Y-m-d',
         'end_date' => 'datetime:Y-m-d',
+        'return_date' => 'datetime:Y-m-d',
         'payed' => 'boolean',
     ];
     public function user()
