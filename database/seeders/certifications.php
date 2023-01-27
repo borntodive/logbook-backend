@@ -6127,11 +6127,407 @@
                                 ]
                             ],
                         ],
+                        [
+                            'label' => 'Valutazione del Briefing',
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            'label' => 'Pianificare e organizzare un briefing basato su un determinato scenario',
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            'label' => 'Condurre un briefing usando la Lavagnetta SSI Dive Briefing',
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            'label' => 'Raggiungere un punteggio minimo di 32 sul form per la valutazione del briefing',
+                                        ]
+
+                                    ]
+                                ]
+                            ],
+                        ],
                     ]
                 ],
-            ]
-        ],
+                [
+                    'label' => 'CW',
+                    'order' => 2,
+                    'values' => [
+                        [
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "Valutazione di acquaticità del candidato",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Sostenersi in superficie per 15 minuti senza ausili o galleggianti di alcun tipo"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Nuotare per 700 metri senza fermarsi in 20 minuti usando maschera, pinne e snorkel, in alternativa nuotare per 375 metri senza fermarsi e senza usare maschera, pinne, snorkel o altri ausili (ove obbligatorio)"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Nuotare in immersione per 25 metri usando maschera, pinne e snorkel"
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Eseguire il soccorso completo di un subacqueo incosciente in superficie, trainandolo per una distanza di 100 m, in otto (8) minuti. Entrambi i subacquei devono utilizzare il Sistema Totale di Immersione."
+                                        ]
+                                    ]
+                                ],
 
+                            ]
+                        ],
+                        [
+                            'order' => 2,
+                            'values' => [
+                                [
+                                    "label" => "Seminario esercizi Snorkeling",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Regolazione dell'assetto e della zavorra"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Controllo dell'assetto con un sistema Totale per Snorkeling"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Svuotamento dello snorkel e della maschera"
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Pinneggiata alternata a pinne estese (in superficie)"
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" => "Ottenimento dell'assetto positivo in superficie, facendo snorkeling"
+                                        ],
+                                        [
+                                            "order" => 6,
+                                            "label" => "Tecniche di compensazione"
+                                        ],
+                                        [
+                                            "order" => 7,
+                                            "label" => "Capovolta a testa in giù"
+                                        ],
+                                        [
+                                            "order" => 8,
+                                            "label" => "Tecniche di pinneggiamento (sott'acqua)"
+                                        ],
+                                        [
+                                            "order" => 9,
+                                            "label" => "Ritorno in superficie"
+                                        ],
+                                        [
+                                            "order" => 10,
+                                            "label" => "Entrate ed uscite"
+                                        ]
+                                    ]
+                                ],
+
+                            ]
+                        ],
+                        [
+                            'order' => 3,
+                            'values' => [
+                                [
+                                    "label" => "Seminario esercizi Open Water Diver",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Assemblaggio dell'unità Scuba"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Vestizione dell'unità Scuba"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Check pre-immersione"
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Entrata controllata da seduti"
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" => "Controllo dell'assetto | Sistema Totale d'Immersione"
+                                        ],
+                                        [
+                                            "order" => 6,
+                                            "label" => "Respirazione dall'erogatore"
+                                        ],
+                                        [
+                                            "order" => 7,
+                                            "label" => "Svuotamento dell'erogatore - Metodo dell'espirazione forzata"
+                                        ],
+                                        [
+                                            "order" => 8,
+                                            "label" => "Svuotamento dell'erogatore - Metodo del bottone di spurgo"
+                                        ],
+                                        [
+                                            "order" => 9,
+                                            "label" => "Recupero dell'erogatore - Circonduzione del braccio"
+                                        ],
+                                        [
+                                            "order" => 10,
+                                            "label" => "Recupero dell'erogatore - Metodo della fonte d'aria alternativa"
+                                        ],
+                                        [
+                                            "order" => 11,
+                                            "label" => "Svuotamento della maschera - Allagamento parziale"
+                                        ],
+                                        [
+                                            "order" => 12,
+                                            "label" => "Svuotamento della maschera - Allagamento totale"
+                                        ],
+                                        [
+                                            "order" => 13,
+                                            "label" => "Entrata con passo del gigante | Scuba"
+                                        ],
+                                        [
+                                            "order" => 14,
+                                            "label" => "Discesa controllata"
+                                        ],
+                                        [
+                                            "order" => 15,
+                                            "label" => "Rimozione e Riposizionamento della Maschera"
+                                        ],
+                                        [
+                                            "order" => 16,
+                                            "label" => "Condivisione dell'aria sul posto - Passando l’erogatore primario"
+                                        ],
+                                        [
+                                            "order" => 17,
+                                            "label" => "Condivisione dell'aria sul posto - Uso della fonte d'aria alternativa"
+                                        ],
+                                        [
+                                            "order" => 18,
+                                            "label" => "Assetto Neutro | Posizione d'immersione - Gonfiaggio con VIS"
+                                        ],
+                                        [
+                                            "order" => 19,
+                                            "label" => "Assetto Neutro | Posizione d'immersione - Gonfiaggio a bocca"
+                                        ],
+                                        [
+                                            "order" => 20,
+                                            "label" => "Tecniche di pinneggiamento | Scuba"
+                                        ],
+                                        [
+                                            "order" => 21,
+                                            "label" => "Risalita controllata"
+                                        ],
+                                        [
+                                            "order" => 22,
+                                            "label" => "Uscita in acqua alta"
+                                        ],
+                                        [
+                                            "order" => 23,
+                                            "label" => "Rimozione e riposizionamento della zavorra | In superficie"
+                                        ],
+                                        [
+                                            "order" => 24,
+                                            "label" => "Rimozione e riposizionamento della zavorra | In immersione"
+                                        ],
+                                        [
+                                            "order" => 25,
+                                            "label" => "Rimozione e Riposizionamento della Maschera"
+                                        ],
+                                        [
+                                            "order" => 26,
+                                            "label" => "Assetto Neutro | Posizione d'immersione"
+                                        ],
+                                        [
+                                            "order" => 27,
+                                            "label" => "Condivisione dell'aria in risalita"
+                                        ],
+                                        [
+                                            "order" => 28,
+                                            "label" => "Entrata per rovesciamento all’indietro"
+                                        ],
+                                        [
+                                            "order" => 29,
+                                            "label" => "Rimozione e riposizionamento dell'unità Scuba | In immersione"
+                                        ],
+                                        [
+                                            "order" => 30,
+                                            "label" => "Assetto Neutro | Assetto neutro, in orizzontale"
+                                        ],
+                                        [
+                                            "order" => 31,
+                                            "label" => "Nuoto senza maschera"
+                                        ],
+                                        [
+                                            "order" => 32,
+                                            "label" => "Risalita di emergenza nuotando"
+                                        ],
+                                        [
+                                            "order" => 33,
+                                            "label" => "Rimozione e riposizionamento dell'unità Scuba | In superficie"
+                                        ],
+                                        [
+                                            "order" => 34,
+                                            "label" => "Disconnessione/riconnessione della frusta del VIS"
+                                        ],
+                                        [
+                                            "order" => 35,
+                                            "label" => "Respirazione da un erogatore in erogazione continua"
+                                        ],
+                                        [
+                                            "order" => 36,
+                                            "label" => "Sosta di sicurezza"
+                                        ],
+                                        [
+                                            "order" => 37,
+                                            "label" => "Risalita di emergenza in assetto (REA)"
+                                        ],
+                                        [
+                                            "order" => 38,
+                                            "label" => "Lancio in immersione di un segnalatore di superficie | In superficie"
+                                        ],
+                                        [
+                                            "order" => 39,
+                                            "label" => "Esercizi di soccorso – Avvicinamento"
+                                        ],
+                                        [
+                                            "order" => 40,
+                                            "label" => "Esercizi di soccorso - Rimozione di un crampo"
+                                        ],
+                                        [
+                                            "order" => 41,
+                                            "label" => "Esercizi di soccorso - Traino dalla rubinetteria"
+                                        ],
+                                        [
+                                            "order" => 42,
+                                            "label" => "Esercizi di soccorso - Traino dal fianco"
+                                        ],
+                                        [
+                                            "order" => 43,
+                                            "label" => "Esercizi di soccorso - Spinta dalle pinne"
+                                        ],
+                                        [
+                                            "order" => 44,
+                                            "label" => "Smontaggio dell'unità Scuba"
+                                        ],
+                                        [
+                                            "order" => 45,
+                                            "label" => "Cura dell'attrezzatura | Scuba"
+                                        ],
+                                        [
+                                            "order" => 46,
+                                            "label" => "Debriefing"
+                                        ],
+                                        [
+                                            "order" => 47,
+                                            "label" => "Registrare e convalidare immersione su Logbook App SSI"
+                                        ],
+
+                                    ]
+                                ],
+
+                            ]
+                        ],
+                        [
+                            'order' => 4,
+                            'values' => [
+                                [
+                                    "label" => "Seminario esercizi Diver Stress And Rescue",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Assistere un subacqueo in difficoltà o in panico (in superficie o sott'acqua)"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Portare un subacqueo incosciente in superficie"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Assistere un subacqueo incosciente in superficie"
+                                        ],
+                                        [
+                                            "order" => 4,
+                                            "label" => "Trasportare un subacqueo incosciente"
+                                        ],
+                                        [
+                                            "order" => 5,
+                                            "label" => "Rimuovere il subacqueo incosciente dall'acqua"
+                                        ],
+                                        [
+                                            "order" => 6,
+                                            "label" => "Ricercare un subacqueo disperso"
+                                        ],
+                                    ]
+                                ],
+
+                            ]
+                        ],
+                    ],
+                ],
+                [
+                    'label' => 'OW',
+                    'order' => 3,
+                    'values' => [
+                        [
+                            'order' => 1,
+                            'values' => [
+                                [
+                                    "label" => "Valutazione della guida di un'immersione",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Mantenere il controllo del gruppo prima, durante e dopo l'immersione"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Riconoscere e mettere in atto le azioni correttive necessarie in caso di problemi"
+                                        ],
+                                        [
+                                            "order" => 3,
+                                            "label" => "Ottenere un punteggio minimo di 30 e nel form di valutazione per la guida di una immersione"
+
+                                        ]
+                                    ],
+                                ]
+                            ],
+                        ],
+                        [
+                            'order' => 2,
+                            'values' => [
+                                [
+                                    "label" => "Seminario immersione notturna/profonda",
+                                    "order" => 1,
+                                    "values" => [
+                                        [
+                                            "order" => 1,
+                                            "label" => "Valutare uno scenario di un'immersione notturna o profonda e fornire i suggerimenti appropriati per la pianificazione dell'immersione, l'attrezzatura specializzata e i parametri del profilo"
+                                        ],
+                                        [
+                                            "order" => 2,
+                                            "label" => "Creare un piano d'immersione sicuro e corretto basato sullo scenario usando le cue card del Dive Briefing"
+                                        ],
+                                    ],
+                                ]
+                            ],
+                        ]
+                    ],
+                ]
+            ],
+        ],
         [
             "name" => "Snorkel Diver",
             "code" => "SND",
