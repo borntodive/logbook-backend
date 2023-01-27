@@ -15,6 +15,10 @@ return new class extends Migration
     {
         Schema::create('dive_sites', function (Blueprint $table) {
             $table->id();
+            $table->string('name');
+            $table->string('lat')->nullable();
+            $table->string('long')->nullable();
+            $table->string('qrcode')->nullable();
             $table->timestamps();
         });
     }
