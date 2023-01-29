@@ -501,7 +501,7 @@ class RosterController extends Controller
             //$nextSessions[$courseName][$activityType]++;
         }
         $nextActivities = [];
-        dd($nextSessions[$courseName][$activityType]);
+
         foreach ($missingActivities as $courseName => $student) {
             foreach ($student as $studentName => $activity) {
                 foreach ($activity as $activityType => $session) {
