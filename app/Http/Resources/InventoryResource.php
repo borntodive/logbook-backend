@@ -19,6 +19,7 @@ class InventoryResource extends JsonResource
     {
         $equipments = [];
         $types = $this->types()->distinct()->get();
+        dd($types);
         $total = 0;
         $totalAvailable = 0;
         foreach ($types as $type) {

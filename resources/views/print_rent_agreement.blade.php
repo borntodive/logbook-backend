@@ -77,10 +77,18 @@
 
             <h4 style="margin-top: 10px;margin-bottom:10px">E</h4>
         </div>
-        <p>Il sig. {{ $rent->user->lastname }} {{ $rent->user->firstname }}, nato il
-            {{ $rent->user->birthdate }}
-            (di seguito per
-            brevità anche l’utilizzatore);</p>
+        <p>Il @if ($rent->user->gender == 'male')
+                Sig.
+            @else
+                Sig.ra
+                @endif {{ $rent->user->lastname }} {{ $rent->user->firstname }}, @if ($rent->user->gender == 'male')
+                    nato
+                @else
+                    nata
+                @endif il
+                {{ $rent->user->birthdate }}
+                (di seguito per
+                brevità anche l’utilizzatore);</p>
         <p><span style="font-weight: bold">Art. 1 – Oggetto -</span> L’utilizzatore è iscritto presso la ASD Top One
             Diving ;</p>
 

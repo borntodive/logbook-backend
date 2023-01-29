@@ -20,7 +20,7 @@ class Diving extends Model
 
     public function sites()
     {
-        return $this->belongsToMany(DiveSite::class);
+        return $this->belongsToMany(DiveSite::class)->orderBy('name');
     }
     public function getLogoUrl()
     {

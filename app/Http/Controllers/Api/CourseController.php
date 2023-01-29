@@ -100,6 +100,12 @@ class CourseController extends Controller
                 ->orderBy('certifications.name', $sortDirection)
                 ->orderBy('start_date', $sortDirection)
                 ->orderBy('number', $sortDirection);
+            $filter = $request->get('filter', 'open');
+
+            if ($filter == 'open')
+                $courses = $courses->whereNull('end_date');
+            if ($filter == 'closed')
+                $courses = $courses->whereNotNull('end_date');
             return CourseResource::collection($courses->jsonPaginate());
         } else return response('unauthorized', 403);
     }

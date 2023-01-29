@@ -373,7 +373,6 @@ class RosterController extends Controller
                         $rBalance = $rent->price * $rent->used_days - $rent->payment_1 - $rent->payment_2;
                         $divers[$diver->id]['balance']['equipment'] += $rBalance;
                         $totals['equipment']['income']  += $rBalance;
-                        $divers[$diver->id]['balance']['total'] += $rBalance;
                         $totals['equipment']['income']  += $rBalance;
                     }
 
