@@ -17,6 +17,11 @@ class Diving extends Model
     {
         return $this->hasMany(Roster::class);
     }
+
+    public function sites()
+    {
+        return $this->belongsToMany(DiveSite::class);
+    }
     public function getLogoUrl()
     {
         if (!$this->logo)

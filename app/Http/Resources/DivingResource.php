@@ -26,6 +26,7 @@ class DivingResource extends JsonResource
             'dive_price' => $this->dive_price,
             'note' => $this->note,
             'reference' => $this->reference,
+            'sites' => DiveSiteResource::collection($this->sites)
         ];
     }
 }

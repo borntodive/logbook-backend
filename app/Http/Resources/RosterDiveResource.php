@@ -95,10 +95,10 @@ class RosterDiveResource extends JsonResource
         $c  = array_column($divers, 'course');
         array_multisort($c, SORT_ASC, $divers);
         $divers[$GUSTS_KEY] = $guests;
-
         return [
             'id' => $this->id,
             'date' => $this->date->format('Y-m-d\TH:i'),
+            'site' => new DiveSiteResource($this->site),
             'note' => $this->note,
             'cost' => $this->cost,
             'price' => $this->price,

@@ -6,6 +6,7 @@ use App\Http\Controllers\Api\EquipmentController;
 use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\BalanceController;
 use App\Http\Controllers\Api\CertificationController;
+use App\Http\Controllers\Api\DiveSiteController;
 use App\Http\Controllers\Api\DivingController;
 use App\Http\Controllers\Api\InventoryController;
 use App\Http\Controllers\Api\RentController;
@@ -123,13 +124,27 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::prefix('divings')->group(function () {
         Route::get('/', [DivingController::class, 'index']);
         Route::get('/all', [DivingController::class, 'indexAll']);
+
         Route::get('/{diving}', [DivingController::class, 'get']);
         Route::post('/', [DivingController::class, 'store']);
+        Route::post('/{diving}/add-site/{site_id}', [DivingController::class, 'addSite']);
         Route::post('/{diving}/logo', [DivingController::class, 'uploadLogo']);
 
         Route::put('/{diving}', [DivingController::class, 'update']);
         Route::delete('/{diving}', [DivingController::class, 'destroy']);
         Route::delete('/{diving}/logo', [DivingController::class, 'destroyLogo']);
+        Route::delete('/{diving}/add-site/{site_id}', [DivingController::class, 'destoySite']);
+    });
+    Route::prefix('dive-sites')->group(function () {
+        Route::get('/', [DiveSiteController::class, 'index']);
+        Route::get('/all', [DiveSiteController::class, 'indexAll']);
+        Route::get('/availables', [DiveSiteController::class, 'getAvailables']);
+
+        Route::get('/{site}', [DiveSiteController::class, 'get']);
+        Route::post('/', [DiveSiteController::class, 'store']);
+
+        Route::put('/{site}', [DiveSiteController::class, 'update']);
+        Route::delete('/{site}', [DiveSiteController::class, 'destroy']);
     });
     Route::prefix('rents')->group(function () {
         Route::get('/', [RentController::class, 'index']);

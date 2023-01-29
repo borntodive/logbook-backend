@@ -55,7 +55,10 @@
 
         @foreach ($roster->dives as $idx => $dive)
             <div style="page-break-inside: avoid;">
-                <h2>Immersione # {{ $idx + 1 }} - {{ date('H:i', strtotime($dive->date)) }}</h5>
+                <h2>Immersione # {{ $idx + 1 }} - {{ date('H:i', strtotime($dive->date)) }} @if ($roster->type == 'DIVE')
+                        - {{ $dive->site->name }}
+                    @endif
+                    </h5>
                 </h2>
                 @foreach ($dive->divers as $course)
                     <div class="card border-dark mb-3">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DivingPostRequest;
+use App\Http\Resources\DiveSiteResource;
 use App\Http\Resources\DivingResource;
 use App\Models\Diving;
 use Illuminate\Http\Request;
@@ -97,5 +98,24 @@ class DivingController extends Controller
         $diving->logo = null;
         $diving->save();
         return response()->json(['message' => 'success', 'tempSrc' => $diving->getLogoUrl()]);
+    }
+
+    public function addSite(Request $request, Diving $diving, $site_id)
+    {
+        if ($request->user()->isAbleTo('edit-all')) {
+            $diving->sites()->attach(
+                $site_id
+            );
+            return response()->json(['message' => 'success']);
+        } else return response('unauthorized', 403);
+    }
+    public function destoySite(Request $request, Diving $diving, $site_id)
+    {
+        if ($request->user()->isAbleTo('edit-all')) {
+            $diving->sites()->detach(
+                $site_id
+            );
+            return response()->json(['message' => 'success']);
+        } else return response('unauthorized', 403);
     }
 }

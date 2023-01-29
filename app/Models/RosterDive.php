@@ -32,4 +32,9 @@ class RosterDive extends Model
     {
         return $this->belongsTo(Roster::class);
     }
+
+    public function site()
+    {
+        return $this->belongsTo(DiveSite::class, 'dive_site_id');
+    }
 }

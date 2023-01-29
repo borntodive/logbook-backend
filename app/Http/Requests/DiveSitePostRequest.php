@@ -8,7 +8,7 @@ use App\Rules\Size;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rule;
 
-class RosterDivePostRequest extends FormRequest
+class DiveSitePostRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -28,10 +28,9 @@ class RosterDivePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'dive_site_id' => 'required|exists:dive_sites,id',
-            'date' => 'required|date',
-            'price' => 'numeric|nullable',
-            'cost' => 'numeric|nullable',
+            'name' => 'required',
+            'lat' => 'required',
+            'long' => 'required',
         ];
     }
 }

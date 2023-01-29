@@ -20,7 +20,7 @@ Route::get('/', function () {
 });
 
 Route::prefix('rosters')->group(function () {
-    Route::get('print/{roster}', [RosterController::class, 'printAdmin']);
+    Route::get('print/{roster}', [RosterController::class, 'print']);
 });
 
 Route::prefix('rents')->group(function () {
