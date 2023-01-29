@@ -38,7 +38,7 @@ class InventoryResource extends JsonResource
                 $equipments[$type->name][$size->name] = $items;
             }
         }
-        dd($equipments);
+        //dd($equipments);
         return [
             'id' => $this->id,
             'name' => $this->name,
