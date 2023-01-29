@@ -460,11 +460,11 @@ class RosterController extends Controller
                             $allCompleted = true;
                             $activityCount = 0;
                             $this->searchMissingActivities($session['values'], $missings, $activityCount);
-
-
                             $sessionName = isset($session['label']) && $session['label'] ? $session['label'] : $activityName . " " . $session['order'];
+
                             $missingActivities[$courseName][$studentName][$activityType][$sessionName]['order'] = $session['order'];
                             $missingActivities[$courseName][$studentName][$activityType][$sessionName]['missings'] = $missings;
+
                             $missingActivities[$courseName][$studentName][$activityType][$sessionName]['completed'] = count($missings) === 0;
                             $missingActivities[$courseName][$studentName][$activityType][$sessionName]['neverStarted'] =
                                 count($missings) === $activityCount;
@@ -481,6 +481,8 @@ class RosterController extends Controller
                     foreach (array_keys($keys) as $sessionKey) {
                         $sessionName = current($keys);
                         $values = $session[$sessionName];
+
+
                         if (
                             $values['completed'] && $values['order'] > $nextSessions[$courseName][$activityType]
                         ) {
@@ -488,7 +490,7 @@ class RosterController extends Controller
                             if ($nextSessionName) {
                                 $nextValues
                                     = $session[$nextSessionName];
-                                if (count($nextValues['missings']))
+                                if (!$nextValues['neverStarted'])
                                     $nextSessions[$courseName][$activityType] = $nextValues['order'];
                                 else
                                     $nextSessions[$courseName][$activityType] = $values['order'];
@@ -498,7 +500,8 @@ class RosterController extends Controller
                     }
                 }
             }
-            //$nextSessions[$courseName][$activityType]++;
+            //dd($nextSessions[$courseName][$activityType]);
+            $nextSessions[$courseName][$activityType]++;
         }
         $nextActivities = [];
         if (!$nextSessions[$courseName][$activityType])
