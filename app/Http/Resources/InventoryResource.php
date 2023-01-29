@@ -38,7 +38,6 @@ class InventoryResource extends JsonResource
                 $equipments[$type->name][(string)$size->name] = $items;
             }
         }
-        dd(json_encode($equipments));
         return [
             'id' => $this->id,
             'name' => $this->name,
@@ -46,7 +45,7 @@ class InventoryResource extends JsonResource
             'has_sizes' => $this->has_sizes,
             'count' => $total,
             'countAvailable' => $totalAvailable,
-            'inventory' => $equipments,
+            'inventory' => json_encode($equipments),
 
         ];
     }
