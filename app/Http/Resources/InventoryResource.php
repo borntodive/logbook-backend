@@ -38,6 +38,7 @@ class InventoryResource extends JsonResource
                 $equipments[$type->name][(string)$size->name] = $items;
             }
         }
+        dd(json_encode($equipments));
         return [
             'id' => $this->id,
             'name' => $this->name,
