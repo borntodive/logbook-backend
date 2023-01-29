@@ -21,6 +21,7 @@ class MinimalUserResource extends JsonResource
             'id' => $this->id,
             'firstname' => $this->firstname,
             'lastname' => $this->lastname,
+            'gender' => $this->gender,
             'birthdate' => Carbon::create($this->birthdate)->format('d-m-Y'),
             'avatar' =>
             $this->getAvatarUrl(),
