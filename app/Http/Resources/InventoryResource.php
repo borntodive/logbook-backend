@@ -35,7 +35,7 @@ class InventoryResource extends JsonResource
                     if ($item['available'])
                         $totalAvailable++;
                 }
-                $equipments[$type->name]['' + $size->name] = $items;
+                $equipments[$type->name]['' . $size->name] = $items;
             }
         }
         dd($equipments);
