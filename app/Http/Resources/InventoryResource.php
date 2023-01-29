@@ -45,7 +45,7 @@ class InventoryResource extends JsonResource
             'has_sizes' => $this->has_sizes,
             'count' => $total,
             'countAvailable' => $totalAvailable,
-            'inventory' => json_encode($equipments),
+            'inventory' => json_decode(json_encode($equipments)),
 
         ];
     }
