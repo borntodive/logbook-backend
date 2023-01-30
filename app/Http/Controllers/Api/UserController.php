@@ -5,7 +5,9 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\UserPostRequest;
 use App\Http\Resources\AgendaResource;
+use App\Http\Resources\MinimalRentResource;
 use App\Http\Resources\MinimalUserResource;
+use App\Http\Resources\RentResource;
 use App\Models\Equipment;
 use App\Models\Role;
 use App\Models\RosterUser;
@@ -311,7 +313,48 @@ class UserController extends Controller
                 $this->caluculateProgress($course->pivot->progress, $completed, $total);
             $data['course']['percent'] = $total ? $completed / $total : 0;
         }
+        /*
+        ###########
+        ## RENTS ##
+        ###########
+        */
+        $data['rents'] = [];
+        $rents = $user->openRents()->orderBy('start_date')->limit(2)->get();
+        if ($rents) {
+            foreach ($rents as $rent) {
+                $data['rents'][] = [
+                    'id' => $rent->id,
+                    'startDate' => $rent->start_date->format('Y-m-d'),
+                    'name' => $rent->number . '/' . $rent->start_date->format('Y'),
+                    'payed' => $rent->payed,
+                    'price' => $rent->price
+                ];
+            }
+        }
 
+        /*
+        ###########
+        ## DIVES ##
+        ###########
+        */
+
+        $dives = $user->rosters()->whereHas('roster', fn ($q) => $q->where('type', 'DIVE'))->get();
+        $data['dives'] = [];
+        if ($dives) {
+            foreach ($dives as $dive) {
+                $site = $dive->site;
+                if (!isset($data['dives'][$site->id])) {
+                    $data['dives'][$site->id] = [
+                        'lat'  => $site->lat,
+                        'long' => $site->long,
+                        'name' => $site->name,
+                        'count' => 1
+                    ];
+                } else
+                    $data['dives'][$site->id]['count'] += 1;
+            }
+        }
+        $data['dives'] = array_values($data['dives']);
         return response()->json(['data' => $data]);
     }
 

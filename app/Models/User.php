@@ -120,6 +120,11 @@ class User extends Authenticatable
         return $this->hasMany(Rent::class)
             ->where('payed', '<>', 1);
     }
+    public function openRents()
+    {
+        return $this->hasMany(Rent::class)
+            ->where('return_date', null);
+    }
     public function emergency_contact()
     {
         return $this->hasOne(UserEmergencycontact::class);

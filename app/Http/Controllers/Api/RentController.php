@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\RentPostRequest;
 use App\Http\Resources\CourseResource;
 use App\Http\Resources\MinimalRentResource;
+use App\Http\Resources\RentAgreementResource;
 use App\Http\Resources\RentResource;
 use App\Models\Rent;
 use App\Models\RentEquipment;
@@ -147,7 +148,7 @@ class RentController extends Controller
     public function printAgreement(Request $request, Rent $rent)
     {
         //$rRes = new RosterResource($roster);
-        $rentRes = json_decode(json_encode(new RentResource($rent)));
+        $rentRes = json_decode(json_encode(new RentAgreementResource($rent)));
         $translations =
             [
                 "sizes" => [

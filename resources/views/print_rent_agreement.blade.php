@@ -129,7 +129,7 @@
                     @endphp
                     <tr class="primary {{ $class }}">
                         <td>
-                            1
+                            {{ $equipment->count }}
                         </td>
                         <td>{{ $translations['equipments'][$equipment->name] }}</td>
                         <td>
