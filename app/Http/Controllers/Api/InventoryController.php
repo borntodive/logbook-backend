@@ -39,14 +39,24 @@ class InventoryController extends Controller
 
         $invertory = Inventory::firstOrCreate(['equipment_id' => $equipment->id, 'equipment_type_id' => $type->id, 'size_id' => $size->id]);
         $items = $invertory->items;
+        $code = Str::uuid();
         $items[] =
             [
-                'code'      => Str::uuid(),
+                'code'      => $this->checkCodeAvailability($code),
                 'available' => true,
             ];
         $invertory->items = $items;
         $invertory->save();
         return response()->json(['message' => 'success']);
+    }
+
+    private function checkCodeAvailability($code)
+    {
+        $eq = Inventory::whereJsonContains('items', [['code' => $code]])->first();
+        if ($eq) {
+            $this->checkCodeAvailability(Str::uuid());
+        }
+        return $code;
     }
     public function destroy(Request $request, $code)
     {

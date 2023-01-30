@@ -139,7 +139,8 @@
                             {{ $equipment->brand }}
                         </td>
                         <td>{{ $translations['sizes'][$equipment->size] }}</td>
-                        <td style="text-align:right">{{ sprintf('%0.2f', $equipment->price) }} €</td>
+                        <td style="text-align:right">{{ sprintf('%0.2f', $equipment->price * $equipment->count) }} €
+                        </td>
                     </tr>
                 @endforeach
                 <tr>
