@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [UserController::class, 'index']);
         Route::get('/availables', [UserController::class, 'getAvailables']);
         Route::get('/dashboard', [UserController::class, 'getDashboard']);
+        Route::get('/ranking', [UserController::class, 'getRanking']);
 
         Route::get('/roles', [UserController::class, 'getRoles']);
         Route::get('/duties', [UserController::class, 'getDuties']);

@@ -124,6 +124,22 @@ class UserController extends Controller
             return new UserResource($user);
         } else return response('unauthorized', 403);
     }
+    public function getRanking(Request $request)
+    {
+        if ($request->user()->isAbleTo('view-all')) {
+            $results = DB::select(DB::raw("SELECT
+                user_id,
+                COUNT(user_id) as count
+            FROM
+                roster_user
+
+            GROUP BY
+                user_id
+
+            ORDER BY count DESC;"));
+            dd($results);
+        } else return response('unauthorized', 403);
+    }
 
     public function uploadAvatar(Request $request)
     {
