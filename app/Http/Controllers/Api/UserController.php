@@ -128,29 +128,41 @@ class UserController extends Controller
     public function getRanking(Request $request)
     {
         if ($request->user()->isAbleTo('view-all')) {
-            $results = DB::select(DB::raw("SELECT
-                user_id,
-                COUNT(user_id) as count
-            FROM
-                roster_user
+            $year = $request->get('year', 'ALL');
+            $users = User::whereHas('rosters', function ($query) use ($year) {
+                $query->whereHas(
+                    'roster',
+                    function (Builder $query) use ($year) {
+                        $query->where('type', 'DIVE');
+                        if ($year != 'ALL')
+                            $query->whereYear('date', $year);
+                    }
+                );
+            })->withCount(['rosters' => function ($query) use ($year) {
+                $query->whereHas(
+                    'roster',
+                    function (Builder $query) use ($year) {
+                        $query->where('type', 'DIVE');
+                        if ($year != 'ALL')
+                            $query->whereYear('date', $year);
+                    }
+                );
+            }])
+                // ->where('user_duty_id', 1)
 
-            GROUP BY
-                user_id
-
-            ORDER BY count DESC;"));
-            $users = User::withCount(['rosters' => function ($query) {
-                $query->whereHas('roster', function (Builder $query) {
-                    $query->where('type', 'DIVE');
-                });
-            }])->orderBy('rosters_count', 'DESC')->get();
+                ->orderBy('rosters_count', 'DESC')->get();
             $prevCount['total'] = null;
             $prevCount['male'] = null;
             $prevCount['female'] = null;
             $ranking = [];
+            $ranking['total'] = [];
+            $ranking['male'] = [];
+            $ranking['female'] = [];
             $rank['total'] = null;
             $rank['male'] = null;
             $rank['female'] = null;
             foreach ($users as $user) {
+
                 if (!$prevCount['total'] || $user->rosters_count < $prevCount['total']) {
                     $rank['total']++;
 
