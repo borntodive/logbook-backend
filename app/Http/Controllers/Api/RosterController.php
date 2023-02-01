@@ -314,7 +314,6 @@ class RosterController extends Controller
                     unset($rosterRes->dives[$id]->divers[$idx]);
             }
         }
-
         $pdf = PDF::loadView('print_roster', ['roster' => $rosterRes, 'equipments' => $equipments, 'sizes' => $sizes])->setPaper('a4', 'landscape');
         $rosterType = '';
         if ($roster->type == 'POOL') {
@@ -384,6 +383,11 @@ class RosterController extends Controller
             $totals['dive']['cost'] += $dive->cost * $totalDivers - $dive->cost * $rosterRes->gratuities;
         }
         $view = view('print_roster_admin', ['roster' => $rosterRes, 'divers' => $divers, 'totals' => $totals])->render();
+        $divers = array_values($divers);
+        usort($divers, function ($item1, $item2) {
+            return $item1['name'] <=> $item2['name'];
+        });
+
         //return $view;
         $pdf = PDF::loadView('print_roster_admin', ['roster' => $rosterRes, 'divers' => $divers, 'totals' => $totals])->setPaper('a4');
         $rosterType = 'Amministrativo';

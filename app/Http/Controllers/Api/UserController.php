@@ -21,6 +21,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Database\Eloquent\Builder;
 
 class UserController extends Controller
 {
@@ -137,7 +138,40 @@ class UserController extends Controller
                 user_id
 
             ORDER BY count DESC;"));
-            dd($results);
+            $users = User::withCount(['rosters' => function ($query) {
+                $query->whereHas('roster', function (Builder $query) {
+                    $query->where('type', 'DIVE');
+                });
+            }])->orderBy('rosters_count', 'DESC')->get();
+            $prevCount['total'] = null;
+            $prevCount['male'] = null;
+            $prevCount['female'] = null;
+            $ranking = [];
+            $rank['total'] = null;
+            $rank['male'] = null;
+            $rank['female'] = null;
+            foreach ($users as $user) {
+                if (!$prevCount['total'] || $user->rosters_count < $prevCount['total']) {
+                    $rank['total']++;
+
+                    $prevCount['total'] = $user->rosters_count;
+                    $ranking['total'][$prevCount['total']]['rank'] = $rank['total'];
+                    $ranking['total'][$prevCount['total']]['count'] = $prevCount['total'];
+                }
+                $ranking['total'][$prevCount['total']]['users'][] = ["name" => $user->lastname . ' ' . $user->firstname];
+                if (!$prevCount[$user->gender] || $user->rosters_count < $prevCount[$user->gender]) {
+                    $rank[$user->gender]++;
+
+                    $prevCount[$user->gender] = $user->rosters_count;
+                    $ranking[$user->gender][$prevCount[$user->gender]]['rank'] = $rank[$user->gender];
+                    $ranking[$user->gender][$prevCount[$user->gender]]['count'] = $prevCount[$user->gender];
+                }
+                $ranking[$user->gender][$prevCount[$user->gender]]['users'][] = ["name" => $user->lastname . ' ' . $user->firstname];
+            }
+            foreach ($ranking as $gender => $values) {
+                $ranking[$gender] = array_values($values);
+            }
+            return response()->json($ranking);
         } else return response('unauthorized', 403);
     }
 

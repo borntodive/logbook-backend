@@ -107,11 +107,11 @@
                                                     $currentSize = '';
                                                     foreach ($diver->gears as $gear) {
                                                         if ($gear->name == $equipment['name']) {
-                                                            if ($gear->size && isset($sizes[$gear->size])) {
+                                                            if (isset($gear->size) && $gear->size && isset($sizes[$gear->size])) {
                                                                 $currentSize = $sizes[$gear->size];
                                                             } elseif ($gear->number) {
                                                                 $currentSize = $gear->number;
-                                                            } else {
+                                                            } elseif (isset($gear->size)) {
                                                                 $currentSize = $gear->size;
                                                             }
                                                             break;
