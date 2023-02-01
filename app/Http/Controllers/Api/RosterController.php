@@ -476,7 +476,6 @@ class RosterController extends Controller
                     }
                 }
             }
-
         foreach ($missingActivities as $courseName => $student) {
             foreach ($student as $studentName => $activity) {
                 foreach ($activity as $activityType => $session) {
@@ -485,26 +484,25 @@ class RosterController extends Controller
                         $sessionName = current($keys);
                         $values = $session[$sessionName];
 
-
-                        if (
-                            $values['completed'] && $values['order'] > $nextSessions[$courseName][$activityType]
-                        ) {
+                        if ($values['neverStarted'] && $values['order'] > $nextSessions[$courseName][$activityType]) {
+                            $nextSessions[$courseName][$activityType] = $values['order'];
+                            break;
+                        } else {
                             $nextSessionName = next(($keys));
                             if ($nextSessionName) {
-                                $nextValues
-                                    = $session[$nextSessionName];
-                                if (!$nextValues['neverStarted'])
+                                $nextValues  = $session[$nextSessionName];
+                                if ($nextValues['neverStarted'] && $nextValues['order'] > $nextSessions[$courseName][$activityType]) {
+
                                     $nextSessions[$courseName][$activityType] = $nextValues['order'];
-                                else
-                                    $nextSessions[$courseName][$activityType] = $values['order'];
-                            } else
-                                $nextSessions[$courseName][$activityType] = $values['order'];
+                                    break;
+                                }
+                            }
                         }
                     }
                 }
             }
             //dd($nextSessions[$courseName][$activityType]);
-            $nextSessions[$courseName][$activityType]++;
+            //$nextSessions[$courseName][$activityType]++;
         }
         $nextActivities = [];
         if (!$nextSessions[$courseName][$activityType])
