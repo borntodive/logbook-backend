@@ -133,7 +133,7 @@ class UserController extends Controller
                 $query->whereHas(
                     'roster',
                     function (Builder $query) use ($year) {
-                        $query->where('type', 'DIVE');
+                        $query->where('type', 'DIVE')->where('date', '<=', now());
                         if ($year != 'ALL')
                             $query->whereYear('date', $year);
                     }
@@ -142,7 +142,7 @@ class UserController extends Controller
                 $query->whereHas(
                     'roster',
                     function (Builder $query) use ($year) {
-                        $query->where('type', 'DIVE');
+                        $query->where('type', 'DIVE')->where('date', '<=', now());
                         if ($year != 'ALL')
                             $query->whereYear('date', $year);
                     }
