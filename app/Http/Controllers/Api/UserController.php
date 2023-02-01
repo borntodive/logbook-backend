@@ -129,64 +129,68 @@ class UserController extends Controller
     {
         if ($request->user()->isAbleTo('view-all')) {
             $year = $request->get('year', 'ALL');
-            $users = User::whereHas('rosters', function ($query) use ($year) {
-                $query->whereHas(
-                    'roster',
-                    function (Builder $query) use ($year) {
-                        $query->where('type', 'DIVE')->where('date', '<=', now());
-                        if ($year != 'ALL')
-                            $query->whereYear('date', $year);
-                    }
-                );
-            })->withCount(['rosters' => function ($query) use ($year) {
-                $query->whereHas(
-                    'roster',
-                    function (Builder $query) use ($year) {
-                        $query->where('type', 'DIVE')->where('date', '<=', now());
-                        if ($year != 'ALL')
-                            $query->whereYear('date', $year);
-                    }
-                );
-            }])
-                // ->where('user_duty_id', 1)
 
-                ->orderBy('rosters_count', 'DESC')->get();
-            $prevCount['total'] = null;
-            $prevCount['male'] = null;
-            $prevCount['female'] = null;
-            $ranking = [];
-            $ranking['total'] = [];
-            $ranking['male'] = [];
-            $ranking['female'] = [];
-            $rank['total'] = null;
-            $rank['male'] = null;
-            $rank['female'] = null;
-            foreach ($users as $user) {
-
-                if (!$prevCount['total'] || $user->rosters_count < $prevCount['total']) {
-                    $rank['total']++;
-
-                    $prevCount['total'] = $user->rosters_count;
-                    $ranking['total'][$prevCount['total']]['rank'] = $rank['total'];
-                    $ranking['total'][$prevCount['total']]['count'] = $prevCount['total'];
-                }
-                $ranking['total'][$prevCount['total']]['users'][] = ["name" => $user->lastname . ' ' . $user->firstname];
-                if (!$prevCount[$user->gender] || $user->rosters_count < $prevCount[$user->gender]) {
-                    $rank[$user->gender]++;
-
-                    $prevCount[$user->gender] = $user->rosters_count;
-                    $ranking[$user->gender][$prevCount[$user->gender]]['rank'] = $rank[$user->gender];
-                    $ranking[$user->gender][$prevCount[$user->gender]]['count'] = $prevCount[$user->gender];
-                }
-                $ranking[$user->gender][$prevCount[$user->gender]]['users'][] = ["name" => $user->lastname . ' ' . $user->firstname];
-            }
-            foreach ($ranking as $gender => $values) {
-                $ranking[$gender] = array_values($values);
-            }
-            return response()->json($ranking);
+            return response()->json($this->getRankingByYear($year));
         } else return response('unauthorized', 403);
     }
+    private function getRankingByYear($year)
+    {
+        $users = User::whereHas('rosters', function ($query) use ($year) {
+            $query->whereHas(
+                'roster',
+                function (Builder $query) use ($year) {
+                    $query->where('type', 'DIVE')->where('date', '<=', now());
+                    if ($year != 'ALL')
+                        $query->whereYear('date', $year);
+                }
+            );
+        })->withCount(['rosters' => function ($query) use ($year) {
+            $query->whereHas(
+                'roster',
+                function (Builder $query) use ($year) {
+                    $query->where('type', 'DIVE')->where('date', '<=', now());
+                    if ($year != 'ALL')
+                        $query->whereYear('date', $year);
+                }
+            );
+        }])
+            // ->where('user_duty_id', 1)
 
+            ->orderBy('rosters_count', 'DESC')->get();
+        $prevCount['total'] = null;
+        $prevCount['male'] = null;
+        $prevCount['female'] = null;
+        $ranking = [];
+        $ranking['total'] = [];
+        $ranking['male'] = [];
+        $ranking['female'] = [];
+        $rank['total'] = null;
+        $rank['male'] = null;
+        $rank['female'] = null;
+        foreach ($users as $user) {
+
+            if (!$prevCount['total'] || $user->rosters_count < $prevCount['total']) {
+                $rank['total']++;
+
+                $prevCount['total'] = $user->rosters_count;
+                $ranking['total'][$prevCount['total']]['rank'] = $rank['total'];
+                $ranking['total'][$prevCount['total']]['count'] = $prevCount['total'];
+            }
+            $ranking['total'][$prevCount['total']]['users'][] = ["name" => $user->lastname . ' ' . $user->firstname, "id" => $user->id];
+            if (!$prevCount[$user->gender] || $user->rosters_count < $prevCount[$user->gender]) {
+                $rank[$user->gender]++;
+
+                $prevCount[$user->gender] = $user->rosters_count;
+                $ranking[$user->gender][$prevCount[$user->gender]]['rank'] = $rank[$user->gender];
+                $ranking[$user->gender][$prevCount[$user->gender]]['count'] = $prevCount[$user->gender];
+            }
+            $ranking[$user->gender][$prevCount[$user->gender]]['users'][] = ["name" => $user->lastname . ' ' . $user->firstname, "id" => $user->id];
+        }
+        foreach ($ranking as $gender => $values) {
+            $ranking[$gender] = array_values($values);
+        }
+        return $ranking;
+    }
     public function uploadAvatar(Request $request)
     {
         if (!$request->user()->isAbleTo('edit-all'))
@@ -322,6 +326,50 @@ class UserController extends Controller
         $dives = isset($result[0]->count) ? $result[0]->count : 0;
         $data['stats']['dives'] = $dives;
         $data['stats']['pools'] = $pools;
+        /*
+        ###########
+        ## RANK ##
+        ###########
+        */
+
+        $overallRanking = $this->getRankingByYear('ALL');
+        $yearRanking = $this->getRankingByYear(now()->format('Y'));
+
+        $rank['total']['overall'] = null;
+        $rank['total']['currentYear'] = null;
+        $rank[$user->gender]['overall'] = null;
+        $rank[$user->gender]['currentYear'] = null;
+
+        foreach ($overallRanking as $gender => $positions) {
+            foreach ($positions as $r) {
+                if (isset($r['users'])) {
+                    foreach ($r['users'] as $u) {
+                        if ($u['id'] == $user->id) {
+                            $rank[$gender]['overall'] = [
+                                'rank'  => $r['rank'],
+                                'count' => $r['count']
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+        foreach ($yearRanking as $gender => $positions) {
+            foreach ($positions as $r) {
+                if (isset($r['users'])) {
+                    foreach ($r['users'] as $u) {
+                        if ($u['id'] == $user->id) {
+                            $rank[$gender]['currentYear'] = [
+                                'rank'  => $r['rank'],
+                                'count' => $r['count']
+                            ];
+                        }
+                    }
+                }
+            }
+        }
+        $rank['gender'] = $user->gender;
+        $data['rank'] = $rank;
 
         /*
         ############
