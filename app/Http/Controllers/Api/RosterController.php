@@ -487,13 +487,14 @@ class RosterController extends Controller
 
                         if ($values['neverStarted'] && $values['order'] > $nextSessions[$courseName][$activityType]) {
                             $nextSessions[$courseName][$activityType] = $values['order'];
-                            dump($values['order']);
+
                             break;
                         } else {
                             $nextSessionName = next(($keys));
                             if ($nextSessionName) {
                                 $nextValues  = $session[$nextSessionName];
                                 if ($nextValues['neverStarted'] && $nextValues['order'] > $nextSessions[$courseName][$activityType]) {
+                                    dump($session);
                                     $nextSessions[$courseName][$activityType] = $nextValues['order'];
                                     break;
                                 }
