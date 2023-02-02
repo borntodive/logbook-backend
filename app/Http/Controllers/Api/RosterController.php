@@ -476,6 +476,7 @@ class RosterController extends Controller
                     }
                 }
             }
+        dd($missingActivities);
         foreach ($missingActivities as $courseName => $student) {
             foreach ($student as $studentName => $activity) {
                 foreach ($activity as $activityType => $session) {
