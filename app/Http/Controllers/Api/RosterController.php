@@ -489,7 +489,7 @@ class RosterController extends Controller
                             if ($values['order'] > $nextSessions[$courseName][$activityType])
                                 $nextSessions[$courseName][$activityType] = $values['order'];
 
-                            break;
+                            // break;
                         } else {
                             $nextSessionName = next(($keys));
                             if ($nextSessionName) {
