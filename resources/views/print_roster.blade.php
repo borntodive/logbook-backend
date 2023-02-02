@@ -122,6 +122,16 @@
                                                 <td style="text-align: center">{{ $currentSize }}</td>
                                             @endforeach
                                         </tr>
+                                        @if ($diver->note)
+                                            @php
+                                                $cols = count($equipments);
+                                            @endphp
+                                            <tr>
+                                                <td></td>
+                                                <td></td>
+                                                <td colspan="{{ $cols }}">Note: {{ $diver->note }}</td>
+                                            </tr>
+                                        @endif
                                     @endforeach
 
 

@@ -15,6 +15,6 @@ class AgendaController extends Controller
 
         $user = User::findOrFail($request->user()->id);
         //dd(AgendaResource::collection($user->rosters()->jsonPaginate()));
-        return new AgendaResource($user->rosters()->jsonPaginate());
+        return new AgendaResource($user->rosters()->where('date', ">=", now())->jsonPaginate());
     }
 }
