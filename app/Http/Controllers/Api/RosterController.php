@@ -476,6 +476,7 @@ class RosterController extends Controller
                     }
                 }
             }
+        dump($missingActivities);
         foreach ($missingActivities as $courseName => $student) {
             dump($courseName);
             foreach ($student as $studentName => $activity) {
