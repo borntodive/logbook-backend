@@ -482,6 +482,7 @@ class RosterController extends Controller
                 dump($studentName);
                 foreach ($activity as $activityType => $session) {
                     $keys = array_keys($session);
+                    dump($session);
                     foreach (array_keys($keys) as $sessionKey) {
                         $sessionName = current($keys);
                         $values = $session[$sessionName];
