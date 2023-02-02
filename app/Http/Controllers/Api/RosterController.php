@@ -476,18 +476,15 @@ class RosterController extends Controller
                     }
                 }
             }
-        dump($missingActivities);
         foreach ($missingActivities as $courseName => $student) {
             foreach ($student as $studentName => $activity) {
                 dump($studentName);
                 foreach ($activity as $activityType => $session) {
                     $keys = array_keys($session);
-                    dump($session);
                     foreach (array_keys($keys) as $sessionKey) {
                         $sessionName = current($keys);
                         $values = $session[$sessionName];
-                        dump($values);
-                        dump($values['neverStarted'] && $values['order'] > $nextSessions[$courseName][$activityType]);
+                        dump($values['order'] . ' - ' . $values['neverStarted'] . ' - ' . $nextSessions[$courseName][$activityType]);
                         if ($values['neverStarted'] && $values['order'] > $nextSessions[$courseName][$activityType]) {
                             $nextSessions[$courseName][$activityType] = $values['order'];
 
@@ -497,7 +494,6 @@ class RosterController extends Controller
                             if ($nextSessionName) {
                                 $nextValues  = $session[$nextSessionName];
                                 if ($nextValues['neverStarted'] && $nextValues['order'] > $nextSessions[$courseName][$activityType]) {
-                                    dump($session);
                                     $nextSessions[$courseName][$activityType] = $nextValues['order'];
                                     break;
                                 }
