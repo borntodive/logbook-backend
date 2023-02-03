@@ -483,7 +483,7 @@ class RosterController extends Controller
                 dump($studentName);
                 foreach ($activity as $activityType => $session) {
                     $keys = array_keys($session);
-                    foreach (array_keys($keys) as $sessionKey) {
+                    foreach ($keys as $sessionKey) {
                         $sessionName = current($keys);
                         $values = $session[$sessionKey];
                         dump($sessionKey . ' ' . $values['order'] . ' - ' . $values['neverStarted'] . ' - ' . $nextSessions[$courseName][$activityType]);
