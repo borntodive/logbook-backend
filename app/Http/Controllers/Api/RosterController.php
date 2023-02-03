@@ -501,10 +501,9 @@ class RosterController extends Controller
                     }
                 }
             }
-
+            dump($nextSessions[$courseName][$activityType]);
             //$nextSessions[$courseName][$activityType]++;
         }
-        dd($nextSessions[$courseName][$activityType]);
         $nextActivities = [];
         if (!$nextSessions[$courseName][$activityType])
             $nextSessions[$courseName][$activityType] = 1;
