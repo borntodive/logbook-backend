@@ -28,7 +28,6 @@ Route::get('/test', function () {
         if (!$a) {
             $found = $idx;
             $nextFound = false;
-            dump($idx);
             foreach (array_slice($testArray, $idx + 1) as $idn => $next) {
                 if ($next) {
                     $nextFound = true;

@@ -486,14 +486,11 @@ class RosterController extends Controller
                     $sessCount = 0;
                     foreach ($session as $sessionKey => $values) {
                         $sessCount++;
-                        dump($values);
-                        if ($values['neverStarted']) {
+                        if (!$values['neverStarted']) {
                             $nextSessions[$courseName][$activityType] = $values['order'];
-
                             $nextFound = false;
                             foreach (array_slice($session, $sessCount) as $next) {
-                                dump($next);
-                                if (!$next['neverStarted']) {
+                                if ($next['neverStarted']) {
                                     $nextFound = true;
                                     $nextSessions[$courseName][$activityType] = 0;
                                 }
@@ -504,9 +501,10 @@ class RosterController extends Controller
                     }
                 }
             }
-            //dd($nextSessions[$courseName][$activityType]);
+
             //$nextSessions[$courseName][$activityType]++;
         }
+        dd($nextSessions[$courseName][$activityType]);
         $nextActivities = [];
         if (!$nextSessions[$courseName][$activityType])
             $nextSessions[$courseName][$activityType] = 1;
