@@ -487,18 +487,18 @@ class RosterController extends Controller
                     foreach ($session as $sessionKey => $values) {
                         $sessCount++;
                         dump($values);
-                        if (!$values['neverStarted']) {
+                        if ($values['neverStarted']) {
                             $nextSessions[$courseName][$activityType] = $values['order'];
 
                             $nextFound = false;
                             foreach (array_slice($session, $sessCount) as $next) {
                                 dump($next);
-                                if ($next['neverStarted']) {
+                                if (!$next['neverStarted']) {
                                     $nextFound = true;
                                     $nextSessions[$courseName][$activityType] = 0;
                                 }
                             }
-                            if (!$nextFound)
+                            if ($nextFound)
                                 break;
                         }
                     }
