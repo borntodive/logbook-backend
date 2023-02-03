@@ -483,24 +483,21 @@ class RosterController extends Controller
                 dump($studentName);
                 foreach ($activity as $activityType => $session) {
                     $keys = array_keys($session);
-                    foreach ($keys as $idk => $sessionKey) {
-                        $values = $session[$sessionKey];
-                        dump($sessionKey . ' ' . $values['order'] . ' - ' . $values['neverStarted'] . ' - ' . $nextSessions[$courseName][$activityType]);
-                        if ($values['neverStarted']) {
-                            if ($values['order'] > $nextSessions[$courseName][$activityType])
-                                $nextSessions[$courseName][$activityType] = $values['order'];
+                    $sessCount = 0;
+                    foreach ($session as $sessionKey => $values) {
+                        $sessCount++;
+                        if (!$values['neverStarted']) {
+                            $nextSessions[$courseName][$activityType] = $values['order'];
 
-                            // break;
-                        } else {
-                            $nextSessionName = isset($keys[$idx + 1]) ? $keys[$idx + 1] : false;
-                            dump($nextSessionName);
-                            if ($nextSessionName) {
-                                $nextValues  = $session[$nextSessionName];
-                                if ($nextValues['neverStarted'] && $nextValues['order'] > $nextSessions[$courseName][$activityType]) {
-                                    $nextSessions[$courseName][$activityType] = $nextValues['order'];
-                                    break;
+                            $nextFound = false;
+                            foreach (array_slice($session, $sessCount) as $next) {
+                                if ($next['neverStarted']) {
+                                    $nextFound = true;
+                                    $nextSessions[$courseName][$activityType] = 0;
                                 }
                             }
+                            if (!$nextFound)
+                                break;
                         }
                     }
                 }

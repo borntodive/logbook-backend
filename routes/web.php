@@ -19,6 +19,28 @@ Route::get('/', function () {
     return view('welcome');
 });
 
+
+Route::get('/test', function () {
+    $testArray = [1 => false, 2 => false, 3 => false, 4 => false, 5 => false];
+    $found = 0;
+    dump($testArray);
+    foreach ($testArray as $idx => $a) {
+        if (!$a) {
+            $found = $idx;
+            $nextFound = false;
+            dump($idx);
+            foreach (array_slice($testArray, $idx + 1) as $idn => $next) {
+                if ($next) {
+                    $nextFound = true;
+                    $found = 0;
+                }
+            }
+            if (!$nextFound)
+                break;
+        }
+    }
+    return $found;
+});
 Route::prefix('rosters')->group(function () {
     Route::get('print/{roster}', [RosterController::class, 'printTech']);
 });
