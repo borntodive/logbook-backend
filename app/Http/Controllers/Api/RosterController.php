@@ -483,8 +483,7 @@ class RosterController extends Controller
                 dump($studentName);
                 foreach ($activity as $activityType => $session) {
                     $keys = array_keys($session);
-                    foreach ($keys as $sessionKey) {
-                        $sessionName = current($keys);
+                    foreach ($keys as $idk => $sessionKey) {
                         $values = $session[$sessionKey];
                         dump($sessionKey . ' ' . $values['order'] . ' - ' . $values['neverStarted'] . ' - ' . $nextSessions[$courseName][$activityType]);
                         if ($values['neverStarted']) {
@@ -493,7 +492,7 @@ class RosterController extends Controller
 
                             // break;
                         } else {
-                            $nextSessionName = next(($keys));
+                            $nextSessionName = isset($keys[$idx + 1]) ? $keys[$idx + 1] : false;
                             if ($nextSessionName) {
                                 $nextValues  = $session[$nextSessionName];
                                 if ($nextValues['neverStarted'] && $nextValues['order'] > $nextSessions[$courseName][$activityType]) {
