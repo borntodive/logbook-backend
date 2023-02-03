@@ -29,24 +29,21 @@ Route::get('/test', function () {
     $overallFound = 0;
     dump($testArrays);
     foreach ($testArrays as $testArray) {
-        $found = 0;
+
         foreach ($testArray as $idx => $a) {
             if (!$a) {
                 if ($idx > $overallFound)
                     $overallFound = $idx;
-                $found  = $idx;
                 $nextFound = false;
                 foreach (array_slice($testArray, $idx + 1) as $idn => $next) {
                     if ($next) {
                         $nextFound = true;
-                        $found = 0;
                     }
                 }
                 if (!$nextFound)
                     break;
             }
         }
-        dump($found);
     }
     return $overallFound;
 });

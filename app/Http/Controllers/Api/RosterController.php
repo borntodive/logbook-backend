@@ -482,7 +482,7 @@ class RosterController extends Controller
             foreach ($student as $studentName => $activity) {
                 dump($studentName);
                 foreach ($activity as $activityType => $session) {
-                    $keys = array_keys($session);
+                    dump($session);
                     $sessCount = 0;
                     $found = 0;
 
