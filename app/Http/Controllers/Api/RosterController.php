@@ -470,13 +470,12 @@ class RosterController extends Controller
 
                             $missingActivities[$courseName][$studentName][$activityType][$sessionName]['completed'] = count($missings) === 0;
                             $missingActivities[$courseName][$studentName][$activityType][$sessionName]['started'] =
-                                count($missings) > 0 && count($missings) < $activityCount;
+                                count($missings) < $activityCount;
                             $nextSessions[$courseName][$activityType] = 0;
                         }
                     }
                 }
             }
-        dump($missingActivities);
 
         foreach ($missingActivities as $courseName => $student) {
             foreach ($student as $studentName => $activity) {
@@ -499,7 +498,6 @@ class RosterController extends Controller
                         }
                         $count++;
                     }
-                    dump($found);
                     if ($found == 0) $found = 9999;
                     if ($found > $nextSessions[$courseName][$activityType])
                         $nextSessions[$courseName][$activityType] = $found;
@@ -507,7 +505,6 @@ class RosterController extends Controller
             }
             //$nextSessions[$courseName][$activityType]++;
         }
-        return;
         $nextActivities = [];
         if (!$nextSessions[$courseName][$activityType])
             $nextSessions[$courseName][$activityType] = 1;
