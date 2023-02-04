@@ -497,6 +497,7 @@ class RosterController extends Controller
                         }
                         $count++;
                     }
+                    dump($found);
                     if ($found == 0) $found = 9999;
                     if ($found > $nextSessions[$courseName][$activityType])
                         $nextSessions[$courseName][$activityType] = $found;
@@ -504,6 +505,7 @@ class RosterController extends Controller
             }
             //$nextSessions[$courseName][$activityType]++;
         }
+        return;
         $nextActivities = [];
         if (!$nextSessions[$courseName][$activityType])
             $nextSessions[$courseName][$activityType] = 1;

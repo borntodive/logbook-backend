@@ -48,7 +48,7 @@ Route::get('/test', function () {
 
             dump($found);
         }
-
+        if ($found == 0) $found = 9999;
         if ($found > $overallFound)
             $overallFound = $found;
     }
