@@ -497,6 +497,7 @@ class RosterController extends Controller
                         }
                         $count++;
                     }
+                    if ($found == 0) $found = 9999;
                     if ($found > $nextSessions[$courseName][$activityType])
                         $nextSessions[$courseName][$activityType] = $found;
                 }

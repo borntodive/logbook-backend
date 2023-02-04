@@ -34,7 +34,13 @@
             <div class="card border-dark mb-3" style="page-break-inside: avoid;">
                 <div class="card-header">{{ $courseName }}</div>
                 <div class="card-body text-dark">
-                    <h5>Prossima attività: {{ $activityTypeName }} {{ $activities[$activityType]['overall'] }}</h5>
+                    <h5>Prossima attività:
+                        @if ($activities[$activityType]['overall'] < 9999)
+                            {{ $activityTypeName }} {{ $activities[$activityType]['overall'] }}
+                        @else
+                            Completata
+                        @endif
+                    </h5>
                     @if (count($activities[$activityType]['students']))
                         <table class="table">
                             <thead>
