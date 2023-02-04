@@ -20,7 +20,7 @@ use Illuminate\Support\Carbon;
 use Spatie\Browsershot\Browsershot;
 use PDF;
 use mikehaertl\wkhtmlto\Pdf as PdfT;
-
+use SebastianBergmann\Type\FalseType;
 
 class RosterController extends Controller
 {
@@ -469,43 +469,38 @@ class RosterController extends Controller
                             $missingActivities[$courseName][$studentName][$activityType][$sessionName]['missings'] = $missings;
 
                             $missingActivities[$courseName][$studentName][$activityType][$sessionName]['completed'] = count($missings) === 0;
-                            $missingActivities[$courseName][$studentName][$activityType][$sessionName]['neverStarted'] =
-                                count($missings) === $activityCount;
+                            $missingActivities[$courseName][$studentName][$activityType][$sessionName]['started'] =
+                                count($missings) > 0 && count($missings) < $activityCount;
                             $nextSessions[$courseName][$activityType] = 0;
                         }
                     }
                 }
             }
-        dump($missingActivities);
         foreach ($missingActivities as $courseName => $student) {
-            dump($courseName);
             foreach ($student as $studentName => $activity) {
-                dump($studentName);
                 foreach ($activity as $activityType => $session) {
-                    dump($session);
-                    $sessCount = 0;
                     $found = 0;
+                    $count = 0;
+                    foreach ($session as $idx => $values) {
 
-                    foreach ($session as $sessionName => $values) {
-                        $sessCount++;
-                        if (!$values['neverStarted']) {
-                            if ($values['order'] > $nextSessions[$courseName][$activityType])
-                                $nextSessions[$courseName][$activityType]  = $values['order'];
+                        if (!$values['started']) {
                             $found = $values['order'];
                             $nextFound = false;
-                            foreach (array_slice($session, $sessCount) as $next) {
-                                if ($next['neverStarted']) {
+                            foreach (array_slice($session, $count) as $idn => $next) {
+                                if ($next['started']) {
                                     $nextFound = true;
                                     $found = 0;
                                 }
                             }
-                            if ($nextFound)
+                            if (!$nextFound)
                                 break;
                         }
+                        $count++;
                     }
+                    if ($found > $nextSessions[$courseName][$activityType])
+                        $nextSessions[$courseName][$activityType] = $found;
                 }
             }
-            dump($nextSessions[$courseName][$activityType]);
             //$nextSessions[$courseName][$activityType]++;
         }
         $nextActivities = [];
@@ -522,7 +517,7 @@ class RosterController extends Controller
                         if ($values['order'] >= $next)
                             continue;
                         if (!$values['completed']) {
-                            $nextActivities[$courseName][$activityType]['students'][$studentName][$sessionName]['missings'] = $values['neverStarted'] ? ["Tutti"]  : $values['missings'];
+                            $nextActivities[$courseName][$activityType]['students'][$studentName][$sessionName]['missings'] = !$values['started'] ? ["Tutti"]  : $values['missings'];
                         }
                     }
                 }
@@ -540,7 +535,7 @@ class RosterController extends Controller
         ksort($nextActivities);
 
 
-        return view('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType, 'activityTypeName' => $activityTypeName]);
+        //return view('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType, 'activityTypeName' => $activityTypeName]);
 
         $pdf = PDF::loadView('print_roster_tech', ['roster' => $rosterRes, 'nextActivities' => $nextActivities, 'activityType' => $activityType, 'activityTypeName' => $activityTypeName])->setPaper('a4');
         $rosterType = 'Tecnico';

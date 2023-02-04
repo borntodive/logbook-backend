@@ -22,29 +22,35 @@ Route::get('/', function () {
 
 Route::get('/test', function () {
     $testArrays = [
-        [1 => true, 2 => false, 3 => false, 4 => false, 5 => false],
+        [1 => true, 2 => true, 3 => false, 4 => false, 5 => false],
         [1 => false, 2 => false, 3 => false, 4 => false, 5 => false]
     ];
-
     $overallFound = 0;
-    dump($testArrays);
     foreach ($testArrays as $testArray) {
-
+        $found = 0;
+        $count = 0;
         foreach ($testArray as $idx => $a) {
             if (!$a) {
-                if ($idx > $overallFound)
-                    $overallFound = $idx;
+                $found = $idx;
                 $nextFound = false;
-                foreach (array_slice($testArray, $idx + 1) as $idn => $next) {
+
+                foreach (array_slice($testArray, $count) as $idn => $next) {
+
                     if ($next) {
                         $nextFound = true;
+                        $found = 0;
                     }
                 }
                 if (!$nextFound)
                     break;
             }
+            $count++;
+            dump($found);
         }
+        if ($found > $overallFound)
+            $overallFound = $found;
     }
+
     return $overallFound;
 });
 Route::prefix('rosters')->group(function () {
