@@ -378,7 +378,7 @@ class UserController extends Controller
         */
 
         $agendaRes
-            = new AgendaResource($user->rosters()->jsonPaginate(2));
+            = new AgendaResource($user->rosters()->where('date', ">=", now())->jsonPaginate(2));
         $agenda = isset($agendaRes->appointments) ? $agendaRes->appointments : [];
         $data['agenda'] = $agendaRes;
 
