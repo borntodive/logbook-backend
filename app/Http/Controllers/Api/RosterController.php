@@ -518,9 +518,11 @@ class RosterController extends Controller
                     foreach ($session as $sessionName => $values) {
                         if ($values['order'] >= $next)
                             continue;
+                        $nextActivities[$courseName][$activityType]['students'][$studentName][$sessionName]['completed'] = $values['completed'];
                         if (!$values['completed']) {
                             $nextActivities[$courseName][$activityType]['students'][$studentName][$sessionName]['missings'] = !$values['started'] ? ["Tutti"]  : $values['missings'];
-                        }
+                        } else
+                            $nextActivities[$courseName][$activityType]['students'][$studentName][$sessionName]['missings'] = [];
                     }
                 }
             }

@@ -68,13 +68,15 @@
                                         <td>{{ $studentName }}</td>
                                         <td>
                                             @foreach ($missings as $sessionName => $exercises)
-                                                <h6>{{ $sessionName }}</h6>
-                                                <div style="margin-left: 20px">
-                                                    @foreach ($exercises['missings'] as $exercise)
-                                                        <p>{{ is_array($exercise) ? $exercise['label'] : $exercise }}
-                                                        </p>
-                                                    @endforeach
-                                                </div>
+                                                @if (!$exercises['completed'])
+                                                    <h6>{{ $sessionName }}</h6>
+                                                    <div style="margin-left: 20px">
+                                                        @foreach ($exercises['missings'] as $exercise)
+                                                            <p>{{ is_array($exercise) ? $exercise['label'] : $exercise }}
+                                                            </p>
+                                                        @endforeach
+                                                    </div>
+                                                @endif
                                             @endforeach
                                         </td>
                                     </tr>
