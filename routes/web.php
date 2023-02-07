@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Api\RentController;
 use App\Http\Controllers\Api\RosterController;
+use App\Http\Controllers\Api\TestController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -61,4 +62,8 @@ Route::prefix('rosters')->group(function () {
 
 Route::prefix('rents')->group(function () {
     Route::get('print/{rent}', [RentController::class, 'printAgreement']);
+});
+
+Route::prefix('mail')->group(function () {
+    Route::get('send', [TestController::class, 'mail']);
 });

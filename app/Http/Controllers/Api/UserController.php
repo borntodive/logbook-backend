@@ -8,6 +8,7 @@ use App\Http\Resources\AgendaResource;
 use App\Http\Resources\MinimalRentResource;
 use App\Http\Resources\MinimalUserResource;
 use App\Http\Resources\RentResource;
+use App\Mail\UserCreated;
 use App\Models\Equipment;
 use App\Models\Role;
 use App\Models\RosterUser;
@@ -19,9 +20,11 @@ use App\Http\Resources\UserResource;
 use App\Models\UserDuty;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Illuminate\Validation\Rules\File;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Support\Facades\Mail;
 
 class UserController extends Controller
 {
@@ -240,7 +243,7 @@ class UserController extends Controller
         if ($request->user()->isAbleTo('edit-all')) {
             $validated = $request->validated();
             $data = $request->safe()->except(['equipments']);
-            $password = 'password';
+            $password = Str::random(9);
             $data['password'] = Hash::make($password);
             $user = User::create($data);
             $user->save();
@@ -260,6 +263,7 @@ class UserController extends Controller
                     $user->equipments()->attach($equipment['equipment'], ['size_id' => $size->id, 'owned' => $equipment['owned']]);
                 }
             }
+            Mail::to($user->email)->send(new UserCreated($user, $password));
             return new UserResource($user);
         } else return response('unauthorized', 403);
     }
