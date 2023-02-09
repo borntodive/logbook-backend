@@ -503,11 +503,12 @@ class RosterController extends Controller
                         $nextSessions[$courseName][$activityType] = $found;
                 }
             }
+            if (!isset($nextSessions[$courseName][$activityType]) || !$nextSessions[$courseName][$activityType])
+                $nextSessions[$courseName][$activityType] = 1;
             //$nextSessions[$courseName][$activityType]++;
         }
         $nextActivities = [];
-        if (!$nextSessions[$courseName][$activityType])
-            $nextSessions[$courseName][$activityType] = 1;
+
         foreach ($missingActivities as $courseName => $student) {
             foreach ($student as $studentName => $activity) {
                 foreach ($activity as $activityType => $session) {
