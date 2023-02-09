@@ -31,7 +31,7 @@
         </div>
 
         @foreach ($nextActivities as $courseName => $activities)
-            <div class="card border-dark mb-3" style="page-break-inside: avoid;">
+            <div class="card border-dark mb-3">
                 <div class="card-header">{{ $courseName }}</div>
                 <div class="card-body text-dark">
                     <h5>Prossima attività:
