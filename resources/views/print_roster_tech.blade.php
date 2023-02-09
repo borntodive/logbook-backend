@@ -6,70 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <title>Roster</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
-        .mx-4 {
-            margin-left: 1rem;
-
+        table {
+            page-break-inside: auto;
         }
 
-        h5 {
-            font-size: 1.25rem;
+        table tr {
+            page-break-inside: auto;
         }
 
-        .card {
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            min-width: 0;
-            word-wrap: break-word;
-            background-clip: border-box;
-            border: 1px solid rgba(0, 0, 0, .125);
-            border-radius: 0.25rem;
-            margin-bottom: 0.75rem;
-        }
-
-        .card-header {
-            padding: 0.5rem 1rem;
-            margin-bottom: 0;
-            background-color: rgba(0, 0, 0, .03);
-            border-bottom: 1px solid rgba(0, 0, 0, .125);
-        }
-
-        .card-body {
-            flex: 1 1 auto;
-            padding: 1rem 1rem;
-        }
-
-        .table {
-            width: 100%;
-            margin-bottom: 1rem;
-            color: #212529;
-            vertical-align: top;
-            border-color: #dee2e6;
-
-        }
-
-        tbody {
-            width: 100%;
-            border-top: 0.5px solid;
-
-        }
-
-        thead:after {
-            content: "@";
-            display: block;
-            line-height: 10px;
-            text-indent: -99999px;
-        }
-
-        .odd-row {
-            background-color: rgba(0, 0, 0, 0.05);
-
-        }
-
-        .even-row {
-            background-color: transparent;
-
+        table tr td {
+            page-break-inside: auto;
         }
     </style>
 </head>
