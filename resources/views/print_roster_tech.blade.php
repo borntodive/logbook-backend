@@ -9,16 +9,24 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
-        table {
-            break-inside: auto;
+        .div-table {
+            display: table;
+            width: 100%;
+            overflow: scroll;
+            background-color: #eee;
+            border-spacing: 2px;
+            border-radius: 4px;
         }
 
-        table tr {
-            break-inside: auto;
+        .trow {
+            display: table-row
         }
 
-        table tr td {
-            break-inside: auto;
+        .tcolumn {
+            display: table-cell;
+            vertical-align: top;
+            background-color: #fff;
+            padding: 10px 8px
         }
     </style>
 </head>
@@ -54,51 +62,48 @@
                         @endif
                     </h5>
                     @if (count($activities[$activityType]['students']))
-                        <table class="table">
-                            <thead>
-                                <tr>
-                                    <th scope="col">Nominativo</th>
-                                    <th scope="col" style="text-align: left">Da recuperare</th>
+                        <div class="div-table">
+                            <div class="trow">
+                                <div class="tcolumn tcolumn1">Nominativo</div>
+                                <div class="tcolumn tcolumn2">Da recuperare</div>
+                            </div>
 
 
-                                </tr>
-                            </thead>
-                            <tbody>
+                            @php
+                                $line_count = 0;
+                            @endphp
+                            @foreach ($activities[$activityType]['students'] as $studentName => $missings)
                                 @php
-                                    $line_count = 0;
-                                @endphp
-                                @foreach ($activities[$activityType]['students'] as $studentName => $missings)
-                                    @php
-                                        $line_count++;
-                                        $bg = 'rgba(0, 0, 0, 0.05)';
-                                        if ($line_count % 2 == 0) {
-                                            $bg = 'transparent';
-                                        }
+                                    $line_count++;
+                                    $bg = 'rgba(0, 0, 0, 0.05)';
+                                    if ($line_count % 2 == 0) {
+                                        $bg = 'transparent';
+                                    }
 
-                                    @endphp
-                                    <tr style="background-color: {{ $bg }}">
-                                        <td>{{ $studentName }}</td>
-                                        <td>
-                                            @foreach ($missings as $sessionName => $exercises)
-                                                @if (!$exercises['completed'])
-                                                    <h6>{{ $sessionName }}</h6>
-                                                    <div style="margin-left: 20px">
-                                                        @foreach ($exercises['missings'] as $exercise)
-                                                            <p>{{ is_array($exercise) ? $exercise['label'] : $exercise }}
-                                                            </p>
-                                                        @endforeach
-                                                    </div>
-                                                @endif
-                                            @endforeach
-                                        </td>
-                                    </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    @endif
+                                @endphp
+                                <div class="trow">
+                                    <div class="tcolumn">{{ $studentName }}</div>
+                                    <div class="tcolumn">
+                                        @foreach ($missings as $sessionName => $exercises)
+                                            @if (!$exercises['completed'])
+                                                <h6>{{ $sessionName }}</h6>
+                                                <div style="margin-left: 20px">
+                                                    @foreach ($exercises['missings'] as $exercise)
+                                                        <p>{{ is_array($exercise) ? $exercise['label'] : $exercise }}
+                                                        </p>
+                                                    @endforeach
+                                                </div>
+                                            @endif
+                                        @endforeach
+                                    </div>
+                                </div>
+                            @endforeach
+                        </div>
                 </div>
-            </div>
-        @endforeach
+        @endif
+    </div>
+    </div>
+    @endforeach
 
 </body>
 
