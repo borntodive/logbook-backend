@@ -10,15 +10,15 @@
         integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
     <style>
         table {
-            page-break-inside: auto;
+            break-inside: auto;
         }
 
         table tr {
-            page-break-inside: auto;
+            break-inside: auto;
         }
 
         table tr td {
-            page-break-inside: auto;
+            break-inside: auto;
         }
     </style>
 </head>
