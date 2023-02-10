@@ -34,9 +34,9 @@ class RosterController extends Controller
         $sortDirection = $request->get('sortDirection', 'ASC');
         $rosters = Roster::where('type', $type)->orderBy($sort, $sortDirection);
         if ($filter == 'future')
-            $rosters = $rosters->where('date', '>=', now());
+            $rosters = $rosters->whereDate('date', '>=', date('Y-m-d'));
         elseif ($filter == 'past')
-            $rosters = $rosters->where('date', '<', now());
+            $rosters = $rosters->whereDate('date', '<', date('Y-m-d'));
         return RosterResource::collection($rosters->jsonPaginate());
     }
     public function store(RosterPostRequest $request)
