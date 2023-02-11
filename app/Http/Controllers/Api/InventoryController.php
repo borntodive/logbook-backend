@@ -39,7 +39,7 @@ class InventoryController extends Controller
 
         $invertory = Inventory::firstOrCreate(['equipment_id' => $equipment->id, 'equipment_type_id' => $type->id, 'size_id' => $size->id]);
         $items = $invertory->items;
-        $code = Str::uuid();
+        $code = sprintf("%06d", mt_rand(1, 999999));
         $items[] =
             [
                 'code'      => $this->checkCodeAvailability($code),

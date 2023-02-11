@@ -304,7 +304,7 @@ class InventorySeeder extends Seeder
                     if (!App::environment('production')) {
                         for ($i = 0; $i < rand(0, 10); $i++) {
                             $items[] = [
-                                'code'      => Str::uuid(),
+                                'code'      => sprintf("%06d", mt_rand(1, 999999)),
                                 'available' => random_int(0, 100) < 40,
                             ];
                         }
