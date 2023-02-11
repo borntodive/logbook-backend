@@ -78,7 +78,10 @@ class RentController extends Controller
 
     public function get(Request $request, Rent $rent)
     {
-        if ($request->user()->isAbleTo('view-all')) {
+        if (
+            $request->user()->isAbleTo('view-all') ||
+            $request->user()->id == $rent->user_id
+        ) {
             return new RentResource($rent);
         } else return response('unauthorized', 403);
     }

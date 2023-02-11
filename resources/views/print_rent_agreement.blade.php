@@ -248,7 +248,7 @@
         </p>
         <table style="width:100%;margin-top:20px">
             <tr style="line-height: 50px;">
-                <td>Nome e Cognome</td>
+                <td>Cognome e Nome</td>
                 <td>Firma</td>
             </tr>
             <tr>
