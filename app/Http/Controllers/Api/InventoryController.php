@@ -54,7 +54,7 @@ class InventoryController extends Controller
     {
         $eq = Inventory::whereJsonContains('items', [['code' => $code]])->first();
         if ($eq) {
-            $this->checkCodeAvailability(Str::uuid());
+            $this->checkCodeAvailability(sprintf("%06d", mt_rand(1, 999999)));
         }
         return $code;
     }
