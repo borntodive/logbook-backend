@@ -86,7 +86,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Course::class)->withPivot(['end_date', 'progress', 'price', 'teaching', 'in_charge', 'payment_1', 'payment_2', 'payment_3', 'payment_1_date', 'payment_2_date', 'payment_3_date', 'payed'])->using(CourseUser::class)
             ->where(function (Builder $query) {
-                $query->where('course_user.payed', '<>', 1)->where('course_user.teaching', '<>', 1);
+                $query->where('course_user.payed', '<>', 1)->where('course_user.teaching', '<>', 1)->where('course_user.price', '>', 0);
             });
     }
     public function openedCourses()
@@ -118,7 +118,7 @@ class User extends Authenticatable
     public function unpayedRents()
     {
         return $this->hasMany(Rent::class)
-            ->where('payed', '<>', 1);
+            ->where('payed', '<>', 1)->where('price', '>', 0);
     }
     public function openRents()
     {
