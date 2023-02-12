@@ -104,7 +104,7 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(RosterDive::class, 'roster_user')->withPivot(['course_id', 'note', 'price', 'course_note', 'payed', 'gears'])->using(RosterUser::class)
             ->where(function (Builder $query) {
-                $query->where('roster_user.payed', '<>', 1);
+                $query->where('roster_user.payed', '<>', 1)->where('roster_user.price', '>', 0);
             });
     }
     public function duty()

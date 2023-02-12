@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\AdministrationController;
 use App\Http\Controllers\Api\AgendaController;
 use App\Http\Controllers\Api\CourseController;
 use App\Http\Controllers\Api\EquipmentController;
@@ -163,5 +164,8 @@ Route::middleware('auth:sanctum')->group(function () {
 
         Route::delete('equipment/{code}', [RentController::class, 'destroyEquipment']);
         Route::delete('{rent}', [RentController::class, 'destroy']);
+    });
+    Route::prefix('administration')->group(function () {
+        Route::get('/get-balance', [AdministrationController::class, 'getBalance']);
     });
 });
