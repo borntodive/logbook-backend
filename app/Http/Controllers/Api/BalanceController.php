@@ -52,6 +52,7 @@ class BalanceController extends Controller
                 'ammount' => $rBalance
             ];
         }
+        $data['membership']['total'] = $user->asd_membership ? 0 : 25;
         return response()->json(['data' => ['balance' => $data]]);
     }
 }
