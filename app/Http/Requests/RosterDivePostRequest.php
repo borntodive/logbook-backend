@@ -28,7 +28,7 @@ class RosterDivePostRequest extends FormRequest
     public function rules()
     {
         return [
-            'dive_site_id' => 'required|exists:dive_sites,id',
+            'dive_site_id' => 'nullable|exists:dive_sites,id',
             'date' => 'required|date',
             'price' => 'numeric|nullable',
             'cost' => 'numeric|nullable',
