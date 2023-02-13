@@ -27,7 +27,7 @@ class AdministrationController extends Controller
     {
         if (!$request->user()->isAbleTo('manage-roles'))
             return response('unauthorized', 403);
-        $users = User::has('unpayedCourses')->orHas('unpayedRents')->orHas('unpayedRosters')->get();
+        $users = User::orderBy('lastname')->orderBy('firstname')->has('unpayedCourses')->orHas('unpayedRents')->orHas('unpayedRosters')->get();
         $balance = [];
         $balance['total'] = 0;
         foreach ($users as $user) {
