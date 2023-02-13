@@ -12,6 +12,8 @@ use App\Mail\UserCreated;
 use App\Models\Equipment;
 use App\Models\Role;
 use App\Models\RosterUser;
+use App\Http\Resources\LoginResource;
+
 use App\Models\Size;
 use App\Models\User;
 use App\Models\UserEmergencycontact;
@@ -37,6 +39,13 @@ class UserController extends Controller
         $search = $request->get('search', '');
 
         return UserResource::collection(User::search($search, ['firstname', 'lastname'])->orderBy($sort, $sortDirection)->jsonPaginate());
+    }
+
+    public function getMe(Request $request)
+    {
+        $user = User::findOrFail($request->user()->id);
+        $user->isLogin = false;
+        return new LoginResource($user);
     }
     public function get(Request $request, $user_id)
     {

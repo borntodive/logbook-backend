@@ -37,6 +37,7 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/update-password', [AuthController::class, 'updatePassword']);
     Route::prefix('users')->group(function () {
         Route::get('/', [UserController::class, 'index']);
+        Route::get('/me', [UserController::class, 'getMe']);
         Route::get('/availables', [UserController::class, 'getAvailables']);
         Route::get('/dashboard', [UserController::class, 'getDashboard']);
         Route::get('/ranking', [UserController::class, 'getRanking']);

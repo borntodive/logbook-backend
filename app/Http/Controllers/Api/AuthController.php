@@ -26,7 +26,7 @@ class AuthController extends Controller
         $user = User::with('roles')->where('email', $request->email)->first();
         if ($user) {
             if (Hash::check($request->password, $user->password)) {
-
+                $user->isLogin = true;
                 return new LoginResource($user);
             } else {
                 $response = ['message' => 'Not Found'];

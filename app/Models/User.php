@@ -107,6 +107,11 @@ class User extends Authenticatable
                 $query->where('roster_user.payed', '<>', 1)->where('roster_user.price', '>', 0);
             });
     }
+
+    public function unpayedItems()
+    {
+        return $this->unpayedCourses || $this->unpayedRents || $this->unpayedRosters || !$this->asd_membership;
+    }
     public function duty()
     {
         return $this->belongsTo(UserDuty::class, 'user_duty_id');
