@@ -18,9 +18,9 @@ class LoginResource extends JsonResource
         $highlights = [];
         if ($this->unpayedItems())
             $highlights[] = 'balance';
-        if ($this->openRents)
+        if ($this->openRents())
             $highlights[] = 'rents';
-        if ($this->openedCourses)
+        if ($this->openedCourses()->where('teaching', '<>', 1))
             $highlights[] = 'courses';
         if ($this->rosters()->whereDate('date', ">=", date('Y-m-d')))
             $highlights[] = 'agenda';
