@@ -110,7 +110,7 @@ class User extends Authenticatable
 
     public function unpayedItems()
     {
-        return $this->unpayedCourses || $this->unpayedRents || $this->unpayedRosters || !$this->asd_membership;
+        return count($this->unpayedCourses) || count($this->unpayedRents) || count($this->unpayedRosters) || !$this->asd_membership;
     }
     public function duty()
     {
