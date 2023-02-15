@@ -311,7 +311,7 @@ class UserController extends Controller
                                                 INNER JOIN `roster_dives` ON `rosters`.`id` = `roster_dives`.`roster_id`
                                             WHERE
                                                 `roster_user`.`roster_dive_id` = `roster_dives`.`id`
-                                                AND `type` = 'POOL'
+                                                AND `type` = 'POOL' AND `rosters`.`date` < '" . now() . "'
                                             ORDER BY
                                                 `roster_dives`.`date` ASC)"), array(
             'user_id' => $user->id,
@@ -331,7 +331,7 @@ class UserController extends Controller
                                                 INNER JOIN `roster_dives` ON `rosters`.`id` = `roster_dives`.`roster_id`
                                             WHERE
                                                 `roster_user`.`roster_dive_id` = `roster_dives`.`id`
-                                                AND `type` = 'DIVE'
+                                                AND `type` = 'DIVE' AND `rosters`.`date` < '" . now() . "'
                                             ORDER BY
                                                 `roster_dives`.`date` ASC)"), array(
             'user_id' => $user->id,
