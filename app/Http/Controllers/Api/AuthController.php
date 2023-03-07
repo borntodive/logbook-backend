@@ -29,7 +29,7 @@ class AuthController extends Controller
                 $user->isLogin = true;
                 return new LoginResource($user);
             } else {
-                $response = ['message' => 'Not Found'];
+                $response = ['message' => 'Not Found P'];
 
                 return response($response, 404);
             }
