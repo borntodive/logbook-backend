@@ -16,7 +16,6 @@ class InventoryHelper
     private $equipment;
 
 
-
     public function __construct(Inventory $equipment = null)
     {
         $this->equipment = $equipment;
