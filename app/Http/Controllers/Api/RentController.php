@@ -9,6 +9,7 @@ use App\Http\Resources\CourseResource;
 use App\Http\Resources\MinimalRentResource;
 use App\Http\Resources\RentAgreementResource;
 use App\Http\Resources\RentResource;
+use App\Models\Inventory;
 use App\Models\Rent;
 use App\Models\RentEquipment;
 use Carbon\Carbon;
@@ -124,6 +125,10 @@ class RentController extends Controller
             $brand = $request->brand;
             $otherEq = RentEquipment::where('rent_id', $rent->id)->where('code', $code)->first();
             $invHelper = new InventoryHelper();
+            $item = Inventory::whereJsonContains('items', [['code' => $code]])->first();
+            if (!$item)
+                return response()->json(['message' => 'NOTEXISTING']);
+
             if ($invHelper->checkItemAvailability($code, $rent) && !$otherEq) {
                 $e = RentEquipment::create(['rent_id' => $rent->id, 'code' => $code, 'brand' => $brand]);
                 return response()->json(['message' => 'success']);
