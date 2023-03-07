@@ -338,8 +338,9 @@ class RosterController extends Controller
         $totals['course']['cost']  = 0;
         $totals['equipment']['cost']  = 0;
         $countedCourses = [];
+        $countedRents = [];
         $rosterRes = json_decode(json_encode(new RosterResource($roster)));
-
+        $addedCourses = [];
         foreach ($rosterRes->dives as $dive_id => $dive) {
             $totalDivers = 0;
             foreach ($dive->divers as $course_id => $course) {
@@ -369,9 +370,12 @@ class RosterController extends Controller
                     }
                     $unpayedRents = $user->unpayedRents;
                     foreach ($unpayedRents as $rent) {
-                        $rBalance = $rent->price * $rent->used_days - $rent->payment_1 - $rent->payment_2;
-                        $divers[$diver->id]['balance']['equipment'] += $rBalance;
-                        $totals['equipment']['income']  += $rBalance;
+                        if (!isset($countedRents[$diver->id][$rent->id])) {
+                            $rBalance = $rent->price * $rent->used_days - $rent->payment_1 - $rent->payment_2;
+                            $divers[$diver->id]['balance']['equipment'] += $rBalance;
+                            $totals['equipment']['income']  += $rBalance;
+                            $countedRents[$diver->id][$rent->id] = true;
+                        }
                     }
 
 
