@@ -15,9 +15,6 @@ class RentEquipment extends Model
 
     public function getInventoryItem()
     {
-        $code = $this->code;
-        $eq = Inventory::whereJsonContains('items', [['code' => $code]])->first();
-
         return Inventory::whereJsonContains('items', [['code' => $this->code]])->first();
     }
 

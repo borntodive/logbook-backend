@@ -70,9 +70,10 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::get('/', [CourseController::class, 'index']);
         Route::get('/availables', [CourseController::class, 'getAvailables']);
         Route::get('/user/{user}', [CourseController::class, 'getByUser']);
-
+        Route::get('/student-record/{course}/{student_id}', [CourseController::class, 'printStudentRecordFile']);
         Route::get('/{course}', [CourseController::class, 'get']);
         Route::get('/{course}/{student_id}', [CourseController::class, 'getStudent']);
+
         Route::post('/', [CourseController::class, 'store']);
         Route::post('/duplicate/{course}', [CourseController::class, 'duplicate']);
         Route::post('/{course}/users', [CourseController::class, 'addUser']);

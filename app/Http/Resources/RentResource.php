@@ -25,6 +25,8 @@ class RentResource extends JsonResource
             $data['brand'] = $eq->brand;
             $data['code'] = $eq->code;
             $inv = $eq->getInventoryItem();
+            if (!$inv)
+                dd($eq->code);
             $data['name'] = $inv->equipment->name;
             $data['size'] = $inv->size->name;
             $data['type'] = $inv->type->name;

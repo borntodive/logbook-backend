@@ -67,3 +67,6 @@ Route::prefix('rents')->group(function () {
 Route::prefix('mail')->group(function () {
     Route::get('send', [TestController::class, 'mail']);
 });
+Route::prefix('srf')->group(function () {
+    Route::get('/', [TestController::class, 'srf']);
+});

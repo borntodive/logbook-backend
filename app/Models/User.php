@@ -163,4 +163,11 @@ class User extends Authenticatable
         $filePath = 'images/avatars/' . $this->avatar;
         return Storage::url($filePath);
     }
+    public function getAvatarPath()
+    {
+        if (!$this->avatar)
+            $this->avatar = 'generic.png';
+        $filePath = 'images/avatars/' . $this->avatar;
+        return storage_path('app/public/' . $filePath);
+    }
 }

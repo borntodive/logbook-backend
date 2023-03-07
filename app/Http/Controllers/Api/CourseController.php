@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\StudentRecordHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CourseDiverPostRequest;
 use App\Http\Requests\CoursePostRequest;
@@ -16,6 +17,7 @@ use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Http\Request;
+use Illuminate\Support\Arr;
 
 class CourseController extends Controller
 {
@@ -283,6 +285,16 @@ class CourseController extends Controller
             return new StudentResource($course);
         } else return response('unauthorized', 403);
     }
+
+    public function printStudentRecordFile(Request $request, Course $course, $student_id)
+    {
+        if ($request->user()->isAbleTo('view-all')) {
+            $studentRecordHelper = new StudentRecordHelper($course, $student_id);
+            $studentRecordHelper->print();
+        }
+    }
+
+
     private function caluculateProgress($array, &$completed, &$total)
     {
 
