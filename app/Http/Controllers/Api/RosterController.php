@@ -340,6 +340,7 @@ class RosterController extends Controller
         $countedCourses = [];
         $countedRents = [];
         $rosterRes = json_decode(json_encode(new RosterResource($roster)));
+        $rosterRes->gratuities = 0;
         $addedCourses = [];
         foreach ($rosterRes->dives as $dive_id => $dive) {
             $totalDivers = 0;
@@ -384,6 +385,8 @@ class RosterController extends Controller
                     $totals['dive']['income'] += $diver->price;
                 }
             }
+            $rosterRes->gratuities += $dive->gratuities;
+
             $totals['dive']['cost'] += $dive->cost * $totalDivers - $dive->cost * $dive->gratuities;
         }
         $view = view('print_roster_admin', ['roster' => $rosterRes, 'divers' => $divers, 'totals' => $totals])->render();
