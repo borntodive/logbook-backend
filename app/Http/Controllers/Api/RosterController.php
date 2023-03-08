@@ -384,7 +384,7 @@ class RosterController extends Controller
                     $totals['dive']['income'] += $diver->price;
                 }
             }
-            $totals['dive']['cost'] += $dive->cost * $totalDivers - $dive->cost * $rosterRes->gratuities;
+            $totals['dive']['cost'] += $dive->cost * $totalDivers - $dive->cost * $dive->gratuities;
         }
         $view = view('print_roster_admin', ['roster' => $rosterRes, 'divers' => $divers, 'totals' => $totals])->render();
         $divers = array_values($divers);

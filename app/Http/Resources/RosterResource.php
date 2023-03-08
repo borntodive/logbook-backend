@@ -32,7 +32,6 @@ class RosterResource extends JsonResource
             'date' => $this->date->format('Y-m-d\TH:i:s'),
             'diving' => new DivingResource($this->diving),
             'type' => $this->type,
-            'gratuities' => $this->gratuities,
             'dives' => $dives
         ];
     }

@@ -99,6 +99,7 @@ class RosterDiveResource extends JsonResource
             'id' => $this->id,
             'date' => $this->date->format('Y-m-d\TH:i'),
             'site' => new DiveSiteResource($this->site),
+            'gratuities' => $this->gratuities,
             'note' => $this->note,
             'cost' => $this->cost,
             'price' => $this->price,

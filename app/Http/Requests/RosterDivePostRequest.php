@@ -31,6 +31,7 @@ class RosterDivePostRequest extends FormRequest
             'dive_site_id' => 'nullable|exists:dive_sites,id',
             'date' => 'required|date',
             'price' => 'numeric|nullable',
+            'gratuities' => 'numeric|nullable',
             'cost' => 'numeric|nullable',
         ];
     }
