@@ -461,7 +461,7 @@ class UserController extends Controller
         ###########
         */
 
-        $dives = $user->rosters()->whereHas('roster', fn ($q) => $q->where('type', 'DIVE'))->get();
+        $dives = $user->rosters()->whereHas('roster', fn ($q) => $q->where('type', 'DIVE'))->whereDate('date', '<', date('Y-m-d'))->get();
         $data['dives'] = [];
         if ($dives) {
             foreach ($dives as $dive) {
