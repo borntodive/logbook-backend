@@ -140,9 +140,11 @@ class RentController extends Controller
     public function destroyEquipment(Request $request, $code)
     {
         if ($request->user()->isAbleTo('edit-all')) {
-            $item = RentEquipment::where('code', $code)->firstOrFail();
-            $item->delete();
-            return response()->json(['message' => 'success']);
+            $item = RentEquipment::where('code', $code)->first();
+            if ($item) {
+                $item->delete();
+                return response()->json(['message' => 'success']);
+            } else return response('notfound', 404);
         } else return response('unauthorized', 403);
     }
 
