@@ -38,12 +38,13 @@ class InventoryHelper
     {
         if (!$rent) {
             return RentEquipment::whereHas('rent', function ($q) {
-                $q->where('start_date', '<', now())->where('return_date', null);
+                $q->where('start_date', '<=', now())->where('return_date', null);
             })->where('code', $code)->first() ? false : true;
         } else {
+
             return
                 RentEquipment::whereHas('rent', function ($q) use ($rent) {
-                    $q->where('start_date', '<', $rent->start_date)->where('return_date', null);
+                    $q->where('start_date', '<=', $rent->start_date)->where('return_date', null);
                 })->where('code', $code)->first() ? false : true;
 
             //return $pastAvail || $futureAvail ? false : true;

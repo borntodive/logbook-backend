@@ -128,7 +128,6 @@ class RentController extends Controller
             $item = Inventory::whereJsonContains('items', [['code' => $code]])->first();
             if (!$item)
                 return response()->json(['message' => 'NOTEXISTING']);
-
             if ($invHelper->checkItemAvailability($code, $rent) && !$otherEq) {
                 $e = RentEquipment::create(['rent_id' => $rent->id, 'code' => $code, 'brand' => $brand]);
                 return response()->json(['message' => 'success']);
