@@ -34,11 +34,13 @@ class Course extends Model
             $newActivities =                [
                 'label' => 'OW',
                 'order' => 3,
+                'uuid' => Str::uuid(),
                 'values' => null
             ];
             $newActivitiesCW =                [
                 'label' => 'CW',
                 'order' => 2,
+                'uuid' => Str::uuid(),
                 'values' => null
             ];
             foreach ($this->specialities as $idx => $spId) {
@@ -48,6 +50,7 @@ class Course extends Model
                     $specialityActivities = [
                         'order'  => $idx + 1,
                         'label' => $cert->name,
+                        'uuid' => Str::uuid(),
                         'values' => $this->findFirstOW($cert->activities, 'OW', $cert)
                     ];
                     $newActivities['values'][] = $specialityActivities;
@@ -57,6 +60,7 @@ class Course extends Model
                         $specialityActivities = [
                             'order'  => $idx + 1,
                             'label' => $cert->name,
+                            'uuid' => Str::uuid(),
                             'values' => $cw
                         ];
                         $newActivitiesCW['values'][] = $specialityActivities;

@@ -33,6 +33,7 @@ class RosterDivePostRequest extends FormRequest
             'price' => 'numeric|nullable',
             'gratuities' => 'numeric|nullable',
             'cost' => 'numeric|nullable',
+            'note' => 'nullable'
         ];
     }
 }

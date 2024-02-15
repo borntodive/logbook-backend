@@ -63,7 +63,29 @@ class RosterController extends Controller
             return response()->json(['status' => 'deleted']);
         } else return response('unauthorized', 403);
     }
+    public function duplicate(Request $request, Roster $roster)
+    {
 
+        if ($request->user()->isAbleTo('edit-all')) {
+            $newRoster = $roster->replicate();
+            $newRoster->push();
+            foreach ($roster->roster_dives as $dive) {
+                $newDive = $dive->replicate();
+                $newDive->roster_id = $newRoster->id;
+                $newDive->push();
+                $data = [];
+                foreach ($dive->users as $diver) {
+                    $d = $diver->pivot->toArray();
+                    $id = $d['user_id'];
+                    unset($d['roster_dive_id']);
+                    unset($d['user_id']);
+                    $data[$id] = $d;
+                }
+                $newDive->users()->attach($data);
+            }
+            return new RosterResource($newRoster);
+        } else return response('unauthorized', 403);
+    }
     public function get(Request $request, Roster $roster)
     {
         if ($request->user()->isAbleTo('view-all')) {

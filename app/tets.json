@@ -1,0 +1,998 @@
+[
+    {
+        "uuid": "afe45645-4f2f-4a41-865e-3b2ebfd9b499",
+        "label": "THEORY",
+        "order": 1,
+        "values": [
+            {
+                "uuid": "a52a736b-45dc-4198-aa47-c9b133c7c2ec",
+                "label": "Ripassi delle conoscenze",
+                "order": 1,
+                "values": [
+                    {
+                        "uuid": "f48ea95c-307a-4047-8588-8b7dda0149d0",
+                        "label": "",
+                        "order": 1,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "24ecb7ad-3238-4cd6-a5b2-08b07864ae0e",
+                                "label": "Ripassi delle conoscenze",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "uuid": "c49078da-b324-4502-ae2a-ae2354d90d23",
+                "label": "Esame",
+                "order": 1,
+                "values": [
+                    {
+                        "uuid": "ce28c1f8-35d8-467e-84b3-aa6e0d056c61",
+                        "label": "",
+                        "order": 1,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "059c6d3d-38ca-47d9-912d-68f7d19fab5a",
+                                "label": "Esame",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "label": "OW",
+        "order": 3,
+        "values": [
+            {
+                "label": "Coral Identification",
+                "order": 1,
+                "values": [
+                    {
+                        "uuid": "de87fc01-8ec7-4f53-84fe-02b7c1690de7",
+                        "label": "Esercizi pre-immersione",
+                        "order": 1,
+                        "values": [
+                            {
+                                "date": "2024-02-16T17:49:00+01:00",
+                                "uuid": "45031e51-615c-4d64-a547-e1a10ce1950b",
+                                "label": "Briefing",
+                                "order": 1,
+                                "instructor": {
+                                    "id": 2,
+                                    "name": "Bastiani Davide",
+                                    "number": "4410808"
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "40c1f712-9819-408a-a535-de22765fc496",
+                                "label": "Pianificazione dell'immersione",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "f80acdee-2734-4024-b4f7-a9117acaa7b6",
+                        "label": "Identificazione della fauna in acqua",
+                        "order": 2,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "125df0bf-a143-4876-962b-69489ae8d08b",
+                                "label": "Idenfificare quante più specie o singoli individui possibile",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "c08a1009-d1ca-41d8-b805-dc4c20f63d70",
+                                "label": "Idenfificare qualsiasi caratteristica significativa o identificativa",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "94f71789-c2ee-463e-9576-956c6782a831",
+                                "label": "Idenfificare qualsiasi comportamento (caccia, costruzione di un nido, accoppiamenti, ecc.)",
+                                "order": 3,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "558a7ab6-7f77-427d-b569-17d936a3fe0d",
+                                "label": "Idenfificare qualsiasi comportamento particolare o unico nel suo genere",
+                                "order": 4,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "6091c82c-e870-4838-ba03-9789f08c9bff",
+                                "label": "Idenfificare l'habitat o l'ecosistema in cui un dato animale vive",
+                                "order": 5,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "8dbc4d69-c74d-4044-8afa-ca29a0bdd2a8",
+                        "label": "Esercizi pre-immersione",
+                        "order": 3,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "b0bd199b-ee28-48ce-8e57-2da4b2264baa",
+                                "label": "Cura dell'attrezzatura",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "7e3c1865-d2ed-4585-837f-0e856fb92330",
+                        "label": "Debriefing",
+                        "order": 4,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "4b49e64f-ee27-4fa6-b432-f955bcb491b1",
+                                "label": "Debriefing",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "2442e237-168b-480d-996e-018cfab23b08",
+                                "label": "Registrare e convalidare immersione su Logbook App SSI",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "label": "Deep Diving",
+                "order": 2,
+                "values": [
+                    {
+                        "uuid": "5d29f8db-ab15-4c33-9235-f89d64c631de",
+                        "label": "Esercizi pre-immersione",
+                        "order": 1,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "d1b64268-68e9-4b23-a936-d5579183d9ac",
+                                "label": "Pianificazione dell'immersione",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "5abf0c74-43d3-459c-96cb-ea78858e7006",
+                                "label": "Check pre-immersione",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "242dbbc7-fc24-4697-8f1c-088a884bf993",
+                        "label": "Esercizi in acqua",
+                        "order": 2,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "fdd8e1af-3f4f-4e70-b68b-9f2d03d3d28b",
+                                "label": "Controllo dell'assetto, con indossato il Sistema Totale Controllo dell'assetto, con indossato il Sistema Totale d'Immersione ",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "7656a548-746d-4a4a-9a43-07d91ea44c60",
+                                "label": "Discesa controllata",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "6da2657c-3033-474a-a872-f3eb45b88d6c",
+                                "label": "Adattamento dell'attrezzatura (in immersione)",
+                                "order": 3,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "a583bc84-dba0-4f18-b556-51e46b8ab71e",
+                                "label": "Assetto neutro (a mezz'acqua)",
+                                "order": 4,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "4f4dfa9b-9e55-4340-b63a-29255a6a46d5",
+                                "label": "Lancio del segnalatore di superficie (SMB) in immersione",
+                                "order": 5,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "bdc50924-7daf-4b0f-bfdf-d5f84c8f53b0",
+                                "label": "Risalita controllata con il compagno",
+                                "order": 6,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "478b2b36-762b-44a8-b88c-822ff75bb17c",
+                                "label": "Sosta di sicurezza",
+                                "order": 7,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "d36ed7a6-30e2-4ea5-a0f5-2314bcae1ca8",
+                                "label": "Indice di respirazione in superficie (SAC)",
+                                "order": 8,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "45dfc298-a9e4-4cb0-9ab2-884a98fca809",
+                        "label": "Debriefing",
+                        "order": 3,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "50dc43d9-ace0-44b4-a2f9-7defe76660c0",
+                                "label": "Debriefing",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "76c40652-d043-48b8-a19c-7fcc0e874a91",
+                                "label": "Registrare e convalidare immersione su Logbook App SSI",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "label": "Dry Suit Diving",
+                "order": 3,
+                "values": [
+                    {
+                        "uuid": "ed3ae33c-7546-46cc-bd91-46bf47638cbf",
+                        "label": "Esercizi pre-immersione",
+                        "order": 1,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "110b6ca5-42bf-4843-aa57-7df0efbca749",
+                                "label": "Pianificazione dell'immersione",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "e5195747-8fe8-4bb9-bd73-c904dd0ab241",
+                                "label": "Vestizione dell'unità SCUBA con indosso la stagna",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "1f188987-b7a6-4540-9974-e3a1f8f73f3b",
+                                "label": "Check pre-immersione",
+                                "order": 3,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "29cb83e9-ba26-4857-88a2-d9238b1d6087",
+                        "label": "Esercizi in acqua",
+                        "order": 2,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "4c36973a-adf6-440d-a79a-e5db3f5ba25a",
+                                "label": "Controllo dell'assetto con il Sistema Totale d'Immersione completo, con indosso la stagna",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "dc6b1b6e-e5a8-419d-a6eb-9e7390d4e10b",
+                                "label": "Discesa controllata (Muta stagna)",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "496dfcfb-c3dc-471c-a2d5-13238188a146",
+                                "label": "Confidenza con la stagna",
+                                "order": 3,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "d4a50d0b-e91a-405a-b73a-ba2c02071d36",
+                                "label": "Esercizi con le valvole della stagna - Esercizi di malfunzionamento della valvola",
+                                "order": 4,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "1cf3a8b7-4bfa-4e8d-8246-67e81bc9ca2a",
+                                "label": "Assetto neutro (a mezz'acqua)",
+                                "order": 5,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "fede7409-4aca-42d4-8fb0-b9df59653080",
+                                "label": "Subacqueo a testa in giù",
+                                "order": 6,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "821b82c9-0dd5-4a4c-82a8-389fd3846cf3",
+                                "label": "Eccessivo gonfiaggio di una muta stagna",
+                                "order": 7,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "3f0efdaf-6595-4274-97d3-13228b2419cb",
+                                "label": "Simulazione dell'allagamento della stagna",
+                                "order": 8,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "22d3e75a-1b14-457a-994f-8106cfb63750",
+                                "label": "Risalita controllata (Muta stagna)",
+                                "order": 9,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "47715312-c76b-4971-b13a-65d81f0ba31c",
+                        "label": "Esercizi dopo l'immersione",
+                        "order": 3,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "7b6417b4-40ff-4a93-a23b-0ff16ff8dac4",
+                                "label": "Cura dell'attrezzatura (Muta stagna)",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "f6766bfe-4324-47f7-855f-74c609030b49",
+                        "label": "Debriefing",
+                        "order": 4,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "2055707f-f2b2-456f-8d70-d00030f1d808",
+                                "label": "Debriefing",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "d94f40f8-e3c0-41ba-84d2-3909e4601357",
+                                "label": "Registrare e convalidare immersione su Logbook App SSI",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "label": "Enriched Air Nitrox",
+                "order": 4,
+                "values": [
+                    {
+                        "uuid": "1c9b41e8-8584-448d-bead-8d26780f8574",
+                        "label": "Analisi della bombola",
+                        "order": 1,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "40268168-5f89-4f41-b7de-a707b4c689f4",
+                                "label": "Analizzare la bombola autonomamente",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "01c7d9d0-7fed-42f7-9241-1ff882ec5589",
+                        "label": "Controllo della taratura dello strumento",
+                        "order": 2,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "d366b43b-27e4-4a5c-8aef-3075f4ba04ac",
+                                "label": "Calibrazione dell'analizzatore, con una fonte di gas conosciuta, e analisi di una o più bombole",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "090c47cb-cd8b-4e3c-876b-179b62226541",
+                                "label": "Etichettatura della bombola con il suo contenuto e registrazione dei risulatati nel registro della stazione di ricarica",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "f81c79c7-94a0-4472-a727-342070c2ffe4",
+                        "label": "Debriefing",
+                        "order": 3,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "2cbbaeb1-053b-45c1-a047-283a0dc10a8d",
+                                "label": "Debriefing",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "fb1d8684-609c-4886-9c33-5d224161984f",
+                                "label": "Registrare e convalidare immersione su Logbook App SSI",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    }
+                ]
+            },
+            {
+                "label": "Fish Identification",
+                "order": 5,
+                "values": [
+                    {
+                        "uuid": "e5f28a82-a49a-4060-88ae-d4bd66d54cc0",
+                        "label": "Esercizi pre-immersione",
+                        "order": 1,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "b4f7decd-40ff-49c8-bdf5-b4b51ae88355",
+                                "label": "Briefing",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "72ca0850-17cf-40b5-83c6-7f4ee55e16b4",
+                                "label": "Pianificazione dell'immersione",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "33a198e6-96e7-4ff2-bf7e-1a1986c97f32",
+                        "label": "Identificazione della fauna in acqua",
+                        "order": 2,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "380bddff-5736-465f-8937-ea804d52faf1",
+                                "label": "Idenfificare quante più specie o singoli individui possibile",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "122348ac-872e-4102-b8ab-d8d72821e230",
+                                "label": "Idenfificare qualsiasi caratteristica significativa o identificativa",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "81ac4eb4-bf09-4dba-8e0d-fee673b77cbf",
+                                "label": "Idenfificare qualsiasi comportamento (caccia, costruzione di un nido, accoppiamenti, ecc.)",
+                                "order": 3,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "ae7b3777-e1df-427d-a6d2-df04f443047a",
+                                "label": "Idenfificare qualsiasi comportamento particolare o unico nel suo genere",
+                                "order": 4,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "699c52c9-4e80-4dfb-8071-d3ec6c444215",
+                                "label": "Idenfificare l'habitat o l'ecosistema in cui un dato animale vive",
+                                "order": 5,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "92b101f1-ab88-4053-b6f9-ac74540448e3",
+                        "label": "Esercizi pre-immersione",
+                        "order": 3,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "e715710b-da31-4a0a-bcbe-9ece46ee63bf",
+                                "label": "Cura dell'attrezzatura",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "6ce1e437-c100-4fe6-9df3-c00c5cca7a3a",
+                        "label": "Debriefing",
+                        "order": 4,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "83476afa-0ad0-4e40-b659-cff9eb7643c0",
+                                "label": "Debriefing",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "b568b925-8c9c-477d-9037-5e1ed046c92b",
+                                "label": "Registrare e convalidare immersione su Logbook App SSI",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    },
+    {
+        "label": "CW",
+        "order": 2,
+        "values": [
+            {
+                "label": "Dry Suit Diving",
+                "order": 3,
+                "values": [
+                    {
+                        "uuid": "977125e3-7d0d-434b-bd20-f471db1783b8",
+                        "label": "Esercizi pre-immersione",
+                        "order": 1,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "a1484638-692c-42e7-a52f-c3f0ab218a54",
+                                "label": "Pianificazione dell'immersione",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "1e602824-5bd6-4014-95c5-a04830ed096c",
+                                "label": "Vestizione dell'unità SCUBA con indosso la stagna",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "d7534e4f-cc78-4c02-877c-8ad5383a6543",
+                                "label": "Check pre-immersione",
+                                "order": 3,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "894cc5cf-07a3-4249-a767-f1126d588afb",
+                        "label": "Esercizi in acqua",
+                        "order": 2,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "74a8d7af-928a-4c2d-8556-0835b17efbe6",
+                                "label": "Controllo dell'assetto con il Sistema Totale d'Immersione completo, con indosso la stagna",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "cb9365fb-fc8c-40db-a3cb-b80526a5cf7a",
+                                "label": "Discesa controllata (Muta stagna)",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "b72870f7-784d-4cc2-83bb-c7212f856af5",
+                                "label": "Confidenza con la stagna",
+                                "order": 3,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "d8b770b8-cd19-408d-97d5-d39258b822a9",
+                                "label": "Esercizi con le valvole della stagna - Esercizi di malfunzionamento della valvola",
+                                "order": 4,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "b786d86f-65c2-4c0f-8121-7038c0af7bdf",
+                                "label": "Assetto neutro (a mezz'acqua)",
+                                "order": 5,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "9f20b8c6-0a6f-4da0-b295-d179bdc5209a",
+                                "label": "Subacqueo a testa in giù",
+                                "order": 6,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "fb43dc5d-9be9-4e10-9992-61cf7d582840",
+                                "label": "Eccessivo gonfiaggio di una muta stagna",
+                                "order": 7,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "b375293b-6d83-4f08-9c27-4ec9a144b1c8",
+                                "label": "Simulazione dell'allagamento della stagna",
+                                "order": 8,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "3f1d5326-0177-4097-b225-7faeb3328147",
+                                "label": "Risalita controllata (Muta stagna)",
+                                "order": 9,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "289b8b8b-e7da-406c-9f7c-e5a817250cd7",
+                        "label": "Esercizi dopo l'immersione",
+                        "order": 3,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "ae3ddfd4-8270-4408-b6b6-bb34a27a47e6",
+                                "label": "Cura dell'attrezzatura (Muta stagna)",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    },
+                    {
+                        "uuid": "08d0f4a5-5401-4bdd-8800-51b1bbd49728",
+                        "label": "Debriefing",
+                        "order": 4,
+                        "values": [
+                            {
+                                "date": null,
+                                "uuid": "88ee5ce2-81fe-4212-bfeb-2d8f182188f6",
+                                "label": "Debriefing",
+                                "order": 1,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            },
+                            {
+                                "date": null,
+                                "uuid": "f40276b5-2029-414c-a9ea-9ce85f2321d8",
+                                "label": "Registrare e convalidare immersione su Logbook App SSI",
+                                "order": 2,
+                                "instructor": {
+                                    "id": null,
+                                    "name": null,
+                                    "number": null
+                                }
+                            }
+                        ]
+                    }
+                ]
+            }
+        ]
+    }
+]

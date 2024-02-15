@@ -92,6 +92,8 @@ Route::middleware('auth:sanctum')->group(function () {
         Route::delete('/{code}', [InventoryController::class, 'destroy']);
     });
     Route::prefix('rosters')->group(function () {
+        Route::put('/duplicate/{roster}', [RosterController::class, 'duplicate']);
+
         Route::get('/', [RosterController::class, 'index']);
         Route::get('/print/{roster}', [RosterController::class, 'print']);
         Route::get('/print-admin/{roster}', [RosterController::class, 'printAdmin']);
